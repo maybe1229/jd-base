@@ -18,14 +18,14 @@ if [ ! -d ${LogDir} ]; then
 fi
 
 
-echo "启动crond定时任务守护程序，日志文件重定向至/root/log/crond.log..."
+echo "启动crond定时任务守护程序，日志文件重定向至${LogDir}/crond.log..."
 echo
 crond -L ${LogDir}/crond.log
 
 
 if [ -s ${RootDir}/crontab.list ] && [ -d ${ShellDir} ] && [ -d ${ScriptsDir} ]
 then
-  echo "发现映射目录/root下存在crontab.list文件，现从该文件自动恢复定时任务..."
+  echo "发现映射目录${RootDir}下存在crontab.list文件，现从该文件自动恢复定时任务..."
   echo
   crontab ${RootDir}/crontab.list
   echo "自动恢复定时任务如下："
