@@ -73,7 +73,7 @@ if [ -d ${ScriptsDir}/.github/workflows ]; then
 fi
 
 
-if [ $List ]
+if [ -n "$List" ]
 then
   for i in $List; do
     if [ ! -d ${LogDir}/$i ]
@@ -93,7 +93,7 @@ fi
 
 if [ -s ${ScriptsDir}/jd.sample.sh ]
 then
-  if [ $List ]; then
+  if [ -n "$List" ]; then
     for i in $List; do
       cp -fv "${ScriptsDir}/jd.sample.sh" "${ScriptsDir}/$i.sh"
       echo

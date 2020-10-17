@@ -45,7 +45,7 @@ if [ -d ${ScriptsDir}/.github/workflows ]; then
 fi
 
 
-if [ $List ]
+if [ -n "$List" ]
 then
   for i in $List; do
     if [ ! -d ${LogDir}/$i ]
@@ -63,15 +63,15 @@ else
 fi
 
 
-if [ -s ${ScriptsDir}/jd.sample.sh ]
+if [ -s ${ShellDir}/jd.sample.sh ]
 then
-  if [ $List ]; then
+  if [ -n "$List" ]; then
     for i in $List; do
-      cp -fv "${ScriptsDir}/jd.sample.sh" "${ScriptsDir}/$i.sh"
+      cp -fv "${ShellDir}/jd.sample.sh" "${ShellDir}/$i.sh"
       echo
 	done
   fi
 else
-  echo "脚本 ${ScriptsDir}/jd.sample.sh 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
+  echo "脚本 $${ShellDir}/jd.sample.sh 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
   echo
 fi
