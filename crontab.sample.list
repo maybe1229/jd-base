@@ -1,0 +1,17 @@
+55 */2 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
+3 0 * * * /root/shell/jd_bean_sign.sh
+0 0 * * * /root/shell/jd_blueCoin.sh
+2 0 * * * /root/shell/jd_club_lottery.sh
+25 7,12,18 * * * /root/shell/jd_fruit.sh
+1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh
+*/20 0-21 * * * /root/shell/jd_joy_feedPets.sh
+0 0,8,12,16 * * * /root/shell/jd_joy_reward.sh
+30 0,6 * * * /root/shell/jd_joy_steal.sh
+40 */3 * * * /root/shell/jd_moneyTree.sh
+15 7,12,18 * * * /root/shell/jd_pet.sh
+0 7-21 * * * /root/shell/jd_plantBean.sh
+1 1 * * * /root/shell/jd_redPacket.sh
+0 0 * * * /root/shell/jd_shop.sh
+35 */3 * * * /root/shell/jd_speed.sh
+10 1-23/5 * * * /root/shell/jd_superMarket.sh
+45 23 * * * /root/shell/jd_unsubscribe.sh
