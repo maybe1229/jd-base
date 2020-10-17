@@ -1,4 +1,8 @@
 #!/bin/sh
+
+## 修改日期：2020-10-17
+## 作者：Evine Deng <evinedeng@foxmail.com>
+
 set -e
 
 RootDir="/root"
@@ -16,7 +20,7 @@ fi
 
 echo "启动crond定时任务守护程序，日志文件重定向至/root/log/crond.log..."
 echo
-crond -L /root/log/crond.log
+crond -L ${LogDir}/crond.log
 
 
 if [ -s ${RootDir}/crontab.list ] && [ -d ${ShellDir} ] && [ -d ${ScriptsDir} ]
@@ -37,63 +41,69 @@ else
   echo
 fi
 
+
 if [ ! -d ${ScriptsDir} ]
 then
-  echo "检测到JS脚本目录不存在，自动克隆..."
+  echo "${ScriptsDir} 目录不存在，开始克隆..."
   echo
   cd ${RootDir}
   git clone https://github.com/lxk0301/scripts
   echo
 else
-  echo "js脚本已克隆好，跳过..."
+  echo "${ScriptsDir} 目录已存在，跳过克隆..."
   echo
 fi
-
-
-
 
 
 if [ ! d ${ShellDir} ]
 then
-  echo "检测到shell脚本目录不存在，自动克隆..."
+  echo "${ShellDir} 不存在，开始克隆..."
   echo
   cd ${RootDir}
   git clone https://github.com/EvineDeng/jd-base shell
   echo
-  if [ -d ${ScriptsDir}/.github/workflows ]; then
-    List=$(ls ${ScriptsDir}/.github/workflows | sed "s|\.yml||" | sed "/sync/d")
-	
-    if [ $List ]
-    then
-      for i in $List; do
-        if [ ! -d ${LogDir}/$i ]
-        then
-          echo "创建 ${LogDir}/$i"
-		  echo
-          mkdir ${LogDir}/$i
-        else 
-          echo "${LogDir}/$i 已存在，跳过创建..."
-		  echo
-        fi
-    
-        if [ -s ${ShellDir}/jd.sample.sh ]
-        then
-          cp -fv ${ShellDir}/jd.sample.sh ${ShellDir}/$i.sh
-		  echo
-        else
-          echo "${ShellDir}/$i.sh不存在，可能没有正确克隆shell脚本..."
-		  echo
-        fi
-      done
-    else
-      echo "JS脚本似乎获取不正常，请删除容器并重新运行..."
-	  echo
-	fi
-  fi
 else
-  echo "检测到shell脚本目录已存在，跳过..."
+  echo "${ShellDir} 已存在，跳过克隆..."
   echo
 fi
+
+
+if [ -d ${ScriptsDir}/.github/workflows ]; then
+  List=$(ls ${ScriptsDir}/.github/workflows | sed "s|\.yml||" | sed "/sync/d")
+  echo "js脚本清单如下："
+  echo
+  echo $List
+  echo
+fi
+
+
+if [ $List ]
+then
+  for i in $List; do
+    if [ ! -d ${LogDir}/$i ]
+    then
+      echo "创建 ${LogDir}/$i 目录..."
+      echo
+      mkdir -p ${LogDir}/$i
+    else 
+      echo "目录 ${LogDir}/$i 已存在，跳过创建..."
+      echo
+    fi
+    
+    if [ -s ${ScriptsDir}/jd.sample.sh ]
+    then
+      echo "创建 ${ScriptsDir}/$i.sh 脚本"
+      cp -f "${ScriptsDir}/jd.sample.sh" "${ScriptsDir}/$i.sh"
+      echo
+    else
+      echo "${ScriptsDir}/jd.sample.sh 不存在，可能shell脚本克隆不正常，请手动克隆..."
+      echo
+    fi
+  done
+else
+  echo "js脚本获取不正常，请手动克隆..."
+fi
+
 
 if [ "${1#-}" != "${1}" ] || [ -z "$(command -v "${1}")" ]; then
   set -- node "$@"

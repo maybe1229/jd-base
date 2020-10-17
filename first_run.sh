@@ -1,13 +1,16 @@
 #!/bin/sh
 
+## 修改日期：2020-10-17
+## 作者：Evine Deng <evinedeng@foxmail.com>
+
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export LC_ALL=C
 
 
 RootDir="/root"
-ShellDir=${RootDir}/shell
-LogDir=${RootDir}/log
-ScriptsDir=${RootDir}/scripts
+ShellDir="${RootDir}/shell"
+LogDir="${RootDir}/log"
+ScriptsDir="${RootDir}/scripts"
 List=
 
 
@@ -46,32 +49,27 @@ if [ -d ${ScriptsDir}/.github/workflows ]; then
 fi
 
 
-if [ ! -d ${LogDir} ]; then
-  mkdir -p ${LogDir}
-fi
-
-
 if [ $List ]
 then
   for i in $List; do
     if [ ! -d ${LogDir}/$i ]
     then
-      echo "创建 ${LogDir}/$i ..."
-	  echo
-      mkdir log/$i
+      echo "创建 ${LogDir}/$i 目录..."
+      echo
+      mkdir -p ${LogDir}/$i
     else 
       echo "目录 ${LogDir}/$i 已存在，跳过创建..."
-	  echo
+      echo
     fi
     
     if [ -s ${ScriptsDir}/jd.sample.sh ]
     then
-      echo "创建 ${ScriptsDir}/$i.sh"
+      echo "创建 ${ScriptsDir}/$i.sh 脚本"
       cp -f "${ScriptsDir}/jd.sample.sh" "${ScriptsDir}/$i.sh"
-	  echo
+      echo
     else
       echo "${ScriptsDir}/jd.sample.sh 不存在，可能shell脚本克隆不正常，请手动克隆..."
-	  echo
+      echo
     fi
   done
 else
