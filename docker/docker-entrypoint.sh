@@ -1,11 +1,11 @@
 #!/bin/sh
 set -e
 
-ShellDir="/root/shell"
 RootDir="/root"
-LogDir="root/log"
-ScriptsDir="root/scripts"
-ListJs=${LogDir}/js.list
+ShellDir="${RootDir}/shell"
+LogDir="${RootDir}/log"
+ScriptsDir="${RootDir}/scripts"
+
 
 if [ ! -d ${LogDir} ]; then
   echo "检测到日志目录不存在，现在创建..."
@@ -49,6 +49,10 @@ else
   echo
 fi
 
+
+
+
+
 if [ ! d ${ShellDir} ]
 then
   echo "检测到shell脚本目录不存在，自动克隆..."
@@ -59,7 +63,7 @@ then
   if [ -d ${ScriptsDir}/.github/workflows ]; then
     List=$(ls ${ScriptsDir}/.github/workflows | sed "s|\.yml||" | sed "/sync/d")
 	
-    if [ -n "$List" ]
+    if [ $List ]
     then
       for i in $List; do
         if [ ! -d ${LogDir}/$i ]
