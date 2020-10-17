@@ -57,23 +57,19 @@ fi
 
 if [ ! d ${ShellDir} ]
 then
-  echo "${ShellDir} 不存在，开始克隆..."
+  echo "${ShellDir} 目录不存在，开始克隆..."
   echo
   cd ${RootDir}
   git clone https://github.com/EvineDeng/jd-base shell
   echo
 else
-  echo "${ShellDir} 已存在，跳过克隆..."
+  echo "${ShellDir} 目录已存在，跳过克隆..."
   echo
 fi
 
 
 if [ -d ${ScriptsDir}/.github/workflows ]; then
   List=$(ls ${ScriptsDir}/.github/workflows | sed "s|\.yml||" | sed "/sync/d")
-  echo "js脚本清单如下："
-  echo
-  echo $List
-  echo
 fi
 
 
@@ -89,19 +85,23 @@ then
       echo "目录 ${LogDir}/$i 已存在，跳过创建..."
       echo
     fi
-    
-    if [ -s ${ScriptsDir}/jd.sample.sh ]
-    then
-      echo "创建 ${ScriptsDir}/$i.sh 脚本"
-      cp -f "${ScriptsDir}/jd.sample.sh" "${ScriptsDir}/$i.sh"
-      echo
-    else
-      echo "${ScriptsDir}/jd.sample.sh 不存在，可能shell脚本克隆不正常，请手动克隆..."
-      echo
-    fi
   done
 else
   echo "js脚本获取不正常，请手动克隆..."
+fi
+
+
+if [ -s ${ScriptsDir}/jd.sample.sh ]
+then
+  if [ $List ]; then
+    for i in $List; do
+      cp -fv "${ScriptsDir}/jd.sample.sh" "${ScriptsDir}/$i.sh"
+      echo
+	done
+  fi
+else
+  echo "脚本 ${ScriptsDir}/jd.sample.sh 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
+  echo
 fi
 
 

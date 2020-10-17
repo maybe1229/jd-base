@@ -1,5 +1,8 @@
 #!/bin/sh
 
+## 修改日期：2020-10-17
+## 作者：Evine Deng <evinedeng@foxmail.com>
+
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export LC_ALL=C
 
