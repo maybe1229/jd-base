@@ -27,7 +27,7 @@ else
 fi
 
 
-if [ ! d ${ShellDir} ]
+if [ ! -d ${ShellDir} ]
 then
   echo "${ShellDir} 目录不存在，开始克隆..."
   echo

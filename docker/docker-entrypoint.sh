@@ -33,11 +33,11 @@ then
   crontab -l
   echo  
 else
-  echo "${ShellDir}不存在或${ScriptsDir}不存在或${RootDir}/crontab.list不存在..."
+  echo '"${ShellDir}"不存在或"${ScriptsDir}"不存在或"${RootDir}/crontab.list"不存在...'
   echo
-  echo "可能是首次启动容器，跳过恢复定时任务..."
+  echo '可能是首次启动容器，跳过恢复定时任务...'
   echo
-  echo "请后续进入容器并做好配置后，再使用 crontab ${RootDir}/crontab.list 添加..."
+  echo '请后续进入容器并做好配置后，再使用 "crontab ${RootDir}/crontab.list" 添加...'
   echo
 fi
 
@@ -55,7 +55,7 @@ else
 fi
 
 
-if [ ! d ${ShellDir} ]
+if [ ! -d ${ShellDir} ]
 then
   echo "${ShellDir} 目录不存在，开始克隆..."
   echo
