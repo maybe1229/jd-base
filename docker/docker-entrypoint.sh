@@ -33,11 +33,11 @@ then
   crontab -l
   echo  
 else
-  echo '"${ShellDir}"不存在或"${ScriptsDir}"不存在或"${RootDir}/crontab.list"不存在...'
+  echo "${ShellDir}、${ScriptsDir}、${RootDir}/crontab.list 至少有一个不存在..."
   echo
   echo '可能是首次启动容器，跳过恢复定时任务...'
   echo
-  echo '请后续进入容器并做好配置后，再使用 "crontab ${RootDir}/crontab.list" 添加...'
+  echo "请后续进入容器并做好配置后，再使用 crontab ${RootDir}/crontab.list 添加..."
   echo
 fi
 
@@ -91,16 +91,16 @@ else
 fi
 
 
-if [ -s ${ScriptsDir}/jd.sample.sh ]
+if [ -s ${ShellDir}/jd.sample.sh ]
 then
   if [ -n "$List" ]; then
     for i in $List; do
-      cp -fv "${ScriptsDir}/jd.sample.sh" "${ScriptsDir}/$i.sh"
+      cp -fv "${ShellDir}/jd.sample.sh" "${ShellDir}/$i.sh"
       echo
 	done
   fi
 else
-  echo "脚本 ${ScriptsDir}/jd.sample.sh 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
+  echo "脚本 $${ShellDir}/jd.sample.sh 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
   echo
 fi
 
