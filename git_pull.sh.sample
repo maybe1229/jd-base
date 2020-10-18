@@ -145,6 +145,35 @@ ForOtherPlantBean5=
 ForOtherPlantBean6=
 
 
+################################## 定义京小超商圈每个人自己的互助码 ##################################
+## 京小超商圈每个人自己的互助码，可以在运行一次京小超脚本（jd_superMarket）后从日志中查看
+## 约定：MySuperMarket后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MySuperMarket1、MySuperMarket2
+## 约定：MySuperMarket后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MySuperMarketA、MySuperMarketB
+MySuperMarket1=""
+MySuperMarket2=""
+MySuperMarket3=""
+MySuperMarket4=""
+MySuperMarket5=""
+MySuperMarket6=""
+MySuperMarketA=""
+MySuperMarketB=""
+
+
+################################## 定义京小超商圈要为哪些人助力 ##################################
+## 1.想要为谁助力，添加上面定义的MySuperMarket变量就可以
+## 2.js脚本要求每个互助码间需要使用 @ 隔开，为保证 shell 脚本能将 @ 正确传递给 js ，需要写作"\@"，包括双引号
+## 3.MySuperMarket系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MySuperMarketB；另外，也不能为自己助力
+## 4.举例：ForOtherSuperMarket1=${MySuperMarket2}"\@"${MySuperMarketA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
+## 5.UserSum定义了多少个，ForOtherSuperMarket就只能且必须有多少个（从1开始计），超出的无效
+## 6.可以不赋值，即不给任何人助力，如：ForOtherSuperMarket2=""
+ForOtherSuperMarket1=
+ForOtherSuperMarket2=
+ForOtherSuperMarket3=
+ForOtherSuperMarket4=
+ForOtherSuperMarket5=
+ForOtherSuperMarket6=
+
+
 ################################## 定义京小超蓝币兑换数量 ##################################
 ## 京小超蓝币兑换，可用值包括：
 ## 一、1至20中的一个整数：表示兑换1-20个京豆
@@ -223,6 +252,7 @@ FileNotify=sendNotify.js
 FileFruitShareCodes=jdFruitShareCodes.js
 FilePetShareCodes=jdPetShareCodes.js
 FilePlantBeanShareCodes=jdPlantBeanShareCodes.js
+FileSuperMarketShareCodes=jdSuperMarketShareCodes.js
 FileJoy=jd_joy.js
 FileJoyFeed=jd_joy_feedPets.js
 FIleJoySteal=joy_steal.js
@@ -357,6 +387,23 @@ function Change_PlantBeanShareCodes {
     let il++
   done
   perl -0777 -i -pe "s|let PlantBeanShareCodes = \[\n\]|let PlantBeanShareCodes = \[${ForOtherPlantBeanALL}\n\]|" ${FilePlantBeanShareCodes}
+}
+
+
+################################## 替换京小超商圈互助码 ##################################
+function Change_SuperMarketShareCodes {
+  ForOtherSuperMarketALL=""
+  echo "${FileSuperMarketShareCodes}: 替换种豆得豆互助码..."
+  sed -i "/\/\/账号/d" ${FileSuperMarketShareCodes}
+  il=1
+  while [ ${il} -le ${UserSum} ]
+  do
+    Temp5=ForOtherSuperMarket${il}
+    eval ForOtherSuperMarketTemp=$(echo \$${Temp5})
+    ForOtherSuperMarketALL="${ForOtherSuperMarketALL}\\n'${ForOtherSuperMarketTemp}',"
+    let il++
+  done
+  perl -0777 -i -pe "s|let SuperMarketShareCodes = \[\n\]|let SuperMarketShareCodes = \[${ForOtherSuperMarketALL}\n\]|" ${FileSuperMarketShareCodes}
 }
 
 
@@ -541,6 +588,8 @@ then
   Change_PetShareCodes
   echo
   Change_PlantBeanShareCodes
+  echo
+  Change_SuperMarketShareCodes
   echo
   Change_coinToBeans
   echo
