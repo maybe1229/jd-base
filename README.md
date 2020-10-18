@@ -97,7 +97,7 @@ git diff          # 按q退出
 # 然后复制一份crontab.list到/root目录下，
 cp /root/shell/crontab.list.sample /root/crontab.list
 # 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑
-nano /root/crontab.list 
+nano /root/crontab.list
 # 添加定时任务
 crontab /root/crontab.list
 ```
@@ -113,7 +113,7 @@ nano git_pull_2.sh
 # 修改好后，替换旧的git_pull.sh
 mv git_pull_2.sh git_pull.sh
 # 不要忘记赋予修改后的.sh脚本可执行权限
-chmod +x git_pull.sh   
+chmod +x git_pull.sh
 ```
 - 如何手动添加新的定时任务：
 ```
@@ -123,6 +123,9 @@ cat /root/log/js-add.list
 cp /root/shell/jd.sh.sample /root/shell/jd_test.sh
 # 再次提醒不要忘记赋予可执行权限
 chmod +x /root/shell/jd_test.sh
+# 编辑crontab.list，并添加进crontab
+nano /root/crontab.list
+crontab /root/crontab.list
 ```
 - 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
 ## 补充说明
