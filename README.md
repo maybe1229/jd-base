@@ -103,4 +103,5 @@ cp git_pull.sh.sample git_pull_2.sh
 mv git_pull_2.sh git_pull.sh
 ```
 ## 补充说明
-暂未添加定时删除旧日志的功能，如果觉得日志文件太大，请自行删除。
+- 暂未添加定时删除旧日志的功能，如果觉得日志文件太大，请自行删除。
+- 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失。
