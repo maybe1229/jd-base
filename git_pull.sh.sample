@@ -209,6 +209,7 @@ RootDir=$(cd $(dirname $0); cd ..; pwd)
 LogDir=${RootDir}/log
 ScriptsDir=${RootDir}/scripts
 ScriptsURL=https://github.com/lxk0301/scripts
+ShellURL=https://github.com/EvineDeng/jd-base
 ListShell=${LogDir}/shell.list
 ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
@@ -509,11 +510,9 @@ function Git_Status {
 ## js.list      scripts/.github/workflows下所有以“jd_”开头的所有 .yml 文件清单（去掉后缀.yml），这是 lxk0301@github 大佬定义的所有GitHub Action定时任务
 ## js-add.list  如果 scripts/.github/workflows 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/.github/workflows 删除了定时任务，这个文件内容将不为空
-function Git_Different {
-  if [ ! -f ${ListShell} ]; then 
-    ls -l ${ShellDir} | grep -E "jd_.+\.sh" | awk '{print $9}' | sed "s/\.sh//" > ${ListShell}
-  fi
-  ls -l ${ScriptsDir}/.github/workflows | grep -E "jd_.+\.yml" | awk '{print $9}' | sed "s/\.yml//" > ${ListJs}
+function Cron_Different {
+  ls ${ShellDir} | grep -E "jd_.+\.sh" | sed "s/\.sh//" > ${ListShell}
+  ls ${ScriptsDir}/.github/workflows | grep -E "jd_.+\.yml" | sed "s/\.yml//" > ${ListJs}
   grep -v -f ${ListShell} ${ListJs} > ${ListJsAdd}
   grep -v -f ${ListJs} ${ListShell} > ${ListJsDrop}
 }
@@ -560,7 +559,7 @@ then
   echo
   Git_Status
   echo
-  Git_Different
+  Cron_Different
   
   ## 检测是否有新的定时任务
   if [ -s ${ListJsAdd} ]  
@@ -600,8 +599,8 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   JsDrop=$(cat ${ListJsDrop})
   for i in ${JsDrop}
   do
-	sed -i "/\/$i\.sh/d" ${ListCron}
-	rm -f "${ShellDir}/$i.sh"
+    sed -i "/\/$i\.sh/d" ${ListCron}
+    rm -f "${ShellDir}/$i.sh"
   done
   crontab ${ListCron}
   echo "成功删除失效的脚本与定时任务，当前的定时任务清单如下："
@@ -613,7 +612,7 @@ fi
 
 ################################## 自动增加新的定时任务 ##################################
 ## 如果检测到https://github.com/lxk0301/scripts中增加新的Guthub Action定时任务，那么在本地也增加
-## 此功能仅在 AutoDAddCron 设置为 true 时生效
+## 此功能仅在 AutoAddCron 设置为 true 时生效
 ## 本功能生效时，会自动从 scripts/.github/workflows 文件夹新增加的 .yml 文件中读取 cron 这一行的任务时间，
 ## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
 ## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
@@ -628,17 +627,24 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
 	for i in ${JsAdd}
 	do
 	  cp -fv "${ShellDir}/jd.sample.sh" "${ShellDir}/$i.sh"
-	  grep "cron:" "${ScriptsDir}/$i.yml" | sed -E "s/\s+-\s*cron:\s*'//g" | sed "s/'/ ${ShellDir}\/$i\.sh/" >> ${ListCron}
+	  grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
 	done
-	crontab ${ListCron}
-	echo "成功添加新的定时任务，当前的定时任务清单如下："
-	echo
-	crontab -l
+	if [ $? -eq 0 ]
+	then
+	  crontab ${ListCron}
+	  echo "成功添加新的定时任务，当前的定时任务清单如下："
+	  echo
+	  crontab -l
+	else
+      echo "未能添加新的定时任务，请自行添加..."
+      echo
+	  rm -f "${ShellDir}/$i.sh"
+	fi
 	echo
   else
-	echo "${ShellDir}/jd.sample.sh 文件不存在，请先下载..."
+	echo "${ShellDir}/jd.sample.sh 文件不存在，请先克隆${ShellURL}..."
     echo
-	echo "未能添加新的定时任务，请自行增加..."
+	echo "未能成功添加新的定时任务，请自行添加..."
     echo
   fi
 fi
