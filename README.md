@@ -5,7 +5,8 @@
 - 每个月要超出Github Action免费使用时长的；
 - 没有水果机的；
 - 想要精确控制脚本运行时间的；
-- 有nas或者vps等7×24运行设备的。
+- 有nas或者vps等7×24运行设备的；
+- 想把Cookies牢牢掌握在自己手上的。
 ## 部署环境
 - 自行安装好docker。
 - 命令行输入：
@@ -17,7 +18,7 @@ docker run -dit \
   evinedeng/jd-base:latest
 ```
 ## 克隆脚本
-第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本。会在映射的`/root`下产生以下三个文件夹。
+第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本（如果网络不好，就会花很长时间）。会在映射的`/root`下产生以下三个文件夹。
 - `log`: 记录所有日志的文件夹，其中跑js脚本的日志会建立对应名称的子文件夹，并且js脚本日志会以`年-月-日-时-分-秒`的格式命名。
 - `scripts`: 从 [lxk0301/scripts](https://github.com/lxk0301/scripts) 克隆的js脚本。
 - `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
