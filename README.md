@@ -22,7 +22,7 @@ docker run -dit \
 - `scripts`: 从 [lxk0301/scripts](https://github.com/lxk0301/scripts) 克隆的js脚本。
 - `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
 
-进入容器环境（以下所有命令均需要在进行容器后运行）：
+进入容器环境（以下所有命令均需要在进入容器后运行）：
 ```
 docker exec -it jd /bin/sh
 ```
@@ -30,7 +30,7 @@ docker exec -it jd /bin/sh
 ```
 ls /root
 ```
-如果发现没有以上三个文件，可以依次运行：
+如果发现没有以上三个文件，可以运行以下命令（如果有了就直接到`修改信息`这一步）：
 ```
 使用wget
 sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"

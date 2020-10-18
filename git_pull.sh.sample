@@ -470,7 +470,7 @@ function Change_businessCircleJump {
     echo "${FileSuperMarket}：修改京小超在小于对方300热力值时是否自动更换商圈为：${businessCircleJump}"
     sed -i "s|let businessCircleJump = true;|let businessCircleJump = ${businessCircleJump};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：businessCircleJump保持默认，京小超将在小于对方300热力值时自动更换商圈.."
+    echo "${FileSuperMarket}：businessCircleJump保持默认，京小超将在小于对方300热力值时自动更换商圈..."
   fi
 }
 
