@@ -205,6 +205,12 @@ businessCircleJump=""
 NotifyFruit=""
 
 
+################################## 定义东东农场是否使用水滴换豆卡 ##################################
+## 如果出现限时活动时100g水换20豆，此时比浇水划算，true表示换豆（不浇水），false表示不换豆（继续浇水）,js脚本默认是false（继续浇水）
+## 如需切换为换豆（不浇水），请修改为 true
+jdFruitBeanCard=""
+
+
 ################################## 定义宠汪汪喂食克数 ##################################
 ## 你期望的宠汪汪每次喂食克数，只能填入10、20、40、80，默认为10
 ## 如实际持有食物量小于所设置的克数，js脚本会自动降一档，直到降无可降
@@ -461,10 +467,10 @@ function Change_superMarketUpgrade {
 function Change_businessCircleJump {
   if [ "${businessCircleJump}" = "false" ]
   then
-    echo "${FileSuperMarket}：修改京小超是否自动更换商圈为：${businessCircleJump}"
+    echo "${FileSuperMarket}：修改京小超在小于对方300热力值时是否自动更换商圈为：${businessCircleJump}"
     sed -i "s|let businessCircleJump = true;|let businessCircleJump = ${businessCircleJump};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：businessCircleJump保持默认，京小超将自动更换商圈.."
+    echo "${FileSuperMarket}：businessCircleJump保持默认，京小超将在小于对方300热力值时自动更换商圈.."
   fi
 }
 
@@ -477,6 +483,18 @@ function Change_NotifyFruit {
     sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyFruit};|" ${FileFruit}
   else
     echo "${FileFruit}：NotifyFruit保持默认，东东农场将不静默运行，将发通知..."
+  fi
+}
+
+
+################################## 修改东东农场是否使用水滴换豆卡 ##################################
+function Change_jdFruitBeanCard {
+  if [ "${jdFruitBeanCard}" = "true" ]
+  then
+    echo "${FileFruit}：修改东东农场是否使用水滴换豆卡为：${jdFruitBeanCard}，将在出现限时活动时使用100g水换20金豆，不浇水..."
+    sed -i "s|let jdFruitBeanCard = false;|let jdFruitBeanCard = ${jdFruitBeanCard};|" ${FileFruit}
+  else
+    echo "${FileFruit}：jdFruitBeanCard保持默认，东东农场将在出现100g水换20金豆限时活动时继续浇水..."
   fi
 }
 
@@ -600,6 +618,8 @@ then
   Change_businessCircleJump
   echo
   Change_NotifyFruit
+  echo
+  Change_jdFruitBeanCard
   echo
   Change_joyFeedCount
   echo
