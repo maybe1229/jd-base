@@ -63,15 +63,15 @@ else
 fi
 
 
-if [ -s ${ShellDir}/jd.sample.sh ]
+if [ -s ${ShellDir}/jd.sh.sample ]
 then
   if [ -n "$List" ]; then
     for i in $List; do
-      cp -fv "${ShellDir}/jd.sample.sh" "${ShellDir}/$i.sh"
+      cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$i.sh"
       echo
 	done
   fi
 else
-  echo "脚本 $${ShellDir}/jd.sample.sh 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
+  echo "脚本 $${ShellDir}/jd.sh.sample 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
   echo
 fi
