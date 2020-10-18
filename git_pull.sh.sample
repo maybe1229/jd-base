@@ -669,7 +669,7 @@ cd ${ShellDir}
 echo "更新shell脚本，原地址：${ShellURL}"
 echo
 git fetch --all
-git reset --hard origin/master
+git reset --hard origin/main
 git pull
 
 
