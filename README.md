@@ -48,7 +48,8 @@ sh shell/first_run.sh
 ```
 cd /root/shell
 cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
-nano git_pull.sh #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
+chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
+nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
 ```
 **注意：**
 - 请不要直接修改`git_pull.sh.sample`！而只修改`git_pull.sh`。
