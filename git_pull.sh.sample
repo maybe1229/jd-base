@@ -247,8 +247,8 @@ echo
 
 
 ################################## 更新JS脚本 ##################################
-function Git_Pull {
-  echo "更新JS脚本，原地址：$ScriptsURL"
+function Git_PullScripts {
+  echo "更新JS脚本，原地址：${ScriptsURL}"
   echo
   git fetch --all
   git reset --hard origin/master
@@ -525,7 +525,7 @@ function Cron_Different {
 
 ################################## 依次修改上述设定的值 ##################################
 cd ${ScriptsDir}
-Git_Pull
+Git_PullScripts
 GitPullExitStatus=$?
 if [ ${GitPullExitStatus} -eq 0 ]
 then
@@ -662,3 +662,14 @@ echo "运行npm install"
 echo
 npm install
 echo
+
+
+################################## 更新shell脚本 ##################################
+cd ${ShellDir}
+echo "更新shell脚本，原地址：${ShellURL}"
+echo
+git fetch --all
+git reset --hard origin/master
+git pull
+
+
