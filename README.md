@@ -18,8 +18,8 @@ docker run -dit \
 ## 克隆脚本
 第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本。会在映射的`/root`下产生以下三个文件夹。
 - `log`: 记录所有日志的文件夹，其中跑js脚本的日志会建立对应名称的子文件夹，并且js脚本日志会以`年-月-日-时-分-秒`的格式命名。
-- `scripts`: 从https://github.com/lxk0301/scripts克隆的js脚本。
-- `shell`: 从https://github.com/EvineDeng/jd-base克隆的shell脚本。
+- `scripts`: 从 [lxk0301/scripts](https://github.com/lxk0301/scripts) 克隆的js脚本。
+- `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
 
 进入容器环境（以下所有命令均需要在进行容器后运行）：
 ```
@@ -53,11 +53,11 @@ nano git_pull.sh #编辑git_pull.sh，如果不习惯，请直接使用可视化
 - 请不要直接修改`git_pull.sh.sample`！而只修改`git_pull.sh`。
 - 如果在windows下编辑`git_pull.sh`，请使用 notepad++ 等专业工具，请不要使用记事本。
 - **如何修改请仔细阅读文件中的注释部分。**
-##### 1.基本能用的玩法
+### 1.基本能用的玩法
 只修改以下部分：
 - 定义用户数量
 - 定义Cookie
-##### 2. 进阶玩法
+### 2. 进阶玩法
 除`基本能用的玩法`中要修改的以外，再根据你的需要修改以下部分：
 - 定义通知TOKEN
 - 定义东东农场每个人自己的互助码
@@ -68,7 +68,7 @@ nano git_pull.sh #编辑git_pull.sh，如果不习惯，请直接使用可视化
 - 定义种豆得豆要为哪些人助力
 - 定义京小超商圈每个人自己的互助码
 - 定义京小超商圈要为哪些人助力
-##### 3. 高级玩法
+### 3. 高级玩法
 除`基本能用的玩法`和`进阶玩法`中要修改的以外，再根据你的需要修改以下部分：
 - 定义是否自动删除失效的脚本与定时任务
 - 定义是否自动增加新的本地定时任务
