@@ -90,8 +90,8 @@ nano git_pull.sh #编辑git_pull.sh，如果不习惯，请直接使用可视化
 cd /root/shell
 sh git_pull.sh
 # 看看js脚本的信息替换是否正常
-cd /root/shell
-git diff #退出按q
+cd /root/scripts
+git diff          # 按q退出
 # 然后复制一份crontab.list到/root目录下，
 cp /root/shell/crontab.list.sample /root/crontab.list
 # 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑
@@ -110,4 +110,4 @@ mv git_pull_2.sh git_pull.sh
 ```
 ## 补充说明
 - 暂未添加定时删除旧日志的功能，如果觉得日志文件太大，请自行删除。
-- 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失。
+- 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失，并且，如果重建容器，容器还将在启动时自动从`/root/crontab.list`中恢复定时任务。
