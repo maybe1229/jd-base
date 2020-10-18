@@ -84,9 +84,14 @@ nano git_pull.sh #编辑git_pull.sh，如果不习惯，请直接使用可视化
 - 定义宠汪汪是否自动偷好友积分与狗粮
 - 定义宠汪汪是否自动报名宠物赛跑
 ## 定时任务
-完成所有信息修改以后，运行：
 ```
-# 复制一份crontab.list到/root目录下，
+# 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行
+cd /root/shell
+sh git_pull.sh
+# 看看js脚本的信息替换是否正常
+cd /root/shell
+git diff #退出按q
+# 然后复制一份crontab.list到/root目录下，
 cp /root/shell/crontab.list.sample /root/crontab.list
 # 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑
 nano /root/crontab.list 
