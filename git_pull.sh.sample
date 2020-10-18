@@ -153,7 +153,7 @@ ForOtherPlantBean6=
 ## 四、2801390982：兑换巧白西柚洗手液
 ## 五、2801390984：兑换雏菊洗衣凝珠
 ## js脚本默认为0，即为不自动兑换，具体情况请自行在京小超游戏中去查阅
-coinToBeans=2801390984
+coinToBeans=0
 
 
 ################################## 定义京小超蓝币成功兑换奖品是否静默运行 ##################################
@@ -262,7 +262,7 @@ function Change_Cookie {
   echo "${FileCookie}: 替换Cookies..."
   sed -i "/\/\/账号/d" ${FileCookie}
   ii=1
-  while [ ${ii} -le $UserSum ]
+  while [ ${ii} -le ${UserSum} ]
   do
     Temp1=Cookie${ii}
     eval CookieTemp=$(echo \$${Temp1})
@@ -301,6 +301,11 @@ function Change_Token {
     sed -i "s|let DD_BOT_TOKEN = '';|let DD_BOT_TOKEN = '${DD_BOT_TOKEN}';|" ${FileNotify}
     sed -i "s|let DD_BOT_SECRET = '';|let DD_BOT_SECRET = '${DD_BOT_SECRET}';|" ${FileNotify}
   fi
+  
+  ## 未输入任何通知渠道
+  if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ]; then
+    echo "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志..."
+  fi
 }
 
 
@@ -310,7 +315,7 @@ function Change_FruitShareCodes {
   echo "${FileFruitShareCodes}: 替换东东农场互助码..."
   sed -i "/\/\/账号/d" ${FileFruitShareCodes}
   ij=1
-  while [ ${ij} -le $UserSum ]
+  while [ ${ij} -le ${UserSum} ]
   do
     Temp2=ForOtherFruit${ij}
     eval ForOtherFruitTemp=$(echo \$${Temp2})
@@ -327,7 +332,7 @@ function Change_PetShareCodes {
   echo "${FilePetShareCodes}: 替换东东萌宠互助码..."
   sed -i "/\/\/账号/d" ${FilePetShareCodes}
   ik=1
-  while [ ${ik} -le $UserSum ]
+  while [ ${ik} -le ${UserSum} ]
   do
     Temp3=ForOtherPet${ik}
     eval ForOtherPetTemp=$(echo \$${Temp3})
@@ -344,7 +349,7 @@ function Change_PlantBeanShareCodes {
   echo "${FilePlantBeanShareCodes}: 替换种豆得豆互助码..."
   sed -i "/\/\/账号/d" ${FilePlantBeanShareCodes}
   il=1
-  while [ ${il} -le $UserSum ]
+  while [ ${il} -le ${UserSum} ]
   do
     Temp4=ForOtherPlantBean${il}
     eval ForOtherPlantBeanTemp=$(echo \$${Temp4})
@@ -622,11 +627,11 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   cat ${ListJsAdd}
   echo
   JsAdd=$(cat ${ListJsAdd})
-  if [ -f ${ShellDir}/jd.sample.sh ]
+  if [ -f ${ShellDir}/jd.sh.sample ]
   then
 	for i in ${JsAdd}
 	do
-	  cp -fv "${ShellDir}/jd.sample.sh" "${ShellDir}/$i.sh"
+	  cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$i.sh"
 	  grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
 	done
 	if [ $? -eq 0 ]
@@ -642,7 +647,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
 	fi
 	echo
   else
-	echo "${ShellDir}/jd.sample.sh 文件不存在，请先克隆${ShellURL}..."
+	echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
     echo
 	echo "未能成功添加新的定时任务，请自行添加..."
     echo
