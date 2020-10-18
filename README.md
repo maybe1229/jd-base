@@ -32,9 +32,9 @@ ls /root
 ```
 如果发现没有以上三个文件，可以运行以下命令（如果有了就直接到`修改信息`这一步）：
 ```
-使用wget
+# 使用wget
 sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
-或使用curl
+# 或使用curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
 ```
 以上脚本会再次尝试自动克隆js脚本和shell脚本，**如果仍然失败，再考虑以下办法**：
@@ -101,9 +101,10 @@ nano /root/crontab.list
 # 添加定时任务
 crontab /root/crontab.list
 ```
-说明：
+**说明：**
 - `crontab.list`这个文件必须存放在`/root`下，其他地方会影响后续脚本运行。
-- 第一条定时任务`/root/shell/git_pull.sh >> /root/log/git_pull.log`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在` /root/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。如果shell脚本有更新，需要你手动复制一份`git_pull.sh.sample`，并重新修改必须的信息，然后命名为`git_pull.sh`。
+- 第一条定时任务`/root/shell/git_pull.sh >> /root/log/git_pull.log`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在` /root/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。
+- 如果shell脚本有更新，需要你手动复制一份`git_pull.sh.sample`，并重新修改必须的信息，然后命名为`git_pull.sh`，流程如下：
 ```
 cd /root/shell
 cp git_pull.sh.sample git_pull_2.sh
@@ -114,6 +115,17 @@ mv git_pull_2.sh git_pull.sh
 # 不要忘记赋予修改后的.sh脚本可执行权限
 chmod +x git_pull.sh   
 ```
+- 如何手动添加新的定时任务：
+```
+cat /root/log/js-add.list
+# 如果上一条命令不为空说明有新的定时任务待添加，把内容复制下来
+# 比如有个新增的任务叫为jd_test，那么就运行以下命令
+cp /root/shell/jd.sh.sample /root/shell/jd_test.sh
+# 再次提醒不要忘记赋予可执行权限
+chmod +x /root/shell/jd_test.sh
+```
+- 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
 ## 补充说明
 - 暂未添加定时删除旧日志的功能，如果觉得日志文件太大，请自行删除。
 - 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失，并且，如果重建容器，容器还将在启动时自动从`/root/crontab.list`中恢复定时任务。
+- 如有帮助到你，请点亮 star 。
