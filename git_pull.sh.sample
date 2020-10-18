@@ -78,7 +78,7 @@ MyFruitB=""
 ## 3.MyFruit系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MyFruitA；另外，也不能为自己助力
 ## 4.举例：ForOtherFruit1=${MyFruit2}"\@"${MyFruit3}"\@"${MyFruit4}"\@"${MyFruit6} ，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie4、Cookie6的账户提供助力
 ## 5.UserSum定义了多少个，ForOtherFruit就只能且必须多少个（从1开始计），超出的无效
-## 6.可以不赋值，即不给任何人助力，如：ForOtherFruit2=""
+## 6.可以不赋值，如：ForOtherFruit2=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力。
 ForOtherFruit1=
 ForOtherFruit2=
 ForOtherFruit3=
@@ -107,7 +107,7 @@ MyPetB=""
 ## 3.MyPet系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MyPetA；另外，也不能为自己助力
 ## 4.举例：ForOtherPet1=${MyPet2}"\@"${MyPet3}"\@"${MyPet4}"\@"${MyPet5}"\@"${MyPetA} ，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie4、Cookie5的账户以及单独只提供了互助码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherPet就只能且必须多少个（从1开始计），超出的无效
-## 6.可以不赋值，即不给任何人助力，如：ForOtherPet1=""
+## 6.可以不赋值，如：ForOtherPet1=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力。
 ForOtherPet1=
 ForOtherPet2=
 ForOtherPet3=
@@ -136,7 +136,7 @@ MyPlantBeanB=""
 ## 3.MyPlantBean系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MyPlantBeanB；另外，也不能为自己助力
 ## 4.举例：ForOtherPlantBean1=${MyPlantBean2}"\@"${MyPlantBeanA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherPlantBean就只能且必须有多少个（从1开始计），超出的无效
-## 6.可以不赋值，即不给任何人助力，如：ForOtherPlantBean5=""
+## 6.可以不赋值，如：ForOtherPlantBean5=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力。
 ForOtherPlantBean1=
 ForOtherPlantBean2=
 ForOtherPlantBean3=
@@ -165,7 +165,7 @@ MySuperMarketB=""
 ## 3.MySuperMarket系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MySuperMarketB；另外，也不能为自己助力
 ## 4.举例：ForOtherSuperMarket1=${MySuperMarket2}"\@"${MySuperMarketA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherSuperMarket就只能且必须有多少个（从1开始计），超出的无效
-## 6.可以不赋值，即不给任何人助力，如：ForOtherSuperMarket2=""
+## 6.可以不赋值，如：ForOtherSuperMarket2=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力。
 ForOtherSuperMarket1=
 ForOtherSuperMarket2=
 ForOtherSuperMarket3=

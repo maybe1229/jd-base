@@ -109,7 +109,7 @@ cd /root/shell
 cp git_pull.sh.sample git_pull_2.sh
 # 然后修改git_pull_2.sh，也可使用其他可视化工具修改
 nano git_pull_2.sh
-# 替换旧的git_pull.sh
+# 修改好后，替换旧的git_pull.sh
 mv git_pull_2.sh git_pull.sh
 # 不要忘记赋予修改后的.sh脚本可执行权限
 chmod +x git_pull.sh   
