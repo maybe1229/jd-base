@@ -54,6 +54,7 @@ nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直
 **注意：**
 - 请不要直接修改`git_pull.sh.sample`！而只修改`git_pull.sh`。
 - 如果在windows下编辑`git_pull.sh`，请使用 notepad++ 等专业工具，请不要使用记事本。
+- `.sh`脚本如果没有可执行权限，定时任务将无法正常运行。
 - **如何修改请仔细阅读文件中的注释部分。**
 ### 1.基本能用的玩法
 只修改以下部分：
