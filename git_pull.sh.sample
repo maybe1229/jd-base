@@ -631,11 +631,14 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   then
 	for i in ${JsAdd}
 	do
-	  cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$i.sh"
 	  grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
 	done
 	if [ $? -eq 0 ]
 	then
+	  for j in ${JsAdd}
+	  do
+	    cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
+	  done
 	  crontab ${ListCron}
 	  echo "成功添加新的定时任务，当前的定时任务清单如下："
 	  echo
@@ -643,7 +646,6 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
 	else
       echo "未能添加新的定时任务，请自行添加..."
       echo
-	  rm -f "${ShellDir}/$i.sh"
 	fi
 	echo
   else
