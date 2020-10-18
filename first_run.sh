@@ -75,3 +75,5 @@ else
   echo "脚本 $${ShellDir}/jd.sh.sample 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."
   echo
 fi
+
+chmod +x /root/shell/jd_*.sh
