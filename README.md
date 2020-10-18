@@ -13,7 +13,7 @@
 docker run -dit \
   -v <Host主机上的目录>:/root `#请替换为Host主机上的目录 ` \
   --name jd \
-  -restart unless-stopped \
+  --restart unless-stopped \
   evinedeng/jd-base:latest
 ```
 ## 克隆脚本
