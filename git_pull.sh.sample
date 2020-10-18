@@ -395,13 +395,13 @@ function Change_SuperMarketShareCodes {
   ForOtherSuperMarketALL=""
   echo "${FileSuperMarketShareCodes}: 替换种豆得豆互助码..."
   sed -i "/\/\/账号/d" ${FileSuperMarketShareCodes}
-  il=1
-  while [ ${il} -le ${UserSum} ]
+  im=1
+  while [ ${im} -le ${UserSum} ]
   do
-    Temp5=ForOtherSuperMarket${il}
+    Temp5=ForOtherSuperMarket${im}
     eval ForOtherSuperMarketTemp=$(echo \$${Temp5})
     ForOtherSuperMarketALL="${ForOtherSuperMarketALL}\\n'${ForOtherSuperMarketTemp}',"
-    let il++
+    let im++
   done
   perl -0777 -i -pe "s|let SuperMarketShareCodes = \[\n\]|let SuperMarketShareCodes = \[${ForOtherSuperMarketALL}\n\]|" ${FileSuperMarketShareCodes}
 }
