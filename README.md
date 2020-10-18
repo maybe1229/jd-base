@@ -107,8 +107,12 @@ crontab /root/crontab.list
 ```
 cd /root/shell
 cp git_pull.sh.sample git_pull_2.sh
-# 然后修改git_pull_2.sh，修改好以后再覆盖旧版本的git_pull.sh
+# 然后修改git_pull_2.sh，也可使用其他可视化工具修改
+nano git_pull_2.sh
+# 替换旧的git_pull.sh
 mv git_pull_2.sh git_pull.sh
+# 不要忘记赋予修改后的.sh脚本可执行权限
+chmod +x git_pull.sh   
 ```
 ## 补充说明
 - 暂未添加定时删除旧日志的功能，如果觉得日志文件太大，请自行删除。
