@@ -113,7 +113,8 @@ crontab /root/crontab.list
 **说明：**
 - `crontab.list`这个文件必须存放在`/root`下，其他地方会影响后续脚本运行。
 - 第一条定时任务`/root/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/root/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。
-- 当`AutoAddCron`设置为`false`时，如何手动添加新增js脚本的定时任务：
+- 第二条定时任务`/root/shell/rm_log.sh`用来自动删除旧日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。
+- 当`git_pull.sh`中的`AutoAddCron`设置为`false`时（不自动增加新的定时任务），如何手动添加新增js脚本的定时任务：
 1. 检查有没有新增脚本：
 ```
 cat /root/log/js-add.list
@@ -131,6 +132,16 @@ chmod +x /root/shell/jd_test.sh
 nano /root/crontab.list
 crontab /root/crontab.list
 ```
+## 自动删除旧日志
+单个日志虽然小，但如果长期运行的话，日志也会占用大量空间，如需要自动删除，请按以下流程操作：
+1. 复制一份rm_log.sh，并赋予可执行权限：
+```
+cd /root/shell
+cp rm_log.sh.sample rm_log.sh
+chmod +x rm_log.sh
+```
+2. 该脚本在运行时默认删除`30天`以前的日志，如果需要设置为其他天数，请修改脚本中的`HowManyDays`。
+3. 按`定时任务`部分的说明修改定时任务。
 ## 补充说明
 - 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
 - 暂未添加定时删除旧日志的功能，如果觉得日志文件太大，请自行删除。

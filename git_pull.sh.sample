@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## 修改日期：2020-10-17
+## 修改日期：2020-10-19
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -45,15 +45,15 @@ Cookie6=""
 ## ServerChan，教程：http://sc.ftqq.com/3.version
 SCKEY=""
 
-## BARK，BARK_PUSH和BARK_SOUND必须都赋值，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md
+## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md
 BARK_PUSH=""
 BARK_SOUND=""
 
-## Telegram，TG_BOT_TOKEN和TG_USER_ID必须都赋值，教程：https://github.com/lxk0301/scripts/pull/37#issuecomment-692415594
+## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/scripts/pull/37#issuecomment-692415594
 TG_BOT_TOKEN=""
 TG_USER_ID=""
 
-## 钉钉，DD_BOT_TOKEN和DD_BOT_SECRET必须都赋值，教程：https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq
+## 钉钉，如需使用，DD_BOT_TOKEN和DD_BOT_SECRET必须同时赋值，教程：https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq
 DD_BOT_TOKEN=""
 DD_BOT_SECRET=""
 
@@ -707,7 +707,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
 	  for j in ${JsAdd}
 	  do
 	    cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
-		chmod +x "${ShellDir}/$j.sh"
+	    chmod +x "${ShellDir}/$j.sh"
 	  done
 	  crontab ${ListCron}
 	  echo "成功添加新的定时任务，当前的定时任务清单如下："
