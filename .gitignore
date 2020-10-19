@@ -1,2 +1,3 @@
 git_pull.sh
+rm_log.sh
 jd_*.sh
