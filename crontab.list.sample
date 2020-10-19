@@ -1,4 +1,4 @@
-55 */2 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
+55 6-23/3 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
 50 3 1,15 * * /root/shell/rm_log.sh
 3 0 * * * /root/shell/jd_bean_sign.sh
 0 0 * * * /root/shell/jd_blueCoin.sh
