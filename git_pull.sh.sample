@@ -200,6 +200,11 @@ superMarketUpgrade="false"
 businessCircleJump=""
 
 
+################################## 定义京小超是否自动使用金币去抽奖 ##################################
+## 是否用金币去抽奖，默认开启，如不需要使用脚本自动使用金币去抽奖，请修改为 false
+drawLotteryFlag=""
+
+
 ################################## 定义东东农场是否静默运行 ##################################
 ## 默认为 false，不静默，发送推送通知消息，如不想收到通知，请修改为 true
 NotifyFruit=""
@@ -475,6 +480,18 @@ function Change_businessCircleJump {
 }
 
 
+################################## 修改京小超是否自动使用金币去抽奖 ##################################
+function Change_drawLotteryFlag {
+  if [ "${drawLotteryFlag}" = "false" ]
+  then
+    echo "${FileSuperMarket}：修改京小超是否自动使用金币去抽奖为：${drawLotteryFlag}，将不再自动使用金币去抽奖..."
+    sed -i "s|let drawLotteryFlag = true;|let drawLotteryFlag = ${drawLotteryFlag};|" ${FileSuperMarket}
+  else
+    echo "${FileSuperMarket}：drawLotteryFlag保持默认，京小超将自动使用金币去抽奖..."
+  fi
+}
+
+
 ################################## 修改东东农场是否静默运行 ##################################
 function Change_NotifyFruit {
   if [ "${NotifyFruit}" = "true" ]
@@ -616,6 +633,8 @@ then
   Change_superMarketUpgrade
   echo
   Change_businessCircleJump
+  echo
+  Change_drawLotteryFlag
   echo
   Change_NotifyFruit
   echo
