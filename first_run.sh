@@ -7,7 +7,7 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export LC_ALL=C
 
 
-RootDir="/root"
+RootDir=$(cd $(dirname $0); pwd)
 ShellDir="${RootDir}/shell"
 LogDir="${RootDir}/log"
 ScriptsDir="${RootDir}/scripts"

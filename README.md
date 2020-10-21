@@ -8,8 +8,8 @@
 - 有nas或者vps等7×24运行设备的；
 - 想把Cookies牢牢掌握在自己手上的。
 ## 部署环境
-- 自行安装好docker。
-- 命令行输入：
+### docker安装
+自行安装好docker，然后创建容器：
 ```
 docker run -dit \
   -v /Host主机上的目录/:/root `#冒号左边请替换为Host主机上的目录` \
@@ -17,13 +17,16 @@ docker run -dit \
   --restart unless-stopped \
   evinedeng/jd-base:latest
 ```
+### 物理机安装
+请自行安装好`git wget curl nodejs`。
 ## 克隆脚本
-第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本（如果网络不好，就会花很长时间）。会在映射的`/root`下产生以下三个文件夹。
+### docker安装
+1. 第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本（如果网络不好，就会花很长时间）。会在映射的`/root`下产生以下三个文件夹。
 - `log`: 记录所有日志的文件夹，其中跑js脚本的日志会建立对应名称的子文件夹，并且js脚本日志会以`年-月-日-时-分-秒`的格式命名。
 - `scripts`: 从 [lxk0301/scripts](https://github.com/lxk0301/scripts) 克隆的js脚本。
 - `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
 
-进入容器环境（以下所有命令均需要在进入容器后运行）：
+进入容器环境（以下所有docker部分的命令均需要在进入容器后运行）：
 ```
 docker exec -it jd /bin/sh
 ```
@@ -45,9 +48,27 @@ git clone https://github.com/lxk0301/scripts
 git clone https://github.com/EvineDeng/jd-base shell
 sh shell/first_run.sh
 ```
+### 物理机安装
+先cd至你想存放脚本的路径，假如为`/home/myid/jd`，那么：
+```
+cd /home/myid/jd
+# 使用curl
+sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)
+# 或使用wget
+sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
+```
+脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log``scripts``shell`，解释见docker一节。
 ## 修改信息
+- docker
 ```
 cd /root/shell
+cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
+chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
+nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
+```
+- 物理机，仍然以上面举例的`/home/myid/jd`，后面就默认以docker的目录来举例了，如果是物理机安装请自行修改：
+```
+cd /home/myid/jd/shell
 cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
 chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
 nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
@@ -91,12 +112,12 @@ nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直
 ## 定时任务
 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 ```
-cd /root/shell
+cd /root/shell  #如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
 sh git_pull.sh
 ```
 看看js脚本的信息替换是否正常。
 ```
-cd /root/scripts
+cd /root/scripts  #如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
 git diff          # 按q退出
 ```
 然后复制一份crontab.list到/root目录下。
@@ -132,6 +153,15 @@ chmod +x /root/shell/jd_test.sh
 ```
 nano /root/crontab.list
 crontab /root/crontab.list
+```
+- 如果想使用自动增加定时任务的功能（`git_pull.sh`中`AutoAddCron`设置为`true`），而又不想手动改crontab，那么建议直接使用UTC时间而不是北京时间，创建docker容器时增加一个环境变量`TZ=UTC`即可，不过crontab任务清单建议你自己也调成UTC时间，创建命令如下：
+```
+docker run -dit \
+  -v /Host主机上的目录/:/root `#冒号左边请替换为Host主机上的目录` \
+  -e TZ=UTC \
+  --name jd \
+  --restart unless-stopped \
+  evinedeng/jd-base:latest
 ```
 ## 自动删除旧日志
 单个日志虽然小，但如果长期运行的话，日志也会占用大量空间，如需要自动删除，请按以下流程操作：
