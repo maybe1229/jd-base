@@ -120,7 +120,8 @@ sh git_pull.sh
 cd /root/scripts  #如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
 git diff          # 按q退出
 ```
-**后面不再明说物理机，请自行将出现`/root`的地方替换为`/home/myid/jd/`**
+**后面不再明说物理机，请自行将出现`/root`的地方替换为`/home/myid/jd/`。**
+
 然后复制一份crontab.list到/root目录下。
 ```
 cp /root/shell/crontab.list.sample /root/crontab.list
