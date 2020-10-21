@@ -18,7 +18,13 @@ docker run -dit \
   evinedeng/jd-base:latest
 ```
 ### 物理机安装
-请自行安装好`git wget curl nodejs`。
+请安装好`git wget curl nodejs`：
+```
+## debian/ubuntu，以及其他以debian为基础的：
+apt install -y git wget curl nodejs
+## CentOS/RedHat/Fedora等
+yum install git wget curl nodejs
+```
 ## 克隆脚本
 ### docker安装
 1. 第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本（如果网络不好，就会花很长时间）。会在映射的`/root`下产生以下三个文件夹。
