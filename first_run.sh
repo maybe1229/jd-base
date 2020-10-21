@@ -76,4 +76,4 @@ else
   echo
 fi
 
-chmod +x /root/shell/jd_*.sh
+chmod +x ${ShellDir}/jd_*.sh
