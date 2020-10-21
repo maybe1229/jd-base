@@ -68,6 +68,7 @@ then
   if [ -n "$List" ]; then
     for i in $List; do
       cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$i.sh"
+	  chmod +x "${ShellDir}/$i.sh"
       echo
 	done
   fi
@@ -76,4 +77,3 @@ else
   echo
 fi
 
-chmod +x ${ShellDir}/jd_*.sh
