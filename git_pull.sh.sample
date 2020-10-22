@@ -428,16 +428,7 @@ function Change_coinToBeans {
     case ${coinToBeans} in
     0)
       echo "${FileBlueCoin}: 京小超蓝币兑换数量保持默认值0，不自动兑换...";;
-    1000)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
-      perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
-    2801390972)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
-      perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
-    2801390982)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
-      perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
-    2801390984)
+    1000 | 2801390972 | 2801390982 | 2801390984)
       echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
       perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
     *)
