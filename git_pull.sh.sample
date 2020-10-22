@@ -178,10 +178,10 @@ ForOtherSuperMarket6=
 ## 京小超蓝币兑换，可用值包括：
 ## 一、1至20中的一个整数：表示兑换1-20个京豆
 ## 二、1000：表示兑换1000个京豆
-## 三、2801390972：兑换巧白酒精喷雾（目前已下架）
-## 四、2801390982：兑换巧白西柚洗手液
-## 五、2801390984：兑换雏菊洗衣凝珠
-## js脚本默认为0，即为不自动兑换，具体情况请自行在京小超游戏中去查阅
+## 三、2801390972：兑换倒数第三种商品
+## 四、2801390982：兑换倒数第二种商品
+## 五、2801390984：兑换最后一种商品
+## js脚本默认为0，即为不自动兑换，具体可以兑换什么请自行在京小超游戏中去查阅
 coinToBeans=0
 
 
@@ -429,13 +429,13 @@ function Change_coinToBeans {
     0)
       echo "${FileBlueCoin}: 京小超蓝币兑换数量保持默认值0，不自动兑换...";;
     2801390972)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}，即兑换巧白酒精喷雾..."
+      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
       perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
     2801390982)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}，即兑换巧白西柚洗手液..."
+      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
       perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
     2801390984)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}，即兑换雏菊洗衣凝珠..."
+      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
       perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
     *)
       echo "${FileBlueCoin}: coinToBeans 输入了错误值，将保持默认值0，不自动兑换...";;
