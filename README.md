@@ -18,12 +18,12 @@ docker run -dit \
   evinedeng/jd-base:latest
 ```
 ### 物理机安装
-请安装好`git wget curl nodejs`：
+请安装好`git wget curl nodejs npm`：
 ```
 ## debian/ubuntu，以及其他以debian为基础的：
-apt install -y git wget curl nodejs
+apt install -y git wget curl nodejs npm
 ## CentOS/RedHat/Fedora等
-yum install git wget curl nodejs
+yum install git wget curl nodejs npm
 ```
 ## 克隆脚本
 ### docker安装
@@ -59,9 +59,9 @@ sh shell/first_run.sh
 ```
 cd /home/myid/jd
 # 使用curl
-sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)
+bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)
 # 或使用wget
-sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
+bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
 ```
 脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
 ## 修改信息
@@ -119,7 +119,7 @@ nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直
 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 ```
 cd /root/shell  #如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
-sh git_pull.sh
+sh git_pull.sh  #如果物理机sh有问题则换成bash git_pull.sh，以下情况与此类似。
 ```
 看看js脚本的信息替换是否正常。
 ```
