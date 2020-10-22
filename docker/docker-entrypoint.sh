@@ -69,7 +69,7 @@ fi
 
 
 if [ -d ${ScriptsDir}/.github/workflows ]; then
-  List=$(ls ${ScriptsDir}/.github/workflows | sed "s|\.yml||" | sed "/sync/d")
+  List=$(ls ${ScriptsDir}/.github/workflows | grep -E "jd_.+\.yml" | sed "s/\.yml//")
 fi
 
 
