@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## 修改日期：2020-10-19
+## 修改日期：2020-10-29
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -18,6 +18,7 @@ AutoDelCron="true"
 ## 如需要自动增加新的本地定时任务，则设置为 true ，否则请设置为 false
 ## 请注意：如果你设置为 true，本脚本将会自动从 scripts/.github/workflows 文件夹新增加的 .yml 文件中读取 cron 这一行的任务时间
 ## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
+## 如果你在部署容器时，添加了环境变量TZ=UTC，则容器也将使用UTC时间，这样自动增加定时任务就可以和lxk0301设置的时间一致，不过crontab初始的定时任务需要修改一下
 ## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
 AutoAddCron="false"
 
@@ -149,14 +150,15 @@ ForOtherPlantBean6=
 ## 京小超商圈每个人自己的互助码，可以在运行一次京小超脚本（jd_superMarket）后从日志中查看
 ## 约定：MySuperMarket后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MySuperMarket1、MySuperMarket2
 ## 约定：MySuperMarket后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MySuperMarketA、MySuperMarketB
-MySuperMarket1=""
-MySuperMarket2=""
-MySuperMarket3=""
-MySuperMarket4=""
-MySuperMarket5=""
-MySuperMarket6=""
-MySuperMarketA=""
-MySuperMarketB=""
+## 京小超已升级为东东超市，升级后无助力功能
+# MySuperMarket1=""
+# MySuperMarket2=""
+# MySuperMarket3=""
+# MySuperMarket4=""
+# MySuperMarket5=""
+# MySuperMarket6=""
+# MySuperMarketA=""
+# MySuperMarketB=""
 
 
 ################################## 定义京小超商圈要为哪些人助力 ##################################
@@ -166,12 +168,13 @@ MySuperMarketB=""
 ## 4.举例：ForOtherSuperMarket1=${MySuperMarket2}"\@"${MySuperMarketA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherSuperMarket就只能且必须有多少个（从1开始计），超出的无效
 ## 6.可以不赋值，如：ForOtherSuperMarket2=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力
-ForOtherSuperMarket1=
-ForOtherSuperMarket2=
-ForOtherSuperMarket3=
-ForOtherSuperMarket4=
-ForOtherSuperMarket5=
-ForOtherSuperMarket6=
+## 京小超已升级为东东超市，升级后无助力功能
+# ForOtherSuperMarket1=
+# ForOtherSuperMarket2=
+# ForOtherSuperMarket3=
+# ForOtherSuperMarket4=
+# ForOtherSuperMarket5=
+# ForOtherSuperMarket6=
 
 
 ################################## 定义京小超蓝币兑换数量 ##################################
@@ -402,20 +405,20 @@ function Change_PlantBeanShareCodes {
 
 
 ################################## 替换京小超商圈互助码 ##################################
-function Change_SuperMarketShareCodes {
-  ForOtherSuperMarketALL=""
-  echo "${FileSuperMarketShareCodes}: 替换京小超商圈互助码..."
-  sed -i "/\/\/账号/d" ${FileSuperMarketShareCodes}
-  im=1
-  while [ ${im} -le ${UserSum} ]
-  do
-    Temp5=ForOtherSuperMarket${im}
-    eval ForOtherSuperMarketTemp=$(echo \$${Temp5})
-    ForOtherSuperMarketALL="${ForOtherSuperMarketALL}\\n'${ForOtherSuperMarketTemp}',"
-    let im++
-  done
-  perl -0777 -i -pe "s|let SuperMarketShareCodes = \[\n\]|let SuperMarketShareCodes = \[${ForOtherSuperMarketALL}\n\]|" ${FileSuperMarketShareCodes}
-}
+# function Change_SuperMarketShareCodes {
+#   ForOtherSuperMarketALL=""
+#   echo "${FileSuperMarketShareCodes}: 替换京小超商圈互助码..."
+#   sed -i "/\/\/账号/d" ${FileSuperMarketShareCodes}
+#   im=1
+#   while [ ${im} -le ${UserSum} ]
+#   do
+#     Temp5=ForOtherSuperMarket${im}
+#     eval ForOtherSuperMarketTemp=$(echo \$${Temp5})
+#     ForOtherSuperMarketALL="${ForOtherSuperMarketALL}\\n'${ForOtherSuperMarketTemp}',"
+#     let im++
+#   done
+#   perl -0777 -i -pe "s|let SuperMarketShareCodes = \[\n\]|let SuperMarketShareCodes = \[${ForOtherSuperMarketALL}\n\]|" ${FileSuperMarketShareCodes}
+# }
 
 
 ################################## 修改京小超蓝币兑换数量 ##################################
@@ -618,8 +621,8 @@ then
   echo
   Change_PlantBeanShareCodes
   echo
-  Change_SuperMarketShareCodes
-  echo
+#   Change_SuperMarketShareCodes
+#   echo
   Change_coinToBeans
   echo
   Change_NotifyBlueCoin
@@ -702,6 +705,7 @@ fi
 ## 此功能仅在 AutoAddCron 设置为 true 时生效
 ## 本功能生效时，会自动从 scripts/.github/workflows 文件夹新增加的 .yml 文件中读取 cron 这一行的任务时间，
 ## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
+## 如果你在部署容器时，添加了环境变量TZ=UTC，则容器也将使用UTC时间，这样自动增加定时任务就可以和lxk0301设置的时间一致，不过crontab初始的定时任务需要修改一下
 ## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
 if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ]; then
   echo "开始尝试自动添加定时任务如下："
