@@ -1,4 +1,6 @@
 ## 物理机安装请自行修改一下脚本路径
+## 以下时间均为北京时间，如环境为UTC时间，请自行将任务时间提前8小时
+## 所有时间建议各位自行调整为想要的时间
 
 55 6-23/3 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
 50 3 1,15 * * /root/shell/rm_log.sh
@@ -17,7 +19,8 @@
 0 0 * * * /root/shell/jd_shop.sh
 35 */3 * * * /root/shell/jd_speed.sh
 10 1-23/5 * * * /root/shell/jd_superMarket.sh
-1 */6 * * * /root/shell/jd_818.sh
-4 0 * * * /root/shell/jd_xtg.sh
+0 */6 * * * /root/shell/jd_818.sh
+0 0 * * * /root/shell/jd_xtg.sh
 45 23 * * * /root/shell/jd_unsubscribe.sh
+30 * * * * /root/shell/jd_collectProduceScore.sh
 
