@@ -23,4 +23,4 @@
 0 0 * * * /root/shell/jd_xtg.sh
 45 23 * * * /root/shell/jd_unsubscribe.sh
 30 * * * * /root/shell/jd_collectProduceScore.sh
-
+0 10 * * * /root/shell/jd_bean_change.sh
