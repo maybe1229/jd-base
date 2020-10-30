@@ -59,7 +59,7 @@ sh shell/first_run.sh
 ```
 cd /home/myid/jd
 # 使用curl
-bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
 # 或使用wget
 bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
 ```
@@ -97,8 +97,6 @@ nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直
 - 定义东东萌宠要为哪些人助力
 - 定义种豆得豆每个人自己的互助码
 - 定义种豆得豆要为哪些人助力
-- 定义京小超商圈每个人自己的互助码
-- 定义京小超商圈要为哪些人助力
 ### 3. 高级玩法
 除`基本能用的玩法`和`进阶玩法`中要修改的以外，再根据你的需要修改以下部分：
 - 定义是否自动删除失效的脚本与定时任务
@@ -119,7 +117,7 @@ nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直
 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 ```
 cd /root/shell  #如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
-sh git_pull.sh  #如果物理机sh有问题则换成bash git_pull.sh，以下情况与此类似。
+bash git_pull.sh 
 ```
 看看js脚本的信息替换是否正常。
 ```
