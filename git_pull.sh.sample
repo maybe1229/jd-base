@@ -246,6 +246,12 @@ jdJoyStealCoin=""
 joyRunFlag=""
 
 
+################################## 定义手机狂欢城是否发送上车提醒 ##################################
+## 情况请见jd_818的日志
+## 默认为false，不发送上车提醒，如想要收到提醒，请修改为 true
+Notify818=""
+
+
 ################################## 定义文件路径 ##################################
 ShellDir=$(cd $(dirname $0); pwd)
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -273,6 +279,7 @@ FIleJoySteal=joy_steal.js
 FileBlueCoin=jd_blueCoin.js
 FileSuperMarket=jd_superMarket.js
 FileFruit=jd_fruit.js
+File818=jd_818.js
 
 
 ################################## 在日志中记录时间与路径 ##################################
@@ -580,6 +587,18 @@ function Change_jdJoyStealCoin {
 }
 
 
+################################## 修改手机狂欢城是否发送上车提醒 ##################################
+function Change_Notify818 {
+  if [ "${Notify818}" = "true" ]
+  then
+    echo "${File818}：修改手机狂欢城是否发送上车提醒为：${Notify818}"
+    sed -i "s|let jdNotify = false;|let jdNotify = ${Notify818};|" ${File818}
+  else
+    echo "${File818}：Notify818保持默认，手机狂欢城将不发送上车提醒..."
+  fi
+}
+
+
 ################################## 获取git修改状态 ##################################
 function Git_Status {
   echo "获取git修改状态如下："
@@ -646,6 +665,8 @@ then
   Change_jdJoyHelpFeed
   echo
   Change_jdJoyStealCoin
+  echo
+  Change_Notify818
   echo
   Git_Status
   echo
