@@ -138,6 +138,7 @@ crontab /root/crontab.list
 ```
 **说明：**
 - `crontab.list`这个文件必须存放在`/root`下（物理机则为你一开始确定的目录），其他地方会影响后续脚本运行。
+- 如何查看任务有没有运行：请打开`/root/log/crond.log`查看。
 - 第一条定时任务`/root/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/root/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。
 - 第二条定时任务`/root/shell/rm_log.sh`用来自动删除旧日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。
 - 当`git_pull.sh`中的`AutoAddCron`设置为`false`时（不自动增加新的定时任务），如何手动添加新增js脚本的定时任务：
