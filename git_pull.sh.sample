@@ -33,6 +33,7 @@ UserSum=6
 ## 请依次填入每个用户的Cookie，Cookie的具体形式：pt_key=xxxxxxxxxx;pt_pin=xxxx;
 ## 获取Cookie的具体教程：https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie.md 或 https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie2.md
 ## UserSum定义了多少个，Cookie就必须输入多少个，按数字顺序1、2、3、4...依次编号下去。
+## 不允许有汉字，如果ID有汉字，请在PC浏览器上获取Cookie，会自动将汉字转换为URL编码。
 Cookie1=""
 Cookie2=""
 Cookie3=""
@@ -46,7 +47,7 @@ Cookie6=""
 ## ServerChan，教程：http://sc.ftqq.com/3.version
 SCKEY=""
 
-## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md
+## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md，看BARK部分
 BARK_PUSH=""
 BARK_SOUND=""
 
@@ -54,7 +55,7 @@ BARK_SOUND=""
 TG_BOT_TOKEN=""
 TG_USER_ID=""
 
-## 钉钉，如需使用，DD_BOT_TOKEN和DD_BOT_SECRET必须同时赋值，教程：https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq
+## 钉钉，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md，看DD_BOT_TOKEN和DD_BOT_SECRET部分
 DD_BOT_TOKEN=""
 DD_BOT_SECRET=""
 
@@ -252,6 +253,19 @@ joyRunFlag=""
 Notify818=""
 
 
+################################## 定义取关参数 ##################################
+## jd_unsubscribe这个任务是用来取关每天做任务关注的商品和店铺，默认在每次运行时取关20个商品和20个店铺
+## 如果取关数量不够，可以根据情况增加，还可以设置 jdUnsubscribeStopGoods 和 jdUnsubscribeStopShop 
+## 商品取关数量
+goodPageSize=50
+## 店铺取关数量
+shopPageSize=50
+## 遇到此商品不再取关此商品以及它后面的商品，需去商品详情页长按拷贝商品信息
+jdUnsubscribeStopGoods=""
+## 遇到此店铺不再取关此店铺以及它后面的店铺，请从头开始输入店铺名称
+jdUnsubscribeStopShop=""
+
+
 ################################## 定义文件路径 ##################################
 ShellDir=$(cd $(dirname $0); pwd)
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -280,6 +294,7 @@ FileBlueCoin=jd_blueCoin.js
 FileSuperMarket=jd_superMarket.js
 FileFruit=jd_fruit.js
 File818=jd_818.js
+FileUnsubscribe=jd_unsubscribe.js
 
 
 ################################## 在日志中记录时间与路径 ##################################
@@ -327,35 +342,43 @@ function Change_Cookie {
 ################################## 修改通知TOKEN ##################################
 function Change_Token {
   ## ServerChan
-  if [ ${SCKEY} ]; then 
+  if [ ${SCKEY} ]; then
     echo "${FileNotify}: 替换ServerChan推送通知SCKEY..."
     sed -i "s|let SCKEY = '';|let SCKEY = '${SCKEY}';|" ${FileNotify}
+    echo
   fi
 
   ## BARK
-  if [ ${BARK_PUSH} ] && [ ${BARK_SOUND} ]; then 
+  if [ ${BARK_PUSH} ] && [ ${BARK_SOUND} ]; then
     echo "${FileNotify}: 替换BARK推送通知BARK_PUSH、BARK_SOUND..."
     sed -i "s|let BARK_PUSH = '';|let BARK_PUSH = '${BARK_PUSH}';|" ${FileNotify}
     sed -i "s|let BARK_SOUND = '';|let BARK_SOUND = '${BARK_SOUND}';|" ${FileNotify}
+    echo
   fi
 
   ## Telegram
-  if [ ${TG_BOT_TOKEN} ] && [ ${TG_USER_ID} ]; then 
+  if [ ${TG_BOT_TOKEN} ] && [ ${TG_USER_ID} ]; then
     echo "${FileNotify}: 替换Telegram推送通知TG_BOT_TOKEN、TG_USER_ID..."
     sed -i "s|let TG_BOT_TOKEN = '';|let TG_BOT_TOKEN = '${TG_BOT_TOKEN}';|" ${FileNotify}
     sed -i "s|let TG_USER_ID = '';|let TG_USER_ID = '${TG_USER_ID}';|" ${FileNotify}
+    echo
   fi
 
   ## 钉钉
-  if [ ${DD_BOT_TOKEN} ] && [ ${DD_BOT_SECRET} ]; then 
-    echo "${FileNotify}: 替换钉钉推送通知DD_BOT_TOKEN、DD_BOT_SECRET..."
+  if [ ${DD_BOT_TOKEN} ]; then
+    echo "${FileNotify}: 替换钉钉推送通知DD_BOT..."
     sed -i "s|let DD_BOT_TOKEN = '';|let DD_BOT_TOKEN = '${DD_BOT_TOKEN}';|" ${FileNotify}
-    sed -i "s|let DD_BOT_SECRET = '';|let DD_BOT_SECRET = '${DD_BOT_SECRET}';|" ${FileNotify}
+    echo
+    if [ ${DD_BOT_SECRET} ]; then
+      sed -i "s|let DD_BOT_SECRET = '';|let DD_BOT_SECRET = '${DD_BOT_SECRET}';|" ${FileNotify}
+      echo
+    fi
   fi
   
   ## 未输入任何通知渠道
   if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ]; then
     echo "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志..."
+    echo
   fi
 }
 
@@ -587,6 +610,31 @@ function Change_jdJoyStealCoin {
 }
 
 
+################################## 修改取关参数 ##################################
+function Change_Unsubscribe {
+  if [ ${goodPageSize} -gt 0 ]; then
+    echo "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}..."
+    perl -i -pe "s|20;.+数字0表示不取关任何商品|${goodPageSize};|" ${FileUnsubscribe}
+    echo
+  fi
+  if [ ${shopPageSize} -gt 0 ]; then
+    echo "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}..."
+    perl -i -pe "s|20;.+数字0表示不取关任何店铺|${shopPageSize};|" ${FileUnsubscribe}
+    echo
+  fi
+  if [ ${jdUnsubscribeStopGoods} ]; then
+    echo "修改禁止取关商品的截止关键字为：${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品..."
+    perl -i -pe "s|'';.+长按拷贝商品信息|'${jdUnsubscribeStopGoods}';|" ${FileUnsubscribe}
+    echo
+  fi
+  if [ ${jdUnsubscribeStopShop} ]; then
+    echo "修改禁止取关店铺的截止关键字为：${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺..."
+    perl -i -pe "s|'';.+从头开始输入店铺名称|'${jdUnsubscribeStopShop}';|" ${FileUnsubscribe}
+    echo
+  fi
+}
+
+
 ################################## 修改手机狂欢城是否发送上车提醒 ##################################
 function Change_Notify818 {
   if [ "${Notify818}" = "true" ]
@@ -633,7 +681,6 @@ then
   Change_Cookie
   echo
   Change_Token
-  echo
   Change_FruitShareCodes
   echo
   Change_PetShareCodes
@@ -666,6 +713,7 @@ then
   echo
   Change_jdJoyStealCoin
   echo
+  Change_Unsubscribe
   Change_Notify818
   echo
   Git_Status
