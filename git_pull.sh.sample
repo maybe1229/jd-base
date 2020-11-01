@@ -178,14 +178,13 @@ ForOtherPlantBean6=
 # ForOtherSuperMarket6=
 
 
-################################## 定义京小超蓝币兑换数量 ##################################
-## 京小超蓝币兑换，可用值包括：
-## 一、1至20中的一个整数：表示兑换1-20个京豆
-## 二、1000：表示兑换1000个京豆
-## 三、2801390972：兑换倒数第三种商品
-## 四、2801390982：兑换倒数第二种商品
-## 五、2801390984：兑换最后一种商品
-## js脚本默认为0，即为不自动兑换，具体可以兑换什么请自行在京小超游戏中去查阅
+################################## 定义东东超市蓝币兑换数量 ##################################
+## 东东超市蓝币兑换，可用值包括：
+## 一、1至20中的一个整数：表示兑换1-20个京豆，如：coinToBeans=10
+## 二、1000：表示兑换1000个京豆，如：coinToBeans=1000
+## 三、可兑换清单的商品名称，输入关键词即可，比如：coinToBeans="'抽纸'"，请注意，输入汉字时，外侧一对双引号，内侧一对单引号
+## js脚本默认为0，即为不自动兑换，另外，具体可以兑换哪些商品请自行在东东超市游戏中去查阅
+## 注意：有些比较贵的实物商品京东只是展示出来忽悠人的，即使你零点用脚本去抢，也会提示没有或提示已下架
 coinToBeans=0
 
 
@@ -453,21 +452,20 @@ function Change_PlantBeanShareCodes {
 
 ################################## 修改京小超蓝币兑换数量 ##################################
 function Change_coinToBeans {
-  if [ ${coinToBeans} -gt 1 ] && [ ${coinToBeans} -le 20 ]
+  if [ ${coinToBeans} -ge 1 ] && [ ${coinToBeans} -le 20 ]
   then
-    echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
-    perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin}
+    echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
   else
     case ${coinToBeans} in
     0)
-      echo "${FileBlueCoin}: 京小超蓝币兑换数量保持默认值0，不自动兑换...";;
-    1000 | 2801390972 | 2801390982 | 2801390984)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
-      perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
+      echo "${FileBlueCoin}: 东东超市蓝币保持默认，不自动兑换...";;
+    1000)
+      echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆...";;
     *)
-      echo "${FileBlueCoin}: coinToBeans 输入了错误值，将保持默认值0，不自动兑换...";;
+      echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...";;
     esac
   fi
+  perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin}
 }
 
 
