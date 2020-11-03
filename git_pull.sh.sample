@@ -231,6 +231,11 @@ joyFeedCount=20
 NotifyJoyReward=""
 
 
+################################## 定义宠汪汪偷取好友积分与狗粮是否静默运行 ##################################
+## 默认为false，将发送推送通知消息，如想要静默不发送通知，请修改为 true
+NotifyJoySteal=""
+
+
 ################################## 定义宠汪汪是否静默运行 ##################################
 ## 默认为true，静默，不发送推送通知消息，如想要收到通知，请修改为 false
 NotifyJoy=""
@@ -582,6 +587,18 @@ function Change_NotifyJoyReward {
 }
 
 
+################################## 修改宠汪汪偷取好友积分与狗粮是否静默运行 ##################################
+function Change_NotifyJoySteal {
+  if [ "${NotifyJoySteal}" = "true" ]
+  then
+    echo "${FIleJoySteal}：修改宠汪汪偷取好友积分与狗粮是否静默运行为：${NotifyJoySteal}，静默运行，不发通知..."
+    sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyJoySteal};|" ${FIleJoySteal}
+  else
+    echo "${FIleJoySteal}：NotifyJoySteal保持默认，宠汪汪偷取好友积分与狗粮时将发通知..."
+  fi
+}
+
+
 ################################## 修改宠汪汪是否静默运行 ##################################
 function Change_NotifyJoy {
   if [ "${NotifyJoy}" = "false" ]
@@ -738,6 +755,8 @@ then
   Change_joyFeedCount
   echo
   Change_NotifyJoyReward
+  echo
+  Change_NotifyJoySteal
   echo
   Change_NotifyJoy
   echo
