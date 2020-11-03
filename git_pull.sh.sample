@@ -227,6 +227,11 @@ joyFeedCount=20
 
 
 ################################## 定义宠汪汪兑换京豆是否静默运行 ##################################
+## 默认为false，在成功兑换京豆时将发送推送通知消息（失败不发送），如想要静默不发送通知，请修改为 true
+NotifyJoyReward=""
+
+
+################################## 定义宠汪汪是否静默运行 ##################################
 ## 默认为true，静默，不发送推送通知消息，如想要收到通知，请修改为 false
 NotifyJoy=""
 
@@ -566,13 +571,25 @@ function Change_joyFeedCount {
 
 
 ################################## 修改宠汪汪兑换京豆是否静默运行 ##################################
+function Change_NotifyJoyReward {
+  if [ "${NotifyJoyReward}" = "true" ]
+  then
+    echo "${FileJoyReward}：修改宠汪汪兑换京豆是否静默运行为：${NotifyJoyReward}，静默运行，不发通知..."
+    sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyJoyReward};|" ${FileJoyReward}
+  else
+    echo "${FileJoyReward}：NotifyJoyReward保持默认，宠汪汪兑换京豆成功时将发通知..."
+  fi
+}
+
+
+################################## 修改宠汪汪是否静默运行 ##################################
 function Change_NotifyJoy {
   if [ "${NotifyJoy}" = "false" ]
   then
-    echo "${FileJoy}：修改宠汪汪兑换京豆是否静默运行为：${NotifyJoy}，不静默运行，将发通知..."
+    echo "${FileJoy}：修改宠汪汪是否静默运行为：${NotifyJoy}，不静默运行，将发通知..."
     sed -i "s|let jdNotify = true;|let jdNotify = ${NotifyJoy};|" ${FileJoy}
   else
-    echo "${FileJoy}：NotifyJoy保持默认，宠汪汪兑换京豆将静默运行..."
+    echo "${FileJoy}：NotifyJoy保持默认，宠汪汪将静默运行，不发通知..."
   fi
 }
 
@@ -719,6 +736,8 @@ then
   Change_jdFruitBeanCard
   echo
   Change_joyFeedCount
+  echo
+  Change_NotifyJoyReward
   echo
   Change_NotifyJoy
   echo
