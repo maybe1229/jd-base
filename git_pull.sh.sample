@@ -303,7 +303,7 @@ FilePlantBeanShareCodes=jdPlantBeanShareCodes.js
 FileSuperMarketShareCodes=jdSuperMarketShareCodes.js
 FileJoy=jd_joy.js
 FileJoyFeed=jd_joy_feedPets.js
-FIleJoySteal=joy_steal.js
+FileJoySteal=jd_joy_steal.js
 FileBlueCoin=jd_blueCoin.js
 FileSuperMarket=jd_superMarket.js
 FileFruit=jd_fruit.js
@@ -591,10 +591,10 @@ function Change_NotifyJoyReward {
 function Change_NotifyJoySteal {
   if [ "${NotifyJoySteal}" = "true" ]
   then
-    echo "${FIleJoySteal}：修改宠汪汪偷取好友积分与狗粮是否静默运行为：${NotifyJoySteal}，静默运行，不发通知..."
-    sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyJoySteal};|" ${FIleJoySteal}
+    echo "${FileJoySteal}：修改宠汪汪偷取好友积分与狗粮是否静默运行为：${NotifyJoySteal}，静默运行，不发通知..."
+    sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyJoySteal};|" ${FileJoySteal}
   else
-    echo "${FIleJoySteal}：NotifyJoySteal保持默认，宠汪汪偷取好友积分与狗粮时将发通知..."
+    echo "${FileJoySteal}：NotifyJoySteal保持默认，宠汪汪偷取好友积分与狗粮时将发通知..."
   fi
 }
 
@@ -627,10 +627,10 @@ function Change_joyRunFlag {
 function Change_jdJoyHelpFeed {
   if [ "${jdJoyHelpFeed}" = "true" ]
   then
-    echo "${FIleJoySteal}：修改宠汪汪自动给好友的汪汪喂食为：${jdJoyHelpFeed}..."
-    sed -i "s|let jdJoyHelpFeed = false;|let jdJoyHelpFeed = ${jdJoyHelpFeed};|" ${FIleJoySteal}
+    echo "${FileJoySteal}：修改宠汪汪自动给好友的汪汪喂食为：${jdJoyHelpFeed}..."
+    sed -i "s|let jdJoyHelpFeed = false;|let jdJoyHelpFeed = ${jdJoyHelpFeed};|" ${FileJoySteal}
   else
-    echo "${FIleJoySteal}：jdJoyHelpFeed保持默认，宠汪汪将不会给好友的汪汪喂食..."
+    echo "${FileJoySteal}：jdJoyHelpFeed保持默认，宠汪汪将不会给好友的汪汪喂食..."
   fi
 }
 
@@ -639,10 +639,10 @@ function Change_jdJoyHelpFeed {
 function Change_jdJoyStealCoin {
   if [ "${jdJoyStealCoin}" = "false" ]
   then
-    echo "${FIleJoySteal}：修改宠汪汪是否自动偷好友积分与狗粮为：${jdJoyStealCoin}..."
-    sed -i "s|let jdJoyStealCoin = false;|let jdJoyStealCoin = ${jdJoyStealCoin};|" ${FIleJoySteal}
+    echo "${FileJoySteal}：修改宠汪汪是否自动偷好友积分与狗粮为：${jdJoyStealCoin}..."
+    sed -i "s|let jdJoyStealCoin = false;|let jdJoyStealCoin = ${jdJoyStealCoin};|" ${FileJoySteal}
   else
-    echo "${FIleJoySteal}：jdJoyStealCoin保持默认，宠汪汪将会自动偷取好友积分与狗粮..."
+    echo "${FileJoySteal}：jdJoyStealCoin保持默认，宠汪汪将会自动偷取好友积分与狗粮..."
   fi
 }
 
