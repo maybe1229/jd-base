@@ -226,6 +226,12 @@ jdFruitBeanCard=""
 joyFeedCount=20
 
 
+################################## 定义宠汪汪兑换京豆数量 ##################################
+## 目前的可用值包括：0、20、500、1000，其中0表示为不自动兑换京豆，详情请见宠汪汪游戏中兑换京豆选项，高等级可以兑换更高的京豆。
+## 如不设置，将默认为20。设置了并且你也有足够积分时，也并不代表就一定能抢到。
+joyRewardName=20
+
+
 ################################## 定义宠汪汪兑换京豆是否静默运行 ##################################
 ## 默认为false，在成功兑换京豆时将发送推送通知消息（失败不发送），如想要静默不发送通知，请修改为 true
 NotifyJoyReward=""
@@ -575,6 +581,22 @@ function Change_joyFeedCount {
 }
 
 
+################################## 修改宠汪汪兑换京豆数量 ##################################
+function Change_joyRewardName {
+  case ${joyRewardName} in
+    0)
+      echo "${FileJoyReward}：禁用宠汪汪自动兑换京豆..."
+      sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|g" ${FileJoyReward};;
+    500 | 1000)
+      echo "${FileJoyReward}：修改宠汪汪兑换京豆数量为：${joyRewardName}..."
+      sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|g" ${FileJoyReward};;
+    20)
+      echo "${FileJoyReward}：宠汪汪兑换京豆数量保持默认值：20...";;
+    *)
+      echo "joyRewardName输入了错误值，宠汪汪兑换京豆数量保持默认值：20...";;
+}
+
+
 ################################## 修改宠汪汪兑换京豆是否静默运行 ##################################
 function Change_NotifyJoyReward {
   if [ "${NotifyJoyReward}" = "true" ]
@@ -753,6 +775,8 @@ then
   Change_jdFruitBeanCard
   echo
   Change_joyFeedCount
+  echo
+  Change_joyRewardName
   echo
   Change_NotifyJoyReward
   echo
