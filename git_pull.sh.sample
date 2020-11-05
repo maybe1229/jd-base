@@ -594,6 +594,7 @@ function Change_joyRewardName {
       echo "${FileJoyReward}：宠汪汪兑换京豆数量保持默认值：20...";;
     *)
       echo "joyRewardName输入了错误值，宠汪汪兑换京豆数量保持默认值：20...";;
+  esac
 }
 
 
