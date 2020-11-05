@@ -141,11 +141,11 @@ nano /root/crontab.list
 crontab /root/crontab.list
 ```
 **说明：**
-- docker环境中`crontab.list`这个文件必须存放在`/root`下；物理机则为你一开始确定的目录。其他地方会影响后续脚本运行。
-- docker如何查看任务有没有运行：请打开`/root/log/crond.log`查看；物理机的crond任务日志一般在`/var/log/`下。
-- docker第一条定时任务`/root/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/root/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。物理机类似
-- docker第二条定时任务`/root/shell/rm_log.sh`用来自动删除旧的js脚本日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。
-- 当`git_pull.sh`中的`AutoAddCron`设置为`false`时（不自动增加新的定时任务），如何手动添加新增js脚本的定时任务：
+- docker环境中`crontab.list`这个文件必须存放在`/root`下。其他地方会影响后续脚本运行。
+- docker环境中`/root/log/crond.log`可查看定时任务的运行情况；物理机的crond任务日志一般在`/var/log/`下，不在脚本目录，并且一般可能需要开启日志功能才会有。
+- docker环境中，第一条定时任务`/root/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/root/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。物理机类似。
+- docker环境中，第二条定时任务`/root/shell/rm_log.sh`用来自动删除旧的js脚本日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。物理机类似。
+- 当`git_pull.sh`中的`AutoAddCron`设置为`false`时（不自动增加新的定时任务），如何手动添加新增js脚本的定时任务，以docker环境为例：
 1. 检查有没有新增脚本：
 ```
 cat /root/log/js-add.list
@@ -174,7 +174,7 @@ docker run -dit \
 ```
 ## 自动删除旧日志
 单个日志虽然小，但如果长期运行的话，日志也会占用大量空间，如需要自动删除，请按以下流程操作：
-1. 复制一份rm_log.sh，并赋予可执行权限：
+1. 复制一份rm_log.sh，并赋予可执行权限（以docker为例）：
 ```
 cd /root/shell
 cp rm_log.sh.sample rm_log.sh
@@ -185,7 +185,7 @@ chmod +x rm_log.sh
 ## 补充说明
 - 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
 - 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`(物理机则为一开始确定的位置)这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失，并且，如果重建容器，容器还将在启动时自动从`/root/crontab.list`中恢复定时任务。（物理机无法自动重建定时任务，需要手动恢复）
-- 如果shell脚本有更新，需要你手动复制一份`git_pull.sh.sample`，并重新修改必须的信息，然后命名为`git_pull.sh`，流程如下：
+- 如果shell脚本有更新，需要你手动复制一份`git_pull.sh.sample`，并重新修改必须的信息，然后命名为`git_pull.sh`，流程如下（以docker为例）：
 ```
 cd /root/shell
 cp git_pull.sh.sample git_pull_2.sh
