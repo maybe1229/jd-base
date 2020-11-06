@@ -486,7 +486,7 @@ function Change_coinToBeans {
       echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...";;
     esac
   fi
-  perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin}
+  perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
 }
 
 
