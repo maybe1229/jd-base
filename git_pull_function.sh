@@ -16,6 +16,7 @@ FilePlantBeanShareCodes=jdPlantBeanShareCodes.js
 FileSuperMarketShareCodes=jdSuperMarketShareCodes.js
 FileJoy=jd_joy.js
 FileJoyFeed=jd_joy_feedPets.js
+FileJoyReward=jd_joy_reward.js
 FileJoySteal=jd_joy_steal.js
 FileBlueCoin=jd_blueCoin.js
 FileSuperMarket=jd_superMarket.js
