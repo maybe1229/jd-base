@@ -182,7 +182,7 @@ ForOtherPlantBean6=
 ## 东东超市蓝币兑换，可用值包括：
 ## 一、1至20中的一个整数：表示兑换1-20个京豆，如：coinToBeans=10
 ## 二、1000：表示兑换1000个京豆，如：coinToBeans=1000
-## 三、可兑换清单的商品名称，输入关键词即可，比如：coinToBeans="'抽纸'"，请注意，输入汉字时，外侧一对双引号，内侧一对单引号
+## 三、可兑换清单的商品名称，输入关键词即可，比如：coinToBeans="抽纸"，请注意，输入汉字时，外侧一对双引号
 ## js脚本默认为0，即为不自动兑换，另外，具体可以兑换哪些商品请自行在东东超市游戏中去查阅
 ## 注意：有些比较贵的实物商品京东只是展示出来忽悠人的，即使你零点用脚本去抢，也会提示没有或提示已下架
 coinToBeans=0
@@ -280,9 +280,9 @@ Notify818=""
 goodPageSize=50
 ## 店铺取关数量
 shopPageSize=50
-## 遇到此商品不再取关此商品以及它后面的商品，需去商品详情页长按拷贝商品信息
+## 遇到此商品不再取关此商品以及它后面的商品，需去商品详情页长按拷贝商品信息，需要用一对双引号括起来
 jdUnsubscribeStopGoods=""
-## 遇到此店铺不再取关此店铺以及它后面的店铺，请从头开始输入店铺名称
+## 遇到此店铺不再取关此店铺以及它后面的店铺，请从头开始输入店铺名称，需要用一对双引号括起来
 jdUnsubscribeStopShop=""
 
 
@@ -486,7 +486,7 @@ function Change_coinToBeans {
       echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...";;
     esac
   fi
-  perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
+  perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
 }
 
 
@@ -569,8 +569,8 @@ function Change_joyFeedCount {
       echo "${FileJoy}: 修改宠汪汪喂食克数为：${joyFeedCount}g..."
       echo
       echo "${FileJoyFeed}: 修改宠汪汪喂食克数为：${joyFeedCount}g..."
-      perl -i -pe "s|10;.+\[10,20,40,80\]|${joyFeedCount};|" ${FileJoy}
-      perl -i -pe "s|10;.+其他数字不可\.|${joyFeedCount};|" ${FileJoyFeed};;
+      perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoy}
+      perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoyFeed};;
     10)
       echo "${FileJoy}: 宠汪汪喂食克数保持默认值：10g..."
       echo
@@ -586,10 +586,10 @@ function Change_joyRewardName {
   case ${joyRewardName} in
     0)
       echo "${FileJoyReward}：禁用宠汪汪自动兑换京豆..."
-      sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|g" ${FileJoyReward};;
+      sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|" ${FileJoyReward};;
     500 | 1000)
       echo "${FileJoyReward}：修改宠汪汪兑换京豆数量为：${joyRewardName}..."
-      sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|g" ${FileJoyReward};;
+      sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|" ${FileJoyReward};;
     20)
       echo "${FileJoyReward}：宠汪汪兑换京豆数量保持默认值：20...";;
     *)
@@ -686,22 +686,22 @@ function Change_NotifyPet {
 function Change_Unsubscribe {
   if [ ${goodPageSize} -gt 0 ]; then
     echo "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}..."
-    perl -i -pe "s|20;.+数字0表示不取关任何商品|${goodPageSize};|" ${FileUnsubscribe}
+    perl -i -pe "s|let goodPageSize = .+;|let goodPageSize = ${goodPageSize};|" ${FileUnsubscribe}
     echo
   fi
   if [ ${shopPageSize} -gt 0 ]; then
     echo "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}..."
-    perl -i -pe "s|20;.+数字0表示不取关任何店铺|${shopPageSize};|" ${FileUnsubscribe}
+    perl -i -pe "s|let shopPageSize = .+;|let shopPageSize = ${shopPageSize};|" ${FileUnsubscribe}
     echo
   fi
   if [ ${jdUnsubscribeStopGoods} ]; then
     echo "修改禁止取关商品的截止关键字为：${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品..."
-    perl -i -pe "s|'';.+长按拷贝商品信息|'${jdUnsubscribeStopGoods}';|" ${FileUnsubscribe}
+    perl -i -pe "s|let stopGoods = .+;|let stopGoods = \'${jdUnsubscribeStopGoods}\';|" ${FileUnsubscribe}
     echo
   fi
   if [ ${jdUnsubscribeStopShop} ]; then
     echo "修改禁止取关店铺的截止关键字为：${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺..."
-    perl -i -pe "s|'';.+从头开始输入店铺名称|'${jdUnsubscribeStopShop}';|" ${FileUnsubscribe}
+    perl -i -pe "s|let stopShop = .+;|let stopShop = \'${jdUnsubscribeStopShop}\';|" ${FileUnsubscribe}
     echo
   fi
 }
