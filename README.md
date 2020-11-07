@@ -1,13 +1,19 @@
+## 更新日志
+    只记录大的更新，小修小改不记录。
+- 2020-11-07：将原来的`git_pull.sh.sample`分离成两个文件`git_pull.sh.sample`（更小了）和`git_pull_function.sh`，用户以后只需要按下面教程将`git_pull.sh.sample`复制一份`git_pull.sh`后修改即可，具体的函数全放在`git_pull_function.sh`中，大家不再需要关注脚本函数的变化，并且还可以兼容不愿意升级的老的`git_pull.sh`脚本。
+
 ## 使用背景
 - 本shell脚本用来运行[lxk0301/scripts](https://github.com/lxk0301/scripts)中的js脚本，解放双手，自动玩耍京东的各种游戏，主要有：各种签到、东东农场、种豆得豆、天天加速、摇钱树、宠汪汪、东东萌宠、东东超市，获取各种小羊毛。
 - 本脚本只是给lxk0301大佬的js脚本套了层壳，建议大家多多关注lxk0301大佬的仓库。
 - **如果是对js脚本有使用的上的问题请前往 [lxk0301/scripts](https://github.com/lxk0301/scripts) 提出，这里只解决shell脚本的问题。**
+
 ## 适合人群
 - 每个月要超出Github Action免费使用时长的；
 - 没有水果机的；
 - 想要精确控制脚本运行时间的；
 - 有nas或者vps等7×24运行设备的；
 - 想把Cookies牢牢掌握在自己手上的。
+
 ## 部署环境
 ### docker安装
 自行安装好docker，然后创建容器：
@@ -21,7 +27,7 @@ docker run -dit \
 ### 物理机安装
 请安装好`git wget curl nodejs npm`：
 
-- debian/ubuntu，以及其他以debian为基础的：
+- debian/ubuntu，以及其他debian系：
     ```
     apt install -y git wget curl nodejs npm
     ```
@@ -29,41 +35,43 @@ docker run -dit \
     ```
     yum install git wget curl nodejs npm
     ```
-- openwrt，需要添加官方软件源，如果某个软件包已集成在固件中，则可跳过安装。
+- OpenWrt，需要添加官方软件源，如果某个软件包已集成在固件中，则可跳过安装。
     ```
     opkg install git wget curl node node-npm
     ```
-  **声明：openwrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果openwrt安装了docker，也可以使用docker的方法。**
+  **声明：OpenWrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果OpenWrt安装了docker，也可以使用docker的方法。**
+
 ## 克隆脚本
 ### docker安装
 1. 第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本（如果网络不好，就会花很长时间）。会在映射的`/root`下产生以下三个文件夹。
-- `log`: 记录所有日志的文件夹，其中跑js脚本的日志会建立对应名称的子文件夹，并且js脚本日志会以`年-月-日-时-分-秒`的格式命名。
-- `scripts`: 从 [lxk0301/scripts](https://github.com/lxk0301/scripts) 克隆的js脚本。
-- `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
+    - `log`: 记录所有日志的文件夹，其中跑js脚本的日志会建立对应名称的子文件夹，并且js脚本日志会以`年-月-日-时-分-秒`的格式命名。
+    - `scripts`: 从 [lxk0301/scripts](https://github.com/lxk0301/scripts) 克隆的js脚本。
+    - `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
 
-进入容器环境（以下所有docker部分的命令均需要在进入容器后运行）：
-```
-docker exec -it jd /bin/sh
-```
-列出文件：
-```
-ls /root
-```
-如果发现没有以上三个文件夹，可以运行以下命令（如果有了就直接到`修改信息`这一步）：
-```
-# 使用wget
-sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
+2. 进入容器环境（以下所有docker部分的命令均需要在进入容器后运行）：
+    ```
+    docker exec -it jd /bin/sh
+    ```
+3. 列出文件：
+    ```
+    ls /root
+    ```
+4. 如果发现没有以上三个文件夹，可以运行以下命令（如果有了就直接到`修改信息`这一步）：
+    ```
+    # 使用wget
+    sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
 
-# 或使用curl
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
-```
-以上脚本会再次尝试自动克隆js脚本和shell脚本，**如果仍然失败，再考虑以下办法**：
-```
-cd /root
-git clone https://github.com/lxk0301/scripts
-git clone https://github.com/EvineDeng/jd-base shell
-sh shell/first_run.sh
-```
+    # 或使用curl
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
+    ```
+5. 以上脚本会再次尝试自动克隆js脚本和shell脚本，**如果仍然失败，再考虑以下办法**：
+    ```
+    cd /root
+    git clone https://github.com/lxk0301/scripts
+    git clone https://github.com/EvineDeng/jd-base shell
+    sh shell/first_run.sh
+    ```
+
 ### 物理机安装
 先cd至你想存放脚本的路径，假如为`/home/myid/jd`，那么：
 
@@ -72,13 +80,13 @@ sh shell/first_run.sh
 
     # 使用curl
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
-
+    
     # 或使用wget
     bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
     ```
 
+bash不行就换成`ash`，还不行再换成`sh`，脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
 
-`bash`不行就换成`ash`，还不行再换成`sh`，脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
 ## 修改信息
 - docker
     ```
@@ -99,10 +107,12 @@ sh shell/first_run.sh
 - 如果在windows下编辑`git_pull.sh`，请使用 notepad++ 等专业工具，请不要使用记事本。
 - `.sh`脚本如果没有可执行权限，定时任务将无法正常运行。
 - **如何修改请仔细阅读文件中的注释部分。**
+
 ### 1.基本能用的玩法
 只修改以下部分：
 - 定义用户数量
 - 定义Cookie
+
 ### 2. 进阶玩法
 除`基本能用的玩法`中要修改的以外，再根据你的需要修改以下部分：
 - 定义通知TOKEN
@@ -112,6 +122,7 @@ sh shell/first_run.sh
 - 定义东东萌宠要为哪些人助力
 - 定义种豆得豆每个人自己的互助码
 - 定义种豆得豆要为哪些人助力
+
 ### 3. 高级玩法
 除`基本能用的玩法`和`进阶玩法`中要修改的以外，再根据你的需要修改以下部分：
 - 定义是否自动删除失效的脚本与定时任务
@@ -133,6 +144,7 @@ sh shell/first_run.sh
 - 定义宠汪汪是否自动报名宠物赛跑
 - 定义手机狂欢城是否发送上车提醒
 - 定义取关参数
+
 ## 定时任务
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
     ```
@@ -142,7 +154,7 @@ sh shell/first_run.sh
 2. 看看js脚本的信息替换是否正常。
     ```
     cd /root/scripts  # 如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
-    git diff          # 按q退出
+    git diff          # 请使用上下左右键、Page Down、Page Up进行浏览，按q退出
     ```
 3. 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己的目录。
     ```
@@ -156,29 +168,30 @@ sh shell/first_run.sh
     ``` 
     crontab /root/crontab.list
     ```
+
 **说明：**
 - docker环境中`crontab.list`这个文件必须存放在`/root`下。其他地方会影响后续脚本运行。
 - docker环境中`/root/log/crond.log`可查看定时任务的运行情况；物理机的crond任务日志一般在`/var/log/`下，不在脚本目录，并且一般可能需要开启日志功能才会有。
 - docker环境中，第一条定时任务`/root/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/root/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。物理机类似。
 - docker环境中，第二条定时任务`/root/shell/rm_log.sh`用来自动删除旧的js脚本日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。物理机类似。
 - 当`git_pull.sh`中的`AutoAddCron`设置为`false`时（不自动增加新的定时任务），如何手动添加新增js脚本的定时任务，以docker环境为例：
-1. 检查有没有新增脚本：
-    ```
-    cat /root/log/js-add.list
-    ```
-2. 如果上一条命令不为空说明有新的定时任务待添加，把内容记下来，比如有个新增的任务叫为`jd_test`，那么就运行以下命令:
-    ```
-    cp /root/shell/jd.sh.sample /root/shell/jd_test.sh
-    ```
-3. 再次提醒不要忘记赋予可执行权限：
-    ```
-    chmod +x /root/shell/jd_test.sh
-    ```
-4. 编辑crontab.list，并添加进crontab
-    ```
-    nano /root/crontab.list
-    crontab /root/crontab.list
-    ```
+    1. 检查有没有新增脚本：
+        ```
+        cat /root/log/js-add.list
+        ```
+    2. 如果上一条命令不为空说明有新的定时任务待添加，把内容记下来，比如有个新增的任务叫为`jd_test`，那么就运行以下命令:
+        ```
+        cp /root/shell/jd.sh.sample /root/shell/jd_test.sh
+        ```
+    3. 再次提醒不要忘记赋予可执行权限：
+        ```
+        chmod +x /root/shell/jd_test.sh
+        ```
+    4. 编辑crontab.list，并添加进crontab
+        ```
+        nano /root/crontab.list
+        crontab /root/crontab.list
+        ```
 - 如果想使用自动增加定时任务的功能（`git_pull.sh`中`AutoAddCron`设置为`true`），而又不想手动改crontab，那么建议直接使用UTC时间而不是北京时间，创建docker容器时增加一个环境变量`TZ=UTC`即可，不过crontab任务清单建议你自己也调成UTC时间，创建命令如下：
     ```
     docker run -dit \
@@ -198,6 +211,7 @@ sh shell/first_run.sh
     ```
 2. 该脚本在运行时默认删除`30天`以前的日志，如果需要设置为其他天数，请修改脚本中的`HowManyDays`。
 3. 按`定时任务`部分的说明修改定时任务。
+
 ## 补充说明
 - 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
 - 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`(物理机则为一开始确定的位置)这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失，并且，如果重建容器，容器还将在启动时自动从`/root/crontab.list`中恢复定时任务。（物理机无法自动重建定时任务，需要手动恢复）
