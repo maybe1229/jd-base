@@ -22,8 +22,13 @@ docker run -dit \
 ```
 ## debian/ubuntu，以及其他以debian为基础的：
 apt install -y git wget curl nodejs npm
+
 ## CentOS/RedHat/Fedora等
 yum install git wget curl nodejs npm
+
+## openwrt，需要添加官方软件源，如果某个软件包已集成在固件中，则可跳过安装。
+## 声明：openwrt环境千差万别，不保证一定可用，需要根据自己的环境也配置，如果openwrt安装了docker，也可以使用docker的方法。
+opkg install git wget curl node node-npm
 ```
 ## 克隆脚本
 ### docker安装
@@ -44,6 +49,7 @@ ls /root
 ```
 # 使用wget
 sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
+
 # 或使用curl
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
 ```
@@ -58,8 +64,10 @@ sh shell/first_run.sh
 先cd至你想存放脚本的路径，假如为`/home/myid/jd`，那么：
 ```
 cd /home/myid/jd
+
 # 使用curl
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
+
 # 或使用wget
 bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
 ```
