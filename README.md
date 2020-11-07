@@ -65,6 +65,7 @@ sh shell/first_run.sh
 ```
 ### 物理机安装
 先cd至你想存放脚本的路径，假如为`/home/myid/jd`，那么：
+
     ```
     cd /home/myid/jd
 
@@ -74,6 +75,8 @@ sh shell/first_run.sh
     # 或使用wget
     bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
     ```
+
+
 `bash`不行就换成`ash`，还不行再换成`sh`，脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
 ## 修改信息
 - docker
