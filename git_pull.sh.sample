@@ -477,12 +477,12 @@ function Change_coinToBeans {
     echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
     perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
   elif [ ${coinToBeans} -eq 1000 ]; then
-    echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆...";;
+    echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
     perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
   elif [ ${coinToBeans} -eq 0 ]; then
     echo "${FileBlueCoin}: 东东超市蓝币保持默认，不自动兑换..."
   elif [ -n "${coinToBeans}" ]; then
-    echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...";;
+    echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准..."
     perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
   fi
 }
