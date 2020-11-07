@@ -21,17 +21,17 @@ docker run -dit \
 请安装好`git wget curl nodejs npm`：
 
 - debian/ubuntu，以及其他以debian为基础的：
-```
-apt install -y git wget curl nodejs npm
-```
+    ```
+    apt install -y git wget curl nodejs npm
+    ```
 - CentOS/RedHat/Fedora等红帽系
-```
-yum install git wget curl nodejs npm
-```
+    ```
+    yum install git wget curl nodejs npm
+    ```
 - openwrt，需要添加官方软件源，如果某个软件包已集成在固件中，则可跳过安装。
-```
-opkg install git wget curl node node-npm
-```
+    ```
+    opkg install git wget curl node node-npm
+    ```
   **声明：openwrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果openwrt安装了docker，也可以使用docker的方法。**
 ## 克隆脚本
 ### docker安装
@@ -65,31 +65,31 @@ sh shell/first_run.sh
 ```
 ### 物理机安装
 先cd至你想存放脚本的路径，假如为`/home/myid/jd`，那么：
-```
-cd /home/myid/jd
+    ```
+    cd /home/myid/jd
 
-# 使用curl
-bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
+    # 使用curl
+    bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
 
-# 或使用wget
-bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
-```
+    # 或使用wget
+    bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
+    ```
 `bash`不行就换成`ash`，还不行再换成`sh`，脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
 ## 修改信息
 - docker
-```
-cd /root/shell
-cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
-chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
-nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
-```
+    ```
+    cd /root/shell
+    cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
+    chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
+    nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
+    ```
 - 物理机，仍然以上面举例的`/home/myid/jd`，后面就默认以docker的目录来举例了，如果是物理机安装请自行修改：
-```
-cd /home/myid/jd/shell
-cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
-chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
-nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
-```
+    ```
+    cd /home/myid/jd/shell
+    cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
+    chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
+    nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
+    ```
 **注意：**
 - 请不要直接修改`git_pull.sh.sample`！而只修改`git_pull.sh`。
 - 如果在windows下编辑`git_pull.sh`，请使用 notepad++ 等专业工具，请不要使用记事本。
@@ -131,27 +131,27 @@ nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直
 - 定义取关参数
 ## 定时任务
 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
-```
-cd /root/shell  # 如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
-sh git_pull.sh  # 如果是物理机，可替换sh为bash
-```
+    ```
+    cd /root/shell  # 如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
+    sh git_pull.sh  # 如果是物理机，可替换sh为bash
+    ```
 看看js脚本的信息替换是否正常。
-```
-cd /root/scripts  # 如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
-git diff          # 按q退出
-```
+    ```
+    cd /root/scripts  # 如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
+    git diff          # 按q退出
+    ```
 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己的目录。
-```
-cp /root/shell/crontab.list.sample /root/crontab.list
-```
+    ```
+    cp /root/shell/crontab.list.sample /root/crontab.list
+    ```
 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己的目录，包括`crontab.list`这个文件中的路径。
-```
-nano /root/crontab.list
-```
+    ```
+    nano /root/crontab.list
+    ```
 添加定时任务。物理机请替换`/root`为自己的目录。
-``` 
-crontab /root/crontab.list
-```
+    ``` 
+    crontab /root/crontab.list
+    ```
 **说明：**
 - docker环境中`crontab.list`这个文件必须存放在`/root`下。其他地方会影响后续脚本运行。
 - docker环境中`/root/log/crond.log`可查看定时任务的运行情况；物理机的crond任务日志一般在`/var/log/`下，不在脚本目录，并且一般可能需要开启日志功能才会有。
@@ -159,53 +159,53 @@ crontab /root/crontab.list
 - docker环境中，第二条定时任务`/root/shell/rm_log.sh`用来自动删除旧的js脚本日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。物理机类似。
 - 当`git_pull.sh`中的`AutoAddCron`设置为`false`时（不自动增加新的定时任务），如何手动添加新增js脚本的定时任务，以docker环境为例：
 1. 检查有没有新增脚本：
-```
-cat /root/log/js-add.list
-```
+    ```
+    cat /root/log/js-add.list
+    ```
 2. 如果上一条命令不为空说明有新的定时任务待添加，把内容记下来，比如有个新增的任务叫为`jd_test`，那么就运行以下命令:
-```
-cp /root/shell/jd.sh.sample /root/shell/jd_test.sh
-```
+    ```
+    cp /root/shell/jd.sh.sample /root/shell/jd_test.sh
+    ```
 3. 再次提醒不要忘记赋予可执行权限：
-```
-chmod +x /root/shell/jd_test.sh
-```
+    ```
+    chmod +x /root/shell/jd_test.sh
+    ```
 4. 编辑crontab.list，并添加进crontab
-```
-nano /root/crontab.list
-crontab /root/crontab.list
-```
+    ```
+    nano /root/crontab.list
+    crontab /root/crontab.list
+    ```
 - 如果想使用自动增加定时任务的功能（`git_pull.sh`中`AutoAddCron`设置为`true`），而又不想手动改crontab，那么建议直接使用UTC时间而不是北京时间，创建docker容器时增加一个环境变量`TZ=UTC`即可，不过crontab任务清单建议你自己也调成UTC时间，创建命令如下：
-```
-docker run -dit \
-  -v /Host主机上的目录/:/root `#冒号左边请替换为Host主机上的目录` \
-  -e TZ=UTC \
-  --name jd \
-  --restart unless-stopped \
-  evinedeng/jd-base:latest
-```
+    ```
+    docker run -dit \
+      -v /Host主机上的目录/:/root `#冒号左边请替换为Host主机上的目录` \
+      -e TZ=UTC \
+      --name jd \
+      --restart unless-stopped \
+      evinedeng/jd-base:latest
+    ```
 ## 自动删除旧日志
 单个日志虽然小，但如果长期运行的话，日志也会占用大量空间，如需要自动删除，请按以下流程操作：
 1. 复制一份rm_log.sh，并赋予可执行权限（以docker为例）：
-```
-cd /root/shell
-cp rm_log.sh.sample rm_log.sh
-chmod +x rm_log.sh
-```
+    ```
+    cd /root/shell
+    cp rm_log.sh.sample rm_log.sh
+    chmod +x rm_log.sh
+    ```
 2. 该脚本在运行时默认删除`30天`以前的日志，如果需要设置为其他天数，请修改脚本中的`HowManyDays`。
 3. 按`定时任务`部分的说明修改定时任务。
 ## 补充说明
 - 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
 - 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`(物理机则为一开始确定的位置)这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失，并且，如果重建容器，容器还将在启动时自动从`/root/crontab.list`中恢复定时任务。（物理机无法自动重建定时任务，需要手动恢复）
 - 如果shell脚本有更新，需要你手动复制一份`git_pull.sh.sample`，并重新修改必须的信息，然后命名为`git_pull.sh`，流程如下（以docker为例）：
-```
-cd /root/shell
-cp git_pull.sh.sample git_pull_2.sh
-# 然后修改git_pull_2.sh，也可使用其他可视化工具修改
-nano git_pull_2.sh
-# 修改好后，替换旧的git_pull.sh
-mv git_pull_2.sh git_pull.sh
-# 不要忘记赋予修改后的.sh脚本可执行权限
-chmod +x git_pull.sh
-```
+    ```
+    cd /root/shell
+    cp git_pull.sh.sample git_pull_2.sh
+    # 然后修改git_pull_2.sh，也可使用其他可视化工具修改
+    nano git_pull_2.sh
+    # 修改好后，替换旧的git_pull.sh
+    mv git_pull_2.sh git_pull.sh
+    # 不要忘记赋予修改后的.sh脚本可执行权限
+    chmod +x git_pull.sh
+    ```
 - 如有帮助到你，请点亮 star 。
