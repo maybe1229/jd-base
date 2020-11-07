@@ -238,12 +238,12 @@ function Change_businessCircleJump {
 
 ################################## 修改东东超市是否自动使用金币去抽奖 ##################################
 function Change_drawLotteryFlag {
-  if [ "${drawLotteryFlag}" = "false" ]
+  if [ "${drawLotteryFlag}" = "true" ]
   then
-    echo "${FileSuperMarket}：修改东东超市是否自动使用金币去抽奖为：${drawLotteryFlag}，将不再自动使用金币去抽奖..."
-    sed -i "s|let drawLotteryFlag = true;|let drawLotteryFlag = ${drawLotteryFlag};|" ${FileSuperMarket}
+    echo "${FileSuperMarket}：修改东东超市是否自动使用金币去抽奖为：${drawLotteryFlag}，自动使用金币去抽奖..."
+    sed -i "s|let drawLotteryFlag = false;|let drawLotteryFlag = ${drawLotteryFlag};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：drawLotteryFlag保持默认，东东超市将自动使用金币去抽奖..."
+    echo "${FileSuperMarket}：drawLotteryFlag保持默认，东东超市将不去抽奖..."
   fi
 }
 
