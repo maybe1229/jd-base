@@ -147,11 +147,11 @@ ForOtherPlantBean5=
 ForOtherPlantBean6=
 
 
-################################## 定义京小超商圈每个人自己的互助码 ##################################
-## 京小超商圈每个人自己的互助码，可以在运行一次京小超脚本（jd_superMarket）后从日志中查看
+################################## 定义东东超市商圈每个人自己的互助码 ##################################
+## 东东超市商圈每个人自己的互助码，可以在运行一次东东超市脚本（jd_superMarket）后从日志中查看
 ## 约定：MySuperMarket后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MySuperMarket1、MySuperMarket2
 ## 约定：MySuperMarket后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MySuperMarketA、MySuperMarketB
-## 京小超已升级为东东超市，升级后无助力功能
+## 东东超市目前暂无助力功能
 # MySuperMarket1=""
 # MySuperMarket2=""
 # MySuperMarket3=""
@@ -162,14 +162,14 @@ ForOtherPlantBean6=
 # MySuperMarketB=""
 
 
-################################## 定义京小超商圈要为哪些人助力 ##################################
+################################## 定义东东超市商圈要为哪些人助力 ##################################
 ## 1.想要为谁助力，添加上面定义的MySuperMarket变量就可以
 ## 2.js脚本要求每个互助码间需要使用 @ 隔开，为保证 shell 脚本能将 @ 正确传递给 js ，需要写作"\@"，包括双引号
 ## 3.MySuperMarket系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MySuperMarketB；另外，也不能为自己助力
 ## 4.举例：ForOtherSuperMarket1=${MySuperMarket2}"\@"${MySuperMarketA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherSuperMarket就只能且必须有多少个（从1开始计），超出的无效
 ## 6.可以不赋值，如：ForOtherSuperMarket2=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力
-## 京小超已升级为东东超市，升级后无助力功能
+## 东东超市目前暂无助力功能
 # ForOtherSuperMarket1=
 # ForOtherSuperMarket2=
 # ForOtherSuperMarket3=
@@ -182,28 +182,28 @@ ForOtherPlantBean6=
 ## 东东超市蓝币兑换，可用值包括：
 ## 一、1至20中的一个整数：表示兑换1-20个京豆，如：coinToBeans=10
 ## 二、1000：表示兑换1000个京豆，如：coinToBeans=1000
-## 三、可兑换清单的商品名称，输入关键词即可，比如：coinToBeans="抽纸"，请注意，输入汉字时，外侧一对双引号
+## 三、可兑换清单的商品名称，输入关键词即可，比如：coinToBeans="抽纸"
 ## js脚本默认为0，即为不自动兑换，另外，具体可以兑换哪些商品请自行在东东超市游戏中去查阅
 ## 注意：有些比较贵的实物商品京东只是展示出来忽悠人的，即使你零点用脚本去抢，也会提示没有或提示已下架
 coinToBeans=0
 
 
-################################## 定义京小超蓝币成功兑换奖品是否静默运行 ##################################
+################################## 定义东东超市蓝币成功兑换奖品是否静默运行 ##################################
 ## 默认关闭（即:奖品兑换成功后会发出通知提示），如需要静默运行不发出通知，请改为 true
 NotifyBlueCoin=""
 
 
-################################## 定义京小超是否自动升级商品和货架 ##################################
+################################## 定义东东超市是否自动升级商品和货架 ##################################
 ## 升级顺序：解锁升级商品、升级货架，默认自动升级，如需关闭自动升级，请改为 false
 superMarketUpgrade="false"
 
 
-################################## 定义京小超是否自动更换商圈 ##################################
+################################## 定义东东超市是否自动更换商圈 ##################################
 ## 小于对方300热力值自动更换商圈队伍，默认允许自动更换，如不想更换商圈，请改为 false
 businessCircleJump=""
 
 
-################################## 定义京小超是否自动使用金币去抽奖 ##################################
+################################## 定义东东超市是否自动使用金币去抽奖 ##################################
 ## 是否用金币去抽奖，默认开启，如不需要使用脚本自动使用金币去抽奖，请修改为 false
 drawLotteryFlag=""
 
@@ -454,10 +454,10 @@ function Change_PlantBeanShareCodes {
 }
 
 
-################################## 替换京小超商圈互助码 ##################################
+################################## 替换东东超市商圈互助码 ##################################
 # function Change_SuperMarketShareCodes {
 #   ForOtherSuperMarketALL=""
-#   echo "${FileSuperMarketShareCodes}: 替换京小超商圈互助码..."
+#   echo "${FileSuperMarketShareCodes}: 替换东东超市商圈互助码..."
 #   sed -i "/\/\/账号/d" ${FileSuperMarketShareCodes}
 #   im=1
 #   while [ ${im} -le ${UserSum} ]
@@ -471,69 +471,67 @@ function Change_PlantBeanShareCodes {
 # }
 
 
-################################## 修改京小超蓝币兑换数量 ##################################
+################################## 修改东东超市蓝币兑换数量 ##################################
 function Change_coinToBeans {
-  if [ ${coinToBeans} -ge 1 ] && [ ${coinToBeans} -le 20 ]
-  then
+  if [ ${coinToBeans} -ge 1 ] && [ ${coinToBeans} -le 20 ]; then
     echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
-  else
-    case ${coinToBeans} in
-    0)
-      echo "${FileBlueCoin}: 东东超市蓝币保持默认，不自动兑换...";;
-    1000)
-      echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆...";;
-    *)
-      echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...";;
-    esac
+    perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
+  elif [ ${coinToBeans} -ge 1000 ]; then
+    echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆...";;
+    perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
+  elif [ ${coinToBeans} -ge 0 ]; then
+    echo "${FileBlueCoin}: 东东超市蓝币保持默认，不自动兑换..."
+  elif [ -n "${coinToBeans}" ]; then
+    echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...";;
+    perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
   fi
-  perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
 }
 
 
-################################## 修改京小超蓝币成功兑换奖品是否静默运行 ##################################
+################################## 修改东东超市蓝币成功兑换奖品是否静默运行 ##################################
 function Change_NotifyBlueCoin {
   if [ "${NotifyBlueCoin}" = "true" ]
   then
-    echo "${FileBlueCoin}：修改京小超成功兑换蓝币是否静默运行：${NotifyBlueCoin}，成功兑换后静默运行不发通知..."
+    echo "${FileBlueCoin}：修改东东超市成功兑换蓝币是否静默运行：${NotifyBlueCoin}，成功兑换后静默运行不发通知..."
     sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyBlueCoin};|" ${FileBlueCoin}
   else
-    echo "${FileBlueCoin}：NotifyBlueCoin保持默认，京小超成功兑换蓝币后将发通知..."
+    echo "${FileBlueCoin}：NotifyBlueCoin保持默认，东东超市成功兑换蓝币后将发通知..."
   fi
 }
 
 
-################################## 修改京小超是否自动升级商品和货架 ##################################
+################################## 修改东东超市是否自动升级商品和货架 ##################################
 function Change_superMarketUpgrade {
   if [ "${superMarketUpgrade}" = "false" ]
   then
-    echo "${FileSuperMarket}：修改京小超是否自动升级商品和货架为：${superMarketUpgrade}，不自动升级..."
+    echo "${FileSuperMarket}：修改东东超市是否自动升级商品和货架为：${superMarketUpgrade}，不自动升级..."
     sed -i "s|let superMarketUpgrade = true;|let superMarketUpgrade = ${superMarketUpgrade};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：superMarketUpgrade保持默认，京小超将默认自动升级商品和货架..."
+    echo "${FileSuperMarket}：superMarketUpgrade保持默认，东东超市将默认自动升级商品和货架..."
   fi
 }
 
 
-################################## 修改京小超是否自动更换商圈 ##################################
+################################## 修改东东超市是否自动更换商圈 ##################################
 function Change_businessCircleJump {
   if [ "${businessCircleJump}" = "false" ]
   then
-    echo "${FileSuperMarket}：修改京小超在小于对方300热力值时是否自动更换商圈为：${businessCircleJump}"
+    echo "${FileSuperMarket}：修改东东超市在小于对方300热力值时是否自动更换商圈为：${businessCircleJump}"
     sed -i "s|let businessCircleJump = true;|let businessCircleJump = ${businessCircleJump};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：businessCircleJump保持默认，京小超将在小于对方300热力值时自动更换商圈..."
+    echo "${FileSuperMarket}：businessCircleJump保持默认，东东超市将在小于对方300热力值时自动更换商圈..."
   fi
 }
 
 
-################################## 修改京小超是否自动使用金币去抽奖 ##################################
+################################## 修改东东超市是否自动使用金币去抽奖 ##################################
 function Change_drawLotteryFlag {
   if [ "${drawLotteryFlag}" = "false" ]
   then
-    echo "${FileSuperMarket}：修改京小超是否自动使用金币去抽奖为：${drawLotteryFlag}，将不再自动使用金币去抽奖..."
+    echo "${FileSuperMarket}：修改东东超市是否自动使用金币去抽奖为：${drawLotteryFlag}，将不再自动使用金币去抽奖..."
     sed -i "s|let drawLotteryFlag = true;|let drawLotteryFlag = ${drawLotteryFlag};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：drawLotteryFlag保持默认，京小超将自动使用金币去抽奖..."
+    echo "${FileSuperMarket}：drawLotteryFlag保持默认，东东超市将自动使用金币去抽奖..."
   fi
 }
 
