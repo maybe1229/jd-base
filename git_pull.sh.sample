@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## 修改日期：2020-11-02
+## 修改日期：2020-11-07
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
