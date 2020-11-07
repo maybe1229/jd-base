@@ -130,25 +130,25 @@ sh shell/first_run.sh
 - 定义手机狂欢城是否发送上车提醒
 - 定义取关参数
 ## 定时任务
-完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
+1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
     ```
     cd /root/shell  # 如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
     sh git_pull.sh  # 如果是物理机，可替换sh为bash
     ```
-看看js脚本的信息替换是否正常。
+2. 看看js脚本的信息替换是否正常。
     ```
     cd /root/scripts  # 如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
     git diff          # 按q退出
     ```
-然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己的目录。
+3. 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己的目录。
     ```
     cp /root/shell/crontab.list.sample /root/crontab.list
     ```
-编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己的目录，包括`crontab.list`这个文件中的路径。
+4. 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己的目录，包括`crontab.list`这个文件中的路径。
     ```
     nano /root/crontab.list
     ```
-添加定时任务。物理机请替换`/root`为自己的目录。
+5. 添加定时任务。物理机请替换`/root`为自己的目录。
     ``` 
     crontab /root/crontab.list
     ```
