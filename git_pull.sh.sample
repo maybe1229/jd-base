@@ -473,15 +473,19 @@ function Change_PlantBeanShareCodes {
 
 ################################## 修改东东超市蓝币兑换数量 ##################################
 function Change_coinToBeans {
-  if [ ${coinToBeans} -ge 1 ] && [ ${coinToBeans} -le 20 ]; then
-    echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
-    perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
-  elif [ ${coinToBeans} -eq 1000 ]; then
-    echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
-    perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
-  elif [ ${coinToBeans} -eq 0 ]; then
-    echo "${FileBlueCoin}: 东东超市蓝币保持默认，不自动兑换..."
-  elif [ -n "${coinToBeans}" ]; then
+  expr ${coinToBeans} "+" 10 &>/dev/null
+  if [ $? -eq 0 ]
+  then
+    case ${coinToBeans} in 
+      [1-9] | 1[0-9] | 20 | 1000)
+        echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
+        perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin};;
+      0)
+        echo "${FileBlueCoin}: 东东超市不自动兑换蓝币，保持默认...";;
+      *)
+        echo "${FileBlueCoin}: coinToBeans输入了错误的数字，东东超市不自动兑换蓝币，保持默认...";;
+    esac
+  else
     echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准..."
     perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
   fi
