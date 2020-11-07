@@ -19,17 +19,20 @@ docker run -dit \
 ```
 ### 物理机安装
 请安装好`git wget curl nodejs npm`：
+
+- debian/ubuntu，以及其他以debian为基础的：
 ```
-## debian/ubuntu，以及其他以debian为基础的：
 apt install -y git wget curl nodejs npm
-
-## CentOS/RedHat/Fedora等
+```
+- CentOS/RedHat/Fedora等红帽系
+```
 yum install git wget curl nodejs npm
-
-## openwrt，需要添加官方软件源，如果某个软件包已集成在固件中，则可跳过安装。
-## 声明：openwrt环境千差万别，不保证一定可用，需要根据自己的环境也配置，如果openwrt安装了docker，也可以使用docker的方法。
+```
+- openwrt，需要添加官方软件源，如果某个软件包已集成在固件中，则可跳过安装。
+```
 opkg install git wget curl node node-npm
 ```
+  **声明：openwrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果openwrt安装了docker，也可以使用docker的方法。**
 ## 克隆脚本
 ### docker安装
 1. 第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本（如果网络不好，就会花很长时间）。会在映射的`/root`下产生以下三个文件夹。
