@@ -46,7 +46,7 @@ CreateURLPet="http://api.turinglabs.net/api/v1/jd/pet/create/"
 URLServerChan="https://sc.ftqq.com/"
 
 ## 删除旧的日志，创建新的日志
-if [ -d ${LogDir}/create_share_codes ]; then
+if [ ! -d ${LogDir}/create_share_codes ]; then
   mkdir -p ${LogDir}/create_share_codes
 fi
 cd ${LogDir}/create_share_codes/
@@ -84,7 +84,7 @@ function CreateCodesFarm {
   echo -e "\n\n" >> ${LogFile}
 }
 
-## 提交萌宠互助码
+## 提交东东萌宠互助码
 function CreateCodesPet {
   echo -e "东东萌宠：\n\n" >> ${LogFile}
   for Code in ${ShareCodesPet}
