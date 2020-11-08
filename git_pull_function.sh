@@ -579,30 +579,30 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   JsAdd=$(cat ${ListJsAdd})
   if [ -f ${ShellDir}/jd.sh.sample ]
   then
-	for i in ${JsAdd}
-	do
-	  grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
-	done
-	if [ $? -eq 0 ]
-	then
-	  for j in ${JsAdd}
-	  do
-	    cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
-	    chmod +x "${ShellDir}/$j.sh"
-	  done
-	  crontab ${ListCron}
-	  echo "成功添加新的定时任务，当前的定时任务清单如下："
-	  echo
-	  crontab -l
-	else
+  for i in ${JsAdd}
+  do
+    grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
+  done
+  if [ $? -eq 0 ]
+  then
+    for j in ${JsAdd}
+    do
+      cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
+      chmod +x "${ShellDir}/$j.sh"
+    done
+    crontab ${ListCron}
+    echo "成功添加新的定时任务，当前的定时任务清单如下："
+    echo
+    crontab -l
+  else
       echo "未能添加新的定时任务，请自行添加..."
       echo
-	fi
-	echo
-  else
-	echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
+  fi
   echo
-	echo "未能成功添加新的定时任务，请自行添加..."
+  else
+  echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
+  echo
+  echo "未能成功添加新的定时任务，请自行添加..."
   echo
   fi
 fi
