@@ -23,6 +23,7 @@
 40 */3 * * * /root/shell/jd_moneyTree.sh
 15 7,12,18 * * * /root/shell/jd_pet.sh
 0 7-21 * * * /root/shell/jd_plantBean.sh
+11 0 * * * /root/shell/jd_rankingList.sh
 1 1 * * * /root/shell/jd_redPacket.sh
 0 0 * * * /root/shell/jd_shop.sh
 35 */3 * * * /root/shell/jd_speed.sh
