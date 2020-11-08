@@ -27,7 +27,7 @@ if [ ! -d ${LogDir}/${FileRun} ]; then
   mkdir -p ${LogDir}/${FileRun}
 fi
 
-touch $LogFile
+touch ${LogFile}
 
 cd ${ScriptsDir}
 node ${FileRun}.js > ${LogFile}
