@@ -32,8 +32,8 @@ echo "-------------------------------------------------------------------"
 echo
 echo -n "当前时间："
 echo $(date "+%Y-%m-%d %H:%M:%S")
-echo
 if [ "${TZ}" = "UTC" ]; then
+  echo
   echo -n "北京时间："
   echo $(date -d "8 hour" "+%Y-%m-%d %H:%M:%S")
 fi
