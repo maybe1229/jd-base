@@ -11,7 +11,7 @@ RootDir=$(cd $(dirname $0); cd ..; pwd)
 ScriptsDir=${RootDir}/scripts
 LogDir=${RootDir}/log
 FileCurrentBashName=$(basename $0)
-FileRun=$(echo $FileCurrentBashName | sed "s/\.sh//" )
+FileRun=$(echo $FileCurrentBashName | sed "s/\..*sh//" )
 LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
 LogFile="${LogDir}/${FileRun}/${LogTime}.log"
 
