@@ -12,7 +12,6 @@ ScriptsDir=${RootDir}/scripts
 LogDir=${RootDir}/log
 FileCurrentBashName=$(basename $0)
 FileRun=$(echo $FileCurrentBashName | sed "s/\..*sh//" )
-LogFile="${LogDir}/${FileRun}/${LogTime}.log"
 
 ## 无论是UTC时间还是北京时间，日志文件名均记录为北京时间
 if [ "$TZ" = "UTC" ]
@@ -21,6 +20,8 @@ then
 else
   LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
 fi
+
+LogFile="${LogDir}/${FileRun}/${LogTime}.log"
 
 if [ ! -d ${LogDir}/${FileRun} ]; then
   mkdir -p ${LogDir}/${FileRun}
