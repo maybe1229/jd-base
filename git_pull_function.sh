@@ -33,6 +33,11 @@ echo
 echo -n "当前时间："
 echo $(date "+%Y-%m-%d %H:%M:%S")
 echo
+if [ "${TZ}" = "UTC" ]; then
+  echo -n "北京时间："
+  echo $(date -d "8 hour" "+%Y-%m-%d %H:%M:%S")
+fi
+echo
 echo "SHELL脚本目录：${ShellDir}"
 echo 
 echo "JS脚本目录：${ScriptsDir}"
