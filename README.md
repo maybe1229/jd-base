@@ -65,13 +65,6 @@ docker run -dit \
     # 或使用curl
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
     ```
-5. 以上脚本会再次尝试自动克隆js脚本和shell脚本，**如果仍然失败，再考虑以下办法**：
-    ```
-    cd /root
-    git clone https://github.com/lxk0301/scripts
-    git clone https://github.com/EvineDeng/jd-base shell
-    sh shell/first_run.sh
-    ```
 
 ### 物理机安装
 先cd至你想存放脚本的路径，假如为`/home/myid/jd`，那么：

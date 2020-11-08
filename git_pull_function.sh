@@ -601,9 +601,9 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
 	echo
   else
 	echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
-    echo
+  echo
 	echo "未能成功添加新的定时任务，请自行添加..."
-    echo
+  echo
   fi
 fi
 
