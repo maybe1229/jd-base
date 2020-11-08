@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## 修改日期：2020-10-17
+## 修改日期：2020-11-08
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -12,8 +12,15 @@ ScriptsDir=${RootDir}/scripts
 LogDir=${RootDir}/log
 FileCurrentBashName=$(basename $0)
 FileRun=$(echo $FileCurrentBashName | sed "s/\..*sh//" )
-LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
 LogFile="${LogDir}/${FileRun}/${LogTime}.log"
+
+## 无论是UTC时间还是北京时间，日志文件名均记录为北京时间
+if [ "$TZ" = "UTC" ]
+then
+  LogTime=$(date -d "8 hour" "+%Y-%m-%d-%H-%M-%S")
+else
+  LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+fi
 
 if [ ! -d ${LogDir}/${FileRun} ]; then
   mkdir -p ${LogDir}/${FileRun}
