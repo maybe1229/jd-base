@@ -69,15 +69,15 @@ docker run -dit \
 ### 物理机安装
 先cd至你想存放脚本的路径，假如为`/home/myid/jd`，那么：
 
-    ```
-    cd /home/myid/jd
+```
+cd /home/myid/jd
 
-    # 使用curl
-    bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
+# 使用curl
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
 
-    # 或使用wget
-    bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
-    ```
+# 或使用wget
+bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
+```
 
 脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
 
