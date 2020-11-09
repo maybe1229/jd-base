@@ -139,7 +139,9 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 - 定义手机狂欢城是否发送上车提醒
 - 定义取关参数
 
-## 定时任务
+## 初始化
+
+**无论是docker运行，还是物理机运行，为了能第一时间检查有没有问题，请务必手动运行一次git_pull.sh，流程如下：**
 
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
     ```
@@ -151,15 +153,24 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     cd /root/scripts  # 如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
     git diff          # 请使用上下左右键、Page Down、Page Up进行浏览，按q退出
     ```
-3. 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己的目录。
+3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本。
+    ```
+    cd /root/shell
+    ./jd_bean_sign.sh
+    ```
+    查看对应日志文件目录下的日志，查看结果是否正常。
+
+## 定时任务
+
+1. 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己的目录。
     ```
     cp /root/shell/crontab.list.sample /root/crontab.list
     ```
-4. 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己的目录，包括`crontab.list`这个文件中的路径。
+2. 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己的目录，包括`crontab.list`这个文件中的路径。
     ```
     nano /root/crontab.list
     ```
-5. 添加定时任务。物理机请替换`/root`为自己的目录。
+3. 添加定时任务。物理机请替换`/root`为自己的目录。
     ```
     crontab /root/crontab.list
     ```
