@@ -79,7 +79,7 @@ docker run -dit \
     bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
     ```
 
-bash不行就换成`ash`，还不行再换成`sh`，脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
+脚本会自动在`/home/myid/jd`下载并创建好文件三个文件夹`log  scripts  shell`，解释见docker一节。
 
 ## 修改信息
 - docker
