@@ -107,9 +107,16 @@ function Change_Token {
       sed -i "s|let DD_BOT_SECRET = '';|let DD_BOT_SECRET = '${DD_BOT_SECRET}';|" ${FileNotify}
     fi
   fi
+
+  ## iGot
+  if [ ${IGOT_PUSH_KEY} ]; then
+    echo "${FileNotify}: 替换iGot推送KEY..."
+    sed -i "s|let IGOT_PUSH_KEY = '';|let IGOT_PUSH_KEY = '${IGOT_PUSH_KEY}';|" ${FileNotify}
+    echo
+  fi
   
   ## 未输入任何通知渠道
-  if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ]; then
+  if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ] && [ -z "${IGOT_PUSH_KEY}" ]; then
     echo "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志..."
     echo
   fi
