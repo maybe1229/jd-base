@@ -50,6 +50,7 @@ echo
 function Git_PullScripts {
   echo "更新JS脚本，原地址：${ScriptsURL}"
   echo
+  PackageListOld=$(cat package.json)
   git fetch --all
   git reset --hard origin/master
   git pull
@@ -616,10 +617,16 @@ fi
 
 
 ################################## npm install ##################################
-echo "运行npm install"
-echo
-npm install
-echo
+if [ ${GitPullExitStatus} -eq 0 ]
+then
+  PackageListNew=$(cat package.json)
+  if [ "${PackageListOld}" != "${PackageListNew}" ]; then
+    echo "检测到 package.json 有变化，运行npm install..."
+    echo
+    npm install
+    echo
+  fi
+fi
 
 
 ################################## 更新shell脚本 ##################################
