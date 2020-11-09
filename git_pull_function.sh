@@ -50,7 +50,6 @@ echo
 function Git_PullScripts {
   echo "更新JS脚本，原地址：${ScriptsURL}"
   echo
-  PackageListOld=$(cat package.json)
   git fetch --all
   git reset --hard origin/master
   git pull
@@ -466,6 +465,7 @@ function Cron_Different {
 
 ################################## 依次修改上述设定的值 ##################################
 cd ${ScriptsDir}
+PackageListOld=$(cat package.json)
 Git_PullScripts
 GitPullExitStatus=$?
 if [ ${GitPullExitStatus} -eq 0 ]
@@ -522,33 +522,25 @@ then
   Git_Status
   echo
   Cron_Different
-  
-  ## 检测是否有新的定时任务
-  if [ -s ${ListJsAdd} ]  
-  then
-    echo "检测到有新的定时任务："
-	cat ${ListJsAdd}
-  else
-    echo "没有检测到新的定时任务..."
-  fi
-  echo
-  
-  ## 检测失效的定时任务  
-  if [ -s ${ListJsDrop} ]
-  then
-    echo "检测到失效的定时任务："
-	cat ${ListJsDrop}
-  else
-    echo "没有检测到失效的定时任务..."
-  fi
-  echo
-  
 else
   echo "JS脚本拉取不正常，所有JS文件将保持上一次的状态..."
   echo
-
 fi
 
+## 检测是否有新的定时任务
+if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
+  echo "检测到有新的定时任务："
+  echo
+	cat ${ListJsAdd}
+fi
+  
+## 检测失效的定时任务  
+if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
+  echo "检测到失效的定时任务："
+  echo
+	cat ${ListJsDrop}
+fi
+  
 
 ################################## 自动删除失效的脚本与定时任务 ##################################
 ## 如果检测到某个定时任务在https://github.com/lxk0301/scripts中已删除，那么在本地也删除对应的shell脚本与定时任务
@@ -617,8 +609,7 @@ fi
 
 
 ################################## npm install ##################################
-if [ ${GitPullExitStatus} -eq 0 ]
-then
+if [ ${GitPullExitStatus} -eq 0 ]; then
   PackageListNew=$(cat package.json)
   if [ "${PackageListOld}" != "${PackageListNew}" ]; then
     echo "检测到 package.json 有变化，运行npm install..."
