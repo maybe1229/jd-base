@@ -74,7 +74,7 @@ docker run -dit \
 
     # 使用curl
     bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
-    
+
     # 或使用wget
     bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
     ```
@@ -140,11 +140,11 @@ bash不行就换成`ash`，还不行再换成`sh`，脚本会自动在`/home/myi
 - 定义取关参数
 
 ## 定时任务
-**请注意，如果是物理机安装，请先使用`echo $SHELL`命令查看自己是哪个`shell`，如果返回的是`/bin/bash`，那么请将下面所有命令中的`sh`命令替换为`bash`命令，其他类似。**
+
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
     ```
     cd /root/shell  # 如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
-    sh git_pull.sh  # 如果是物理机，请参考上面注意的说明替换sh命令为自己的shell命令，比如你的shell是bash，就变为 bash git_pull.sh
+    ./git_pull.sh
     ```
 2. 看看js脚本的信息替换是否正常。
     ```
@@ -160,7 +160,7 @@ bash不行就换成`ash`，还不行再换成`sh`，脚本会自动在`/home/myi
     nano /root/crontab.list
     ```
 5. 添加定时任务。物理机请替换`/root`为自己的目录。
-    ``` 
+    ```
     crontab /root/crontab.list
     ```
 
