@@ -68,9 +68,9 @@ then
   if [ -n "$List" ]; then
     for i in $List; do
       cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$i.sh"
-	  chmod +x "${ShellDir}/$i.sh"
+      chmod +x "${ShellDir}/$i.sh"
       echo
-	done
+    done
   fi
 else
   echo "脚本 $${ShellDir}/jd.sh.sample 文件不存在或内容为空，可能shell脚本克隆不正常，请手动克隆..."

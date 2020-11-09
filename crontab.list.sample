@@ -13,6 +13,7 @@
 3 0 * * * /root/shell/jd_bean_sign.sh
 0 0 * * * /root/shell/jd_blueCoin.sh
 30 * * * * /root/shell/jd_collectProduceScore.sh
+25 */3 * * * /root/shell/jd_daily_egg.sh
 2 0 * * * /root/shell/jd_club_lottery.sh
 25 7,12,18 * * * /root/shell/jd_fruit.sh
 1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh

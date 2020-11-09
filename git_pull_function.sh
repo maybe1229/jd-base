@@ -531,7 +531,7 @@ fi
 if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
   echo "检测到有新的定时任务："
   echo
-	cat ${ListJsAdd}
+  cat ${ListJsAdd}
 fi
   
 ## 检测失效的定时任务  
