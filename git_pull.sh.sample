@@ -290,5 +290,6 @@ jdUnsubscribeStopShop=""
 ShellDir=$(cd $(dirname $0); pwd)
 
 
-################################## 调用git_pull_function.sh（勿动） ##################################
+################################## 调用 git_pull_function.sh（勿动） ##################################
+chmod +x ${ShellDir}/git_pull_function.sh
 . ${ShellDir}/git_pull_function.sh

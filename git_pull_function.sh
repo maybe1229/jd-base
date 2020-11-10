@@ -40,9 +40,7 @@ FileUnsubscribe=jd_unsubscribe.js
 
 
 ################################## 在日志中记录时间与路径 ##################################
-echo
-echo "-------------------------------------------------------------------"
-echo
+echo -e "\n-------------------------------------------------------------------\n"
 echo -n "系统时间："
 echo $(date "+%Y-%m-%d %H:%M:%S")
 if [ "${TZ}" = "UTC" ]; then
@@ -50,29 +48,25 @@ if [ "${TZ}" = "UTC" ]; then
   echo -n "北京时间："
   echo $(date -d "8 hour" "+%Y-%m-%d %H:%M:%S")
 fi
-echo
-echo "SHELL脚本目录：${ShellDir}"
-echo 
-echo "JS脚本目录：${ScriptsDir}"
-echo
-echo "-------------------------------------------------------------------"
-echo
+echo -e "\nSHELL脚本目录：${ShellDir}\n"
+echo -e "JS脚本目录：${ScriptsDir}\n"
+echo -e "-------------------------------------------------------------------\n"
 
 
 ################################## 更新JS脚本 ##################################
 function Git_PullScripts {
-  echo "更新JS脚本，原地址：${ScriptsURL}"
-  echo
+  echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
   git fetch --all
   git reset --hard origin/master
   git pull
+  echo
 }
 
 
 ################################## 修改JS脚本中的Cookie ##################################
 function Change_Cookie {
   CookieALL=""
-  echo "${FileCookie}: 替换Cookies..."
+  echo -e "${FileCookie}: 替换Cookies...\n"
   sed -i "/\/\/账号/d" ${FileCookie}
   ii=1
   while [ ${ii} -le ${UserSum} ]
@@ -90,32 +84,28 @@ function Change_Cookie {
 function Change_Token {
   ## ServerChan
   if [ ${SCKEY} ]; then
-    echo "${FileNotify}: 替换ServerChan推送通知SCKEY..."
+    echo -e "${FileNotify}: 替换ServerChan推送通知SCKEY...\n"
     sed -i "s|let SCKEY = '';|let SCKEY = '${SCKEY}';|" ${FileNotify}
-    echo
   fi
 
   ## BARK
   if [ ${BARK_PUSH} ] && [ ${BARK_SOUND} ]; then
-    echo "${FileNotify}: 替换BARK推送通知BARK_PUSH、BARK_SOUND..."
+    echo -e "${FileNotify}: 替换BARK推送通知BARK_PUSH、BARK_SOUND...\n"
     sed -i "s|let BARK_PUSH = '';|let BARK_PUSH = '${BARK_PUSH}';|" ${FileNotify}
     sed -i "s|let BARK_SOUND = '';|let BARK_SOUND = '${BARK_SOUND}';|" ${FileNotify}
-    echo
   fi
 
   ## Telegram
   if [ ${TG_BOT_TOKEN} ] && [ ${TG_USER_ID} ]; then
-    echo "${FileNotify}: 替换Telegram推送通知TG_BOT_TOKEN、TG_USER_ID..."
+    echo -e "${FileNotify}: 替换Telegram推送通知TG_BOT_TOKEN、TG_USER_ID...\n"
     sed -i "s|let TG_BOT_TOKEN = '';|let TG_BOT_TOKEN = '${TG_BOT_TOKEN}';|" ${FileNotify}
     sed -i "s|let TG_USER_ID = '';|let TG_USER_ID = '${TG_USER_ID}';|" ${FileNotify}
-    echo
   fi
 
   ## 钉钉
   if [ ${DD_BOT_TOKEN} ]; then
-    echo "${FileNotify}: 替换钉钉推送通知DD_BOT..."
+    echo -e "${FileNotify}: 替换钉钉推送通知DD_BOT...\n"
     sed -i "s|let DD_BOT_TOKEN = '';|let DD_BOT_TOKEN = '${DD_BOT_TOKEN}';|" ${FileNotify}
-    echo
     if [ ${DD_BOT_SECRET} ]; then
       sed -i "s|let DD_BOT_SECRET = '';|let DD_BOT_SECRET = '${DD_BOT_SECRET}';|" ${FileNotify}
     fi
@@ -123,15 +113,13 @@ function Change_Token {
 
   ## iGot
   if [ ${IGOT_PUSH_KEY} ]; then
-    echo "${FileNotify}: 替换iGot推送KEY..."
+    echo -e "${FileNotify}: 替换iGot推送KEY...\n"
     sed -i "s|let IGOT_PUSH_KEY = '';|let IGOT_PUSH_KEY = '${IGOT_PUSH_KEY}';|" ${FileNotify}
-    echo
   fi
   
   ## 未输入任何通知渠道
   if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ] && [ -z "${IGOT_PUSH_KEY}" ]; then
-    echo "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志..."
-    echo
+    echo -e "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志...\n"
   fi
 }
 
@@ -139,7 +127,7 @@ function Change_Token {
 ################################## 替换东东农场互助码 ##################################
 function Change_FruitShareCodes {
   ForOtherFruitALL=""
-  echo "${FileFruitShareCodes}: 替换东东农场互助码..."
+  echo -e "${FileFruitShareCodes}: 替换东东农场互助码...\n"
   sed -i "/\/\/账号/d" ${FileFruitShareCodes}
   ij=1
   while [ ${ij} -le ${UserSum} ]
@@ -156,7 +144,7 @@ function Change_FruitShareCodes {
 ################################## 替换东东萌宠互助码 ##################################
 function Change_PetShareCodes {
   ForOtherPetALL=""
-  echo "${FilePetShareCodes}: 替换东东萌宠互助码..."
+  echo -e "${FilePetShareCodes}: 替换东东萌宠互助码...\n"
   sed -i "/\/\/账号/d" ${FilePetShareCodes}
   ik=1
   while [ ${ik} -le ${UserSum} ]
@@ -173,7 +161,7 @@ function Change_PetShareCodes {
 ################################## 替换种豆得豆互助码 ##################################
 function Change_PlantBeanShareCodes {
   ForOtherPlantBeanALL=""
-  echo "${FilePlantBeanShareCodes}: 替换种豆得豆互助码..."
+  echo -e "${FilePlantBeanShareCodes}: 替换种豆得豆互助码...\n"
   sed -i "/\/\/账号/d" ${FilePlantBeanShareCodes}
   il=1
   while [ ${il} -le ${UserSum} ]
@@ -190,7 +178,7 @@ function Change_PlantBeanShareCodes {
 ################################## 替换东东超市商圈互助码 ##################################
 # function Change_SuperMarketShareCodes {
 #   ForOtherSuperMarketALL=""
-#   echo "${FileSuperMarketShareCodes}: 替换东东超市商圈互助码..."
+#   echo -e "${FileSuperMarketShareCodes}: 替换东东超市商圈互助码...\n"
 #   sed -i "/\/\/账号/d" ${FileSuperMarketShareCodes}
 #   im=1
 #   while [ ${im} -le ${UserSum} ]
@@ -211,15 +199,15 @@ function Change_coinToBeans {
   then
     case ${coinToBeans} in 
       [1-9] | 1[0-9] | 20 | 1000)
-        echo "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆..."
+        echo -e "${FileBlueCoin}: 修改东东超市蓝币兑换 ${coinToBeans} 个京豆...\n"
         perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin};;
       0)
-        echo "${FileBlueCoin}: 东东超市不自动兑换蓝币，保持默认...";;
+        echo -e "${FileBlueCoin}: 东东超市不自动兑换蓝币，保持默认...\n";;
       *)
-        echo "${FileBlueCoin}: coinToBeans输入了错误的数字，东东超市不自动兑换蓝币，保持默认...";;
+        echo -e "${FileBlueCoin}: coinToBeans输入了错误的数字，东东超市不自动兑换蓝币，保持默认...\n";;
     esac
   else
-    echo "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准..."
+    echo -e "${FileBlueCoin}: 修改东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...\n"
     perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
   fi
 }
@@ -229,10 +217,10 @@ function Change_coinToBeans {
 function Change_NotifyBlueCoin {
   if [ "${NotifyBlueCoin}" = "true" ]
   then
-    echo "${FileBlueCoin}：修改东东超市成功兑换蓝币是否静默运行：${NotifyBlueCoin}，成功兑换后静默运行不发通知..."
+    echo -e "${FileBlueCoin}：修改东东超市成功兑换蓝币是否静默运行：${NotifyBlueCoin}，成功兑换后静默运行不发通知...\n"
     sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyBlueCoin};|" ${FileBlueCoin}
   else
-    echo "${FileBlueCoin}：NotifyBlueCoin保持默认，东东超市成功兑换蓝币后将发通知..."
+    echo -e "${FileBlueCoin}：NotifyBlueCoin保持默认，东东超市成功兑换蓝币后将发通知...\n"
   fi
 }
 
@@ -241,10 +229,10 @@ function Change_NotifyBlueCoin {
 function Change_superMarketUpgrade {
   if [ "${superMarketUpgrade}" = "false" ]
   then
-    echo "${FileSuperMarket}：修改东东超市是否自动升级商品和货架为：${superMarketUpgrade}，不自动升级..."
+    echo -e "${FileSuperMarket}：修改东东超市是否自动升级商品和货架为：${superMarketUpgrade}，不自动升级...\n"
     sed -i "s|let superMarketUpgrade = true;|let superMarketUpgrade = ${superMarketUpgrade};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：superMarketUpgrade保持默认，东东超市将默认自动升级商品和货架..."
+    echo -e "${FileSuperMarket}：superMarketUpgrade保持默认，东东超市将默认自动升级商品和货架...\n"
   fi
 }
 
@@ -253,10 +241,10 @@ function Change_superMarketUpgrade {
 function Change_businessCircleJump {
   if [ "${businessCircleJump}" = "false" ]
   then
-    echo "${FileSuperMarket}：修改东东超市在小于对方300热力值时是否自动更换商圈为：${businessCircleJump}"
+    echo -e "${FileSuperMarket}：修改东东超市在小于对方300热力值时是否自动更换商圈为：${businessCircleJump}\n"
     sed -i "s|let businessCircleJump = true;|let businessCircleJump = ${businessCircleJump};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：businessCircleJump保持默认，东东超市将在小于对方300热力值时自动更换商圈..."
+    echo -e "${FileSuperMarket}：businessCircleJump保持默认，东东超市将在小于对方300热力值时自动更换商圈...\n"
   fi
 }
 
@@ -265,10 +253,10 @@ function Change_businessCircleJump {
 function Change_drawLotteryFlag {
   if [ "${drawLotteryFlag}" = "true" ]
   then
-    echo "${FileSuperMarket}：修改东东超市是否自动使用金币去抽奖为：${drawLotteryFlag}，自动使用金币去抽奖..."
+    echo -e "${FileSuperMarket}：修改东东超市是否自动使用金币去抽奖为：${drawLotteryFlag}，自动使用金币去抽奖...\n"
     sed -i "s|let drawLotteryFlag = false;|let drawLotteryFlag = ${drawLotteryFlag};|" ${FileSuperMarket}
   else
-    echo "${FileSuperMarket}：drawLotteryFlag保持默认，东东超市将不去抽奖..."
+    echo -e "${FileSuperMarket}：drawLotteryFlag保持默认，东东超市将不去抽奖...\n"
   fi
 }
 
@@ -277,10 +265,10 @@ function Change_drawLotteryFlag {
 function Change_NotifyFruit {
   if [ "${NotifyFruit}" = "true" ]
   then
-    echo "${FileFruit}：修改东东农场是否静默运行为：${NotifyFruit}，静默运行，不发通知..."
+    echo -e "${FileFruit}：修改东东农场是否静默运行为：${NotifyFruit}，静默运行，不发通知...\n"
     sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyFruit};|" ${FileFruit}
   else
-    echo "${FileFruit}：NotifyFruit保持默认，东东农场将不静默运行，将发通知..."
+    echo -e "${FileFruit}：NotifyFruit保持默认，东东农场将不静默运行，将发通知...\n"
   fi
 }
 
@@ -289,10 +277,10 @@ function Change_NotifyFruit {
 function Change_jdFruitBeanCard {
   if [ "${jdFruitBeanCard}" = "true" ]
   then
-    echo "${FileFruit}：修改东东农场是否使用水滴换豆卡为：${jdFruitBeanCard}，将在出现限时活动时使用100g水换20金豆，不浇水..."
+    echo -e "${FileFruit}：修改东东农场是否使用水滴换豆卡为：${jdFruitBeanCard}，将在出现限时活动时使用100g水换20金豆，不浇水...\n"
     sed -i "s|let jdFruitBeanCard = false;|let jdFruitBeanCard = ${jdFruitBeanCard};|" ${FileFruit}
   else
-    echo "${FileFruit}：jdFruitBeanCard保持默认，东东农场将在出现100g水换20金豆限时活动时继续浇水..."
+    echo -e "${FileFruit}：jdFruitBeanCard保持默认，东东农场将在出现100g水换20金豆限时活动时继续浇水...\n"
   fi
 }
 
@@ -301,17 +289,15 @@ function Change_jdFruitBeanCard {
 function Change_joyFeedCount {
   case ${joyFeedCount} in
     20 | 40 | 80)
-      echo "${FileJoy}: 修改宠汪汪喂食克数为：${joyFeedCount}g..."
-      echo
-      echo "${FileJoyFeed}: 修改宠汪汪喂食克数为：${joyFeedCount}g..."
+      echo -e "${FileJoy}: 修改宠汪汪喂食克数为：${joyFeedCount}g...\n"
+      echo -e "${FileJoyFeed}: 修改宠汪汪喂食克数为：${joyFeedCount}g...\n"
       perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoy}
       perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoyFeed};;
     10)
-      echo "${FileJoy}: 宠汪汪喂食克数保持默认值：10g..."
-      echo
-      echo "${FileJoyFeed}: 宠汪汪喂食克数保持默认值：10g...";;
+      echo -e "${FileJoy}: 宠汪汪喂食克数保持默认值：10g...\n"
+      echo -e "${FileJoyFeed}: 宠汪汪喂食克数保持默认值：10g...\n";;
     *)
-      echo "joyFeedCount输入了错误值，不修改宠汪汪喂食克数，保持默认值...";;
+      echo -e "joyFeedCount输入了错误值，不修改宠汪汪喂食克数，保持默认值...\n";;
   esac
 }
 
@@ -320,15 +306,15 @@ function Change_joyFeedCount {
 function Change_joyRewardName {
   case ${joyRewardName} in
     0)
-      echo "${FileJoyReward}：禁用宠汪汪自动兑换京豆..."
+      echo -e "${FileJoyReward}：禁用宠汪汪自动兑换京豆...\n"
       sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|" ${FileJoyReward};;
     500 | 1000)
-      echo "${FileJoyReward}：修改宠汪汪兑换京豆数量为：${joyRewardName}..."
+      echo -e "${FileJoyReward}：修改宠汪汪兑换京豆数量为：${joyRewardName}...\n"
       sed -i "s|let joyRewardName = 20;|let joyRewardName = ${joyRewardName};|" ${FileJoyReward};;
     20)
-      echo "${FileJoyReward}：宠汪汪兑换京豆数量保持默认值：20...";;
+      echo -e "${FileJoyReward}：宠汪汪兑换京豆数量保持默认值：20...\n";;
     *)
-      echo "joyRewardName输入了错误值，宠汪汪兑换京豆数量保持默认值：20...";;
+      echo -e "joyRewardName输入了错误值，宠汪汪兑换京豆数量保持默认值：20...\n";;
   esac
 }
 
@@ -337,10 +323,10 @@ function Change_joyRewardName {
 function Change_NotifyJoyReward {
   if [ "${NotifyJoyReward}" = "true" ]
   then
-    echo "${FileJoyReward}：修改宠汪汪兑换京豆是否静默运行为：${NotifyJoyReward}，静默运行，不发通知..."
+    echo -e "${FileJoyReward}：修改宠汪汪兑换京豆是否静默运行为：${NotifyJoyReward}，静默运行，不发通知...\n"
     sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyJoyReward};|" ${FileJoyReward}
   else
-    echo "${FileJoyReward}：NotifyJoyReward保持默认，宠汪汪兑换京豆成功时将发通知..."
+    echo -e "${FileJoyReward}：NotifyJoyReward保持默认，宠汪汪兑换京豆成功时将发通知...\n"
   fi
 }
 
@@ -349,10 +335,10 @@ function Change_NotifyJoyReward {
 function Change_NotifyJoySteal {
   if [ "${NotifyJoySteal}" = "true" ]
   then
-    echo "${FileJoySteal}：修改宠汪汪偷取好友积分与狗粮是否静默运行为：${NotifyJoySteal}，静默运行，不发通知..."
+    echo -e "${FileJoySteal}：修改宠汪汪偷取好友积分与狗粮是否静默运行为：${NotifyJoySteal}，静默运行，不发通知...\n"
     sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyJoySteal};|" ${FileJoySteal}
   else
-    echo "${FileJoySteal}：NotifyJoySteal保持默认，宠汪汪偷取好友积分与狗粮时将发通知..."
+    echo -e "${FileJoySteal}：NotifyJoySteal保持默认，宠汪汪偷取好友积分与狗粮时将发通知...\n"
   fi
 }
 
@@ -361,10 +347,10 @@ function Change_NotifyJoySteal {
 function Change_NotifyJoy {
   if [ "${NotifyJoy}" = "false" ]
   then
-    echo "${FileJoy}：修改宠汪汪是否静默运行为：${NotifyJoy}，不静默运行，将发通知..."
+    echo -e "${FileJoy}：修改宠汪汪是否静默运行为：${NotifyJoy}，不静默运行，将发通知...\n"
     sed -i "s|let jdNotify = true;|let jdNotify = ${NotifyJoy};|" ${FileJoy}
   else
-    echo "${FileJoy}：NotifyJoy保持默认，宠汪汪将静默运行，不发通知..."
+    echo -e "${FileJoy}：NotifyJoy保持默认，宠汪汪将静默运行，不发通知...\n"
   fi
 }
 
@@ -373,10 +359,10 @@ function Change_NotifyJoy {
 function Change_joyRunFlag {
   if [ "${joyRunFlag}" = "false" ]
   then
-    echo "${FileJoy}：修改宠汪汪是否自动报名宠物赛跑为：${joyRunFlag}..."
+    echo -e "${FileJoy}：修改宠汪汪是否自动报名宠物赛跑为：${joyRunFlag}...\n"
     sed -i "s|let joyRunFlag = true;|let joyRunFlag = ${joyRunFlag};|" ${FileJoy}
   else
-    echo "${FileJoy}：joyRunFlag保持默认，宠汪汪将自动报名宠物赛跑..."
+    echo -e "${FileJoy}：joyRunFlag保持默认，宠汪汪将自动报名宠物赛跑...\n"
   fi
 }
 
@@ -385,10 +371,10 @@ function Change_joyRunFlag {
 function Change_jdJoyHelpFeed {
   if [ "${jdJoyHelpFeed}" = "true" ]
   then
-    echo "${FileJoySteal}：修改宠汪汪自动给好友的汪汪喂食为：${jdJoyHelpFeed}..."
+    echo -e "${FileJoySteal}：修改宠汪汪自动给好友的汪汪喂食为：${jdJoyHelpFeed}...\n"
     sed -i "s|let jdJoyHelpFeed = false;|let jdJoyHelpFeed = ${jdJoyHelpFeed};|" ${FileJoySteal}
   else
-    echo "${FileJoySteal}：jdJoyHelpFeed保持默认，宠汪汪将不会给好友的汪汪喂食..."
+    echo -e "${FileJoySteal}：jdJoyHelpFeed保持默认，宠汪汪将不会给好友的汪汪喂食...\n"
   fi
 }
 
@@ -397,10 +383,10 @@ function Change_jdJoyHelpFeed {
 function Change_jdJoyStealCoin {
   if [ "${jdJoyStealCoin}" = "false" ]
   then
-    echo "${FileJoySteal}：修改宠汪汪是否自动偷好友积分与狗粮为：${jdJoyStealCoin}..."
+    echo -e "${FileJoySteal}：修改宠汪汪是否自动偷好友积分与狗粮为：${jdJoyStealCoin}...\n"
     sed -i "s|let jdJoyStealCoin = false;|let jdJoyStealCoin = ${jdJoyStealCoin};|" ${FileJoySteal}
   else
-    echo "${FileJoySteal}：jdJoyStealCoin保持默认，宠汪汪将会自动偷取好友积分与狗粮..."
+    echo -e "${FileJoySteal}：jdJoyStealCoin保持默认，宠汪汪将会自动偷取好友积分与狗粮...\n"
   fi
 }
 
@@ -409,10 +395,10 @@ function Change_jdJoyStealCoin {
 function Change_NotifyPet {
   if [ "${NotifyPet}" = "true" ]
   then
-    echo "${FilePet}：修改东东萌宠是否静默运行为：${NotifyPet}，静默运行，不发通知..."
+    echo -e "${FilePet}：修改东东萌宠是否静默运行为：${NotifyPet}，静默运行，不发通知...\n"
     sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyPet};|" ${FilePet}
   else
-    echo "${FilePet}：NotifyPet保持默认，东东萌宠将发通知..."
+    echo -e "${FilePet}：NotifyPet保持默认，东东萌宠将发通知...\n"
   fi
 }
 
@@ -420,24 +406,20 @@ function Change_NotifyPet {
 ################################## 修改取关参数 ##################################
 function Change_Unsubscribe {
   if [ ${goodPageSize} -gt 0 ]; then
-    echo "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}..."
+    echo -e "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}...\n"
     perl -i -pe "s|let goodPageSize = .+;|let goodPageSize = ${goodPageSize};|" ${FileUnsubscribe}
-    echo
   fi
   if [ ${shopPageSize} -gt 0 ]; then
-    echo "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}..."
+    echo -e "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}...\n"
     perl -i -pe "s|let shopPageSize = .+;|let shopPageSize = ${shopPageSize};|" ${FileUnsubscribe}
-    echo
   fi
   if [ ${jdUnsubscribeStopGoods} ]; then
-    echo "修改禁止取关商品的截止关键字为：${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品..."
+    echo -e "修改禁止取关商品的截止关键字为：${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品...\n"
     perl -i -pe "s|let stopGoods = .+;|let stopGoods = \'${jdUnsubscribeStopGoods}\';|" ${FileUnsubscribe}
-    echo
   fi
   if [ ${jdUnsubscribeStopShop} ]; then
-    echo "修改禁止取关店铺的截止关键字为：${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺..."
+    echo -e "修改禁止取关店铺的截止关键字为：${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺...\n"
     perl -i -pe "s|let stopShop = .+;|let stopShop = \'${jdUnsubscribeStopShop}\';|" ${FileUnsubscribe}
-    echo
   fi
 }
 
@@ -446,19 +428,19 @@ function Change_Unsubscribe {
 function Change_Notify818 {
   if [ "${Notify818}" = "true" ]
   then
-    echo "${File818}：修改手机狂欢城是否发送上车提醒为：${Notify818}"
+    echo -e "${File818}：修改手机狂欢城是否发送上车提醒为：${Notify818}\n"
     sed -i "s|let jdNotify = false;|let jdNotify = ${Notify818};|" ${File818}
   else
-    echo "${File818}：Notify818保持默认，手机狂欢城将不发送上车提醒..."
+    echo -e "${File818}：Notify818保持默认，手机狂欢城将不发送上车提醒...\n"
   fi
 }
 
 
 ################################## 获取git修改状态 ##################################
 function Git_Status {
-  echo "获取git修改状态如下："
-  echo
+  echo -e "获取git修改状态如下：\n"
   git status | grep "modified:" | sed "s/\s//g"
+  echo
 }
 
 
@@ -483,75 +465,49 @@ Git_PullScripts
 GitPullExitStatus=$?
 if [ ${GitPullExitStatus} -eq 0 ]
 then
-  echo
-  echo "更新JS脚本完成..."
-  echo
+  echo -e "更新JS脚本完成...\n"
   Change_Cookie
-  echo
   Change_Token
   Change_FruitShareCodes
-  echo
   Change_PetShareCodes
-  echo
   Change_PlantBeanShareCodes
-  echo
 #   Change_SuperMarketShareCodes
-#   echo
   Change_coinToBeans
-  echo
   Change_NotifyBlueCoin
-  echo
   Change_superMarketUpgrade
-  echo
   Change_businessCircleJump
-  echo
   Change_drawLotteryFlag
-  echo
   Change_NotifyFruit
-  echo
   Change_jdFruitBeanCard
-  echo
   Change_joyFeedCount
-  echo
   Change_joyRewardName
-  echo
   Change_NotifyJoyReward
-  echo
   Change_NotifyJoySteal
-  echo
   Change_NotifyJoy
-  echo
   Change_joyRunFlag
-  echo
   Change_jdJoyHelpFeed
-  echo
   Change_jdJoyStealCoin
-  echo
   Change_NotifyPet
-  echo
   Change_Unsubscribe
   Change_Notify818
-  echo
   Git_Status
-  echo
   Cron_Different
 else
-  echo "JS脚本拉取不正常，请检查原因..."
-  echo
+  echo -e "JS脚本拉取不正常，请检查原因...\n"
 fi
 
 ## 检测是否有新的定时任务
 if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
-  echo "检测到有新的定时任务："
-  echo
+  echo -e "检测到有新的定时任务：\n"
   cat ${ListJsAdd}
+  echo
 fi
   
 ## 检测失效的定时任务  
 if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
-  echo "检测到失效的定时任务："
-  echo
+  echo -e "检测到失效的定时任务：\n"
   cat ${ListJsDrop}
+  echo
 fi
   
 
@@ -559,8 +515,7 @@ fi
 ## 如果检测到某个定时任务在 scripts/docker/crontab_list.sh 中已删除，那么在本地也删除对应的shell脚本与定时任务
 ## 此功能仅在 AutoDelCron 设置为 true 时生效
 if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ]; then
-  echo "开始尝试自动删除定时任务如下："
-  echo
+  echo -e "开始尝试自动删除定时任务如下：\n"
   cat ${ListJsDrop}
   echo
   JsDrop=$(cat ${ListJsDrop})
@@ -570,8 +525,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
     rm -f "${ShellDir}/${Cron}.sh"
   done
   crontab ${ListCron}
-  echo "成功删除失效的脚本与定时任务，当前的定时任务清单如下："
-  echo
+  echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单如下：\n"
   crontab -l
   echo
 fi
@@ -582,8 +536,7 @@ fi
 ## 此功能仅在 AutoAddCron 设置为 true 时生效
 ## 本功能生效时，会自动从 scripts/docker/crontab_list.sh 文件新增加的任务中读取时间，该时间为北京时间
 if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ]; then
-  echo "开始尝试自动添加定时任务如下："
-  echo
+  echo -e "开始尝试自动添加定时任务如下：\n"
   cat ${ListJsAdd}
   echo
   JsAdd=$(cat ${ListJsAdd})
@@ -601,19 +554,15 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
       chmod +x "${ShellDir}/${Cron}.sh"
     done
     crontab ${ListCron}
-    echo "成功添加新的定时任务，当前的定时任务清单如下："
-    echo
+    echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n"
     crontab -l
+    echo
   else
-      echo "未能添加新的定时任务，请自行添加..."
-      echo
+    echo -e "未能添加新的定时任务，请自行添加...\n"
   fi
   echo
   else
-  echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
-  echo
-  echo "未能成功添加新的定时任务，请自行添加..."
-  echo
+  echo -e "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}...\n未能成功添加新的定时任务，请自行添加...\n"
   fi
 fi
 
@@ -621,9 +570,13 @@ fi
 ################################## npm install ##################################
 if [ ${GitPullExitStatus} -eq 0 ]; then
   PackageListNew=$(cat package.json)
-  if [ "${PackageListOld}" != "${PackageListNew}" ] || [ ! -d ${ScriptsDir}/node_modules ]; then
-    echo "检测到 package.json 有变化，或是首次运行，运行npm install..."
+  if [ "${PackageListOld}" != "${PackageListNew}" ]; then
+    echo -e "检测到 package.json 有变化，再次运行npm install...\n"
+    npm install
     echo
+  fi
+  if [ ! -d ${ScriptsDir}/node_modules ]; then
+    echo -e "检测到本程序为首次运行，运行npm install...\n"
     npm install
     echo
   fi
