@@ -5,6 +5,12 @@
 
 set -e
 
+if [ ! -d /root/log ]; then
+  mkdir -p /root/log
+fi
+
+crond -L /root/log/crond.log
+
 URLFirstRun="https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh"
 
 cd /root
