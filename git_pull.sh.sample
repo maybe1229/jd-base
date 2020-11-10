@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## 修改日期：2020-11-08
+## 修改日期：2020-11-10
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -33,12 +33,9 @@ AutoDelCron="true"
 
 
 ################################## 定义是否自动增加新的本地定时任务（选填） ##################################
-## lxk0301 大佬会在有需要的时候，增加Github Action定时任务，但如果是本地的定时任务，则不会自动增加
-## 如需要自动增加新的本地定时任务，则设置为 true ，否则请设置为 false
-## 请注意：如果你设置为 true，本脚本将会自动从 scripts/.github/workflows 文件夹新增加的 .yml 文件中读取 cron 这一行的任务时间
-## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
-## 如果你在部署docker容器时，添加了环境变量TZ=UTC，则容器也将使用UTC时间，这样自动增加定时任务就可以和lxk0301设置的时间一致，不过crontab初始的定时任务需要修改一下
-## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
+## lxk0301 大佬会在有需要的时候，增加定时任务，如需要本地自动增加新的定时任务，则设置为 true ，否则请设置为 false
+## 当设置为 true 时，如果检测到 scripts/docker/crontab_list.sh 中有增加新的定时任务，那么在本地也增加
+## 本功能生效时，会自动从 scripts/docker/crontab_list.sh 文件新增加的任务中读取时间，该时间为北京时间
 AutoAddCron="true"
 
 

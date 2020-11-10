@@ -200,16 +200,8 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
         nano /root/crontab.list
         crontab /root/crontab.list
         ```
-- docker如果想使用自动增加定时任务的功能（`git_pull.sh`中`AutoAddCron`设置为`true`），而又不想手动改crontab，那么建议直接使用UTC时间而不是北京时间，创建docker容器时增加一个环境变量`TZ=UTC`即可，不过crontab任务清单建议你自己也调成UTC时间，创建命令如下：
-    ```
-    docker run -dit \
-      -v /Host主机上的目录/:/root `#冒号左边请替换为Host主机上的目录` \
-      -e TZ=UTC \
-      --name jd \
-      --restart unless-stopped \
-      evinedeng/jd-base:latest
-    ```
-- 物理机如果想使用自动增加定时任务的功能（`git_pull.sh`中`AutoAddCron`设置为`true`），而又不想手动改crontab，那么你的机子必须是UTC时间，使用`date`命令可以查看系统时间，如果显示的时间比北京时间晚8小时，那么就是UTC时间。
+
+- 物理机如果想使用自动增加定时任务的功能（`git_pull.sh`中`AutoAddCron`设置为`true`），而又不想手动改crontab，那么你的机子必须是北京时间，使用`date`命令可以查看系统时间。
 ## 自动删除旧日志
 单个日志虽然小，但如果长期运行的话，日志也会占用大量空间，如需要自动删除，请按以下流程操作：
 1. 复制一份rm_log.sh，并赋予可执行权限（以docker为例）：

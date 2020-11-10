@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## 修改日期：2020-11-07
+## 修改日期：2020-11-10
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
@@ -43,7 +43,7 @@ FileUnsubscribe=jd_unsubscribe.js
 echo
 echo "-------------------------------------------------------------------"
 echo
-echo -n "当前时间："
+echo -n "系统时间："
 echo $(date "+%Y-%m-%d %H:%M:%S")
 if [ "${TZ}" = "UTC" ]; then
   echo
@@ -465,12 +465,12 @@ function Git_Status {
 ################################## 检测Github Action定时任务是否有变化 ##################################
 ## 此函数会在Log文件夹下生成四个文件，分别为：
 ## shell.list   shell文件夹下用来跑js文件的以“jd_”开头的所有 .sh 文件清单（去掉后缀.sh）
-## js.list      scripts/.github/workflows下所有以“jd_”开头的所有 .yml 文件清单（去掉后缀.yml），这是 lxk0301@github 大佬定义的所有GitHub Action定时任务
-## js-add.list  如果 scripts/.github/workflows 增加了定时任务，这个文件内容将不为空
-## js-drop.list 如果 scripts/.github/workflows 删除了定时任务，这个文件内容将不为空
+## js.list      scripts/docker/crontab_list.sh文件中用来运行js脚本的清单（非运行脚本的不会包括在内）
+## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
+## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Cron_Different {
   ls ${ShellDir} | grep -E "jd_.+\.sh" | sed "s/\.sh//" > ${ListShell}
-  ls ${ScriptsDir}/.github/workflows | grep -E "jd_.+\.yml" | sed "s/\.yml//" > ${ListJs}
+  cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | awk -F " " '{print $7}' | sed "{s|/scripts/||;s|\.js||}" > ${ListJs}
   grep -v -f ${ListShell} ${ListJs} > ${ListJsAdd}
   grep -v -f ${ListJs} ${ListShell} > ${ListJsDrop}
 }
@@ -534,98 +534,95 @@ then
   echo
   Git_Status
   echo
-#  Cron_Different
+  Cron_Different
 else
-  echo "JS脚本拉取不正常，所有JS文件将保持上一次的状态..."
+  echo "JS脚本拉取不正常，请检查原因..."
   echo
 fi
 
 ## 检测是否有新的定时任务
-# if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
-#   echo "检测到有新的定时任务："
-#   echo
-#   cat ${ListJsAdd}
-# fi
+if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
+  echo "检测到有新的定时任务："
+  echo
+  cat ${ListJsAdd}
+fi
   
 ## 检测失效的定时任务  
-# if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
-#   echo "检测到失效的定时任务："
-#   echo
-#   cat ${ListJsDrop}
-# fi
+if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
+  echo "检测到失效的定时任务："
+  echo
+  cat ${ListJsDrop}
+fi
   
 
 ################################## 自动删除失效的脚本与定时任务 ##################################
-## 如果检测到某个定时任务在https://github.com/lxk0301/scripts中已删除，那么在本地也删除对应的shell脚本与定时任务
+## 如果检测到某个定时任务在 scripts/docker/crontab_list.sh 中已删除，那么在本地也删除对应的shell脚本与定时任务
 ## 此功能仅在 AutoDelCron 设置为 true 时生效
-# if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ]; then
-#   echo "开始尝试自动删除定时任务如下："
-#   echo
-#   cat ${ListJsDrop}
-#   echo
-#   JsDrop=$(cat ${ListJsDrop})
-#   for i in ${JsDrop}
-#   do
-#     sed -i "/\/$i\.sh/d" ${ListCron}
-#     rm -f "${ShellDir}/$i.sh"
-#   done
-#   crontab ${ListCron}
-#   echo "成功删除失效的脚本与定时任务，当前的定时任务清单如下："
-#   echo
-#   crontab -l
-#   echo
-# fi
+if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ]; then
+  echo "开始尝试自动删除定时任务如下："
+  echo
+  cat ${ListJsDrop}
+  echo
+  JsDrop=$(cat ${ListJsDrop})
+  for Cron in ${JsDrop}
+  do
+    sed -i "/\/${Cron}\.sh/d" ${ListCron}
+    rm -f "${ShellDir}/${Cron}.sh"
+  done
+  crontab ${ListCron}
+  echo "成功删除失效的脚本与定时任务，当前的定时任务清单如下："
+  echo
+  crontab -l
+  echo
+fi
 
 
 ################################## 自动增加新的定时任务 ##################################
-## 如果检测到https://github.com/lxk0301/scripts中增加新的Guthub Action定时任务，那么在本地也增加
+## 如果检测到 scripts/docker/crontab_list.sh 中增加新的定时任务，那么在本地也增加
 ## 此功能仅在 AutoAddCron 设置为 true 时生效
-## 本功能生效时，会自动从 scripts/.github/workflows 文件夹新增加的 .yml 文件中读取 cron 这一行的任务时间，
-## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
-## 如果你在部署容器时，添加了环境变量TZ=UTC，则容器也将使用UTC时间，这样自动增加定时任务就可以和lxk0301设置的时间一致，不过crontab初始的定时任务需要修改一下
-## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
-# if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ]; then
-#   echo "开始尝试自动添加定时任务如下："
-#   echo
-#   cat ${ListJsAdd}
-#   echo
-#   JsAdd=$(cat ${ListJsAdd})
-#   if [ -f ${ShellDir}/jd.sh.sample ]
-#   then
-#   for i in ${JsAdd}
-#   do
-#     grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
-#   done
-#   if [ $? -eq 0 ]
-#   then
-#     for j in ${JsAdd}
-#     do
-#       cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
-#       chmod +x "${ShellDir}/$j.sh"
-#     done
-#     crontab ${ListCron}
-#     echo "成功添加新的定时任务，当前的定时任务清单如下："
-#     echo
-#     crontab -l
-#   else
-#       echo "未能添加新的定时任务，请自行添加..."
-#       echo
-#   fi
-#   echo
-#   else
-#   echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
-#   echo
-#   echo "未能成功添加新的定时任务，请自行添加..."
-#   echo
-#   fi
-# fi
+## 本功能生效时，会自动从 scripts/docker/crontab_list.sh 文件新增加的任务中读取时间，该时间为北京时间
+if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ]; then
+  echo "开始尝试自动添加定时任务如下："
+  echo
+  cat ${ListJsAdd}
+  echo
+  JsAdd=$(cat ${ListJsAdd})
+  if [ -f ${ShellDir}/jd.sh.sample ]
+  then
+  for Cron in ${JsAdd}
+  do
+    grep ${Cron} "${ScriptsDir}/docker/crontab_list.sh" | awk -F " >> " '{print $1}' | sed "{s|node /scripts|/root/shell|;s|\.js|\.sh|}" >> ${ListCron}
+  done
+  if [ $? -eq 0 ]
+  then
+    for Cron in ${JsAdd}
+    do
+      cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Cron}.sh"
+      chmod +x "${ShellDir}/${Cron}.sh"
+    done
+    crontab ${ListCron}
+    echo "成功添加新的定时任务，当前的定时任务清单如下："
+    echo
+    crontab -l
+  else
+      echo "未能添加新的定时任务，请自行添加..."
+      echo
+  fi
+  echo
+  else
+  echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
+  echo
+  echo "未能成功添加新的定时任务，请自行添加..."
+  echo
+  fi
+fi
 
 
 ################################## npm install ##################################
 if [ ${GitPullExitStatus} -eq 0 ]; then
   PackageListNew=$(cat package.json)
   if [ "${PackageListOld}" != "${PackageListNew}" ] || [ ! -d ${ScriptsDir}/node_modules ]; then
-    echo "检测到 package.json 有变化，或是初次运行，运行npm install..."
+    echo "检测到 package.json 有变化，或是首次运行，运行npm install..."
     echo
     npm install
     echo
