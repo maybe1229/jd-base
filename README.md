@@ -161,7 +161,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本。
     ```
     cd /root/shell
-    ./jd_bean_sign.sh
+    sh jd_bean_sign.sh  # 物理机参考本节1. 部分替换sh命令
     ```
     查看对应日志文件目录下的日志，查看结果是否正常。
 
@@ -175,7 +175,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     ```
     nano /root/crontab.list
     ```
-3. 添加定时任务。物理机请替换`/root`为自己的目录。
+3. 添加定时任务。**物理机请注意：1.请替换`/root`为自己的目录；2.以下命令会完整覆盖你当前用户的crontab清单，请务必确认当前用户不存在其他定时任务！！**。
     ```
     crontab /root/crontab.list
     ```
