@@ -61,7 +61,7 @@ echo
 
 ################################## 更新JS脚本 ##################################
 function Git_PullScripts {
-  echo "更新JS脚本暂停，因为js主库已封，原地址：${ScriptsURL}"
+  echo "更新JS脚本，原地址：${ScriptsURL}"
   echo
   git fetch --all
   git reset --hard origin/master
