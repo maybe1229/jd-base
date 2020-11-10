@@ -534,47 +534,47 @@ then
   echo
   Git_Status
   echo
-  Cron_Different
+#  Cron_Different
 else
   echo "JS脚本拉取不正常，所有JS文件将保持上一次的状态..."
   echo
 fi
 
 ## 检测是否有新的定时任务
-if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
-  echo "检测到有新的定时任务："
-  echo
-  cat ${ListJsAdd}
-fi
+# if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
+#   echo "检测到有新的定时任务："
+#   echo
+#   cat ${ListJsAdd}
+# fi
   
 ## 检测失效的定时任务  
-if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
-  echo "检测到失效的定时任务："
-  echo
-	cat ${ListJsDrop}
-fi
+# if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
+#   echo "检测到失效的定时任务："
+#   echo
+#   cat ${ListJsDrop}
+# fi
   
 
 ################################## 自动删除失效的脚本与定时任务 ##################################
 ## 如果检测到某个定时任务在https://github.com/lxk0301/scripts中已删除，那么在本地也删除对应的shell脚本与定时任务
 ## 此功能仅在 AutoDelCron 设置为 true 时生效
-if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ]; then
-  echo "开始尝试自动删除定时任务如下："
-  echo
-  cat ${ListJsDrop}
-  echo
-  JsDrop=$(cat ${ListJsDrop})
-  for i in ${JsDrop}
-  do
-    sed -i "/\/$i\.sh/d" ${ListCron}
-    rm -f "${ShellDir}/$i.sh"
-  done
-  crontab ${ListCron}
-  echo "成功删除失效的脚本与定时任务，当前的定时任务清单如下："
-  echo
-  crontab -l
-  echo
-fi
+# if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ]; then
+#   echo "开始尝试自动删除定时任务如下："
+#   echo
+#   cat ${ListJsDrop}
+#   echo
+#   JsDrop=$(cat ${ListJsDrop})
+#   for i in ${JsDrop}
+#   do
+#     sed -i "/\/$i\.sh/d" ${ListCron}
+#     rm -f "${ShellDir}/$i.sh"
+#   done
+#   crontab ${ListCron}
+#   echo "成功删除失效的脚本与定时任务，当前的定时任务清单如下："
+#   echo
+#   crontab -l
+#   echo
+# fi
 
 
 ################################## 自动增加新的定时任务 ##################################
@@ -584,41 +584,41 @@ fi
 ## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
 ## 如果你在部署容器时，添加了环境变量TZ=UTC，则容器也将使用UTC时间，这样自动增加定时任务就可以和lxk0301设置的时间一致，不过crontab初始的定时任务需要修改一下
 ## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
-if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ]; then
-  echo "开始尝试自动添加定时任务如下："
-  echo
-  cat ${ListJsAdd}
-  echo
-  JsAdd=$(cat ${ListJsAdd})
-  if [ -f ${ShellDir}/jd.sh.sample ]
-  then
-  for i in ${JsAdd}
-  do
-    grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
-  done
-  if [ $? -eq 0 ]
-  then
-    for j in ${JsAdd}
-    do
-      cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
-      chmod +x "${ShellDir}/$j.sh"
-    done
-    crontab ${ListCron}
-    echo "成功添加新的定时任务，当前的定时任务清单如下："
-    echo
-    crontab -l
-  else
-      echo "未能添加新的定时任务，请自行添加..."
-      echo
-  fi
-  echo
-  else
-  echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
-  echo
-  echo "未能成功添加新的定时任务，请自行添加..."
-  echo
-  fi
-fi
+# if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ]; then
+#   echo "开始尝试自动添加定时任务如下："
+#   echo
+#   cat ${ListJsAdd}
+#   echo
+#   JsAdd=$(cat ${ListJsAdd})
+#   if [ -f ${ShellDir}/jd.sh.sample ]
+#   then
+#   for i in ${JsAdd}
+#   do
+#     grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
+#   done
+#   if [ $? -eq 0 ]
+#   then
+#     for j in ${JsAdd}
+#     do
+#       cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
+#       chmod +x "${ShellDir}/$j.sh"
+#     done
+#     crontab ${ListCron}
+#     echo "成功添加新的定时任务，当前的定时任务清单如下："
+#     echo
+#     crontab -l
+#   else
+#       echo "未能添加新的定时任务，请自行添加..."
+#       echo
+#   fi
+#   echo
+#   else
+#   echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
+#   echo
+#   echo "未能成功添加新的定时任务，请自行添加..."
+#   echo
+#   fi
+# fi
 
 
 ################################## npm install ##################################
