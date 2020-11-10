@@ -38,9 +38,9 @@ else
   fi
   
   if [ ! -d ${ShellDir} ]; then
-  echo -e "${ShellDir} 目录不存在，开始克隆...\n"
-  git clone https://github.com/EvineDeng/jd-base shell
-  echo
+    echo -e "${ShellDir} 目录不存在，开始克隆...\n"
+    git clone https://github.com/EvineDeng/jd-base shell
+    echo
   fi
 fi
 
