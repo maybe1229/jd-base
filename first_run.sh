@@ -57,7 +57,12 @@ then
     fi
   done
 else
-  echo -e "${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新运行本脚本...\n"
+  if [ -z "${isDocker}" ]
+  then
+    echo -e "${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新运行本脚本...\n"
+  else
+    echo -e "${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新启动容器...\n"
+  fi
 fi
 
 ## 复制初始任务脚本
@@ -72,6 +77,11 @@ then
     echo -e "脚本执行成功，请按照 Readme 教程继续配置..."
   fi
 else
-  echo -e "${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新运行本脚本...\n"
+  if [ -z "${isDocker}" ]
+  then
+    echo -e "${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新运行本脚本...\n"
+  else
+    echo -e "${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新启动容器...\n"
+  fi
 fi
 
