@@ -15,6 +15,8 @@ List=
 
 isDocker=$(cat /proc/1/cgroup | grep docker)
 
+cd ${RootDir}
+
 if [ -d ${ScriptsDir} ] && [ -d ${ShellDir} ] && [ -f ${RootDir}/crontab.list ] && [ -n "${isDocker}" ]; then
   echo -e "检测到本机为容器，并且${ScriptsDir}、${ShellDir}、${RootDir}/crontab.list均存在，开始自动恢复定时任务...\n"
   crontab ${RootDir}/crontab.list
@@ -23,38 +25,19 @@ if [ -d ${ScriptsDir} ] && [ -d ${ShellDir} ] && [ -f ${RootDir}/crontab.list ] 
   echo ""
 fi
 
-if [ ! -d ${ScriptsDir} ]
-then
-  echo "${ScriptsDir} 目录不存在，开始克隆..."
-  echo
-  cd ${RootDir}
+if [ ! -d ${ScriptsDir} ]; then
+  echo -e "${ScriptsDir} 目录不存在，开始克隆...\n"
   git clone https://github.com/lxk0301/jd_scripts scripts
   echo
-else
-  echo "${ScriptsDir} 目录已存在，跳过克隆..."
-  echo
 fi
 
-
-if [ ! -d ${ShellDir} ]
-then
-  echo "${ShellDir} 目录不存在，开始克隆..."
-  echo
-  cd ${RootDir}
+if [ ! -d ${ShellDir} ]; then
+  echo -e "${ShellDir} 目录不存在，开始克隆...\n"
   git clone https://github.com/EvineDeng/jd-base shell
   echo
-else
-  echo "${ShellDir} 目录已存在，跳过克隆..."
-  echo
 fi
 
-
-# if [ -d ${ScriptsDir}/.github/workflows ]; then
-#   List=$(ls ${ScriptsDir}/.github/workflows/ | grep -E "jd_.+\.yml" | sed "s/\.yml//")
-# fi
-
 ## 因js主库调整，临时解决办法，未来有时间再改
-
 List="jd_bean_change jd_bean_sign jd_blueCoin jd_collectProduceScore jd_daily_egg jd_club_lottery jd_fruit.sh jd_joy jd_joy_feedPets jd_joy_reward jd_joy_steal jd_lotteryMachine jd_moneyTree jd_pet jd_plantBean jd_rankingList jd_redPacket jd_shop jd_speed jd_superMarket jd_818.sh jd_xtg.sh jd_unsubscribe"
 
 

@@ -14,10 +14,10 @@ crond -L /root/log/crond.log
 URLFirstRun="https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh"
 
 cd /root
-sh -c "$(wget ${URLFirstRun} -O -) 
+sh -c "$(wget ${URLFirstRun} -O -)"
 if [ $? -ne 0 ]
 then
-  sh -c "$(curl -fsSL ${URLFirstRun})
+  sh -c "$(curl -fsSL ${URLFirstRun})"
 fi
 
 
