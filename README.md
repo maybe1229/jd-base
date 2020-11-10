@@ -65,13 +65,9 @@ docker run -dit \
     ```
     ls /root
     ```
-4. 如果发现没有以上三个文件夹，可以运行以下命令（网络不好的话要等一会，长则10分钟，短则半分钟，如果有了就直接到`修改信息`这一步）：
+4. 如果发现没有以上三个文件夹，先看看docker日志，如果有问题，日志会告诉你问题在哪里以及解决办法的。
     ```
-    # 使用wget
-    sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
-
-    # 或使用curl
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
+    docker logs -f jd  # 按 ctrl+c 可切出来
     ```
 
 ### 物理机安装
@@ -95,7 +91,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     cd /root/shell
     cp git_pull.sh.sample git_pull.sh  #复制git_pull.sh.sample为git_pull.sh
     chmod +x *.sh                      #重要：必须赋予.sh脚本可执行权限
-    nano git_pull.sh                   #编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
+    nano git_pull.sh                   #编辑git_pull.sh，容器中中文为乱码，建议直接导出来在外部使用可视化编辑器编辑这个文件后上传进去
     ```
 - 物理机，仍然以上面举例的`/home/myid/jd`，后面就默认以docker的目录来举例了，如果是物理机安装请自行修改：
     ```
