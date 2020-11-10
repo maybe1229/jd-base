@@ -50,7 +50,10 @@ docker run -dit \
     - `scripts`: 从 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts) 克隆的js脚本。
     - `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
 
-2. 进入容器环境（以下所有docker部分的命令均需要在进入容器后运行）：
+2. 进入容器环境：
+    **以下所有docker部分的命令均需要在进入容器后运行！！**
+    **以下所有docker部分的命令均需要在进入容器后运行！！**
+    **以下所有docker部分的命令均需要在进入容器后运行！！**
     ```
     docker exec -it jd /bin/sh
     ```
@@ -58,7 +61,7 @@ docker run -dit \
     ```
     ls /root
     ```
-4. 如果发现没有以上三个文件夹，可以运行以下命令（如果有了就直接到`修改信息`这一步）：
+4. 如果发现没有以上三个文件夹，可以运行以下命令（网络不好的话要等一会，长则10分钟，短则半分钟，如果有了就直接到`修改信息`这一步）：
     ```
     # 使用wget
     sh -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
@@ -212,6 +215,12 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     ```
 2. 该脚本在运行时默认删除`30天`以前的日志，如果需要设置为其他天数，请修改脚本中的`HowManyDays`。
 3. 按`定时任务`部分的说明修改定时任务。
+
+## 退出容器
+如果是Docker安装的，请在配置完成以后退出容器环境：
+```
+exit
+```
 
 ## 补充说明
 - 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
