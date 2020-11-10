@@ -15,7 +15,7 @@ UserSum=
 
 ################################## 定义Cookie（必填） ##################################
 ## 请依次填入每个用户的Cookie，Cookie的具体形式：pt_key=xxxxxxxxxx;pt_pin=xxxx;
-## 获取Cookie的具体教程：https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie.md 或 https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie2.md
+## 获取Cookie的具体教程：https://github.com/lxk0301/jd_scripts/blob/master/backUp/GetJdCookie.md 或 https://github.com/lxk0301/jd_scripts/blob/master/backUp/GetJdCookie2.md
 ## UserSum定义了多少个，Cookie就必须输入多少个，按数字顺序1、2、3、4...依次编号下去。
 ## 不允许有汉字，如果ID有汉字，请在PC浏览器上获取Cookie，会自动将汉字转换为URL编码。
 Cookie1=""
@@ -47,15 +47,15 @@ AutoAddCron="true"
 ## ServerChan，教程：http://sc.ftqq.com/3.version
 SCKEY=""
 
-## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md，看BARK部分
+## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md，看BARK部分
 BARK_PUSH=""
 BARK_SOUND=""
 
-## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/scripts/pull/37#issuecomment-692415594
+## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/jd_scripts/pull/37#issuecomment-692415594
 TG_BOT_TOKEN=""
 TG_USER_ID=""
 
-## 钉钉，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md，看DD_BOT_TOKEN和DD_BOT_SECRET部分
+## 钉钉，教程：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md，看DD_BOT_TOKEN和DD_BOT_SECRET部分
 DD_BOT_TOKEN=""
 DD_BOT_SECRET=""
 
