@@ -3,8 +3,6 @@
 ## 修改日期：2020-11-10
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
-set -e
-
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export LC_ALL=C
 
@@ -15,9 +13,6 @@ ScriptsDir="${RootDir}/scripts"
 isDocker=$(cat /proc/1/cgroup | grep docker)
 
 cd ${RootDir}
-
-## 友情提醒
-echo -e "提醒：本脚本已设置一遇到任何执行错误立即退出不再继续执行...\n如果你出现这种情况，如为Docker请重新创建容器...\n如为物理机则请删除产生的scripts和shell文件夹后重新运行本脚本...\n"
 
 ## 尝试自动恢复任务，如文件夹不存在则尝试克隆
 if [ -d ${ScriptsDir} ] && [ -d ${ShellDir} ] && [ -f ${RootDir}/crontab.list ] && [ -n "${isDocker}" ]
