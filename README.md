@@ -51,9 +51,13 @@ docker run -dit \
     - `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
 
 2. 进入容器环境：
-    **以下所有docker部分的命令均需要在进入容器后运行！！**
-    **以下所有docker部分的命令均需要在进入容器后运行！！**
-    **以下所有docker部分的命令均需要在进入容器后运行！！**
+
+    **本Readme中所有docker部分的命令均需要在进入容器后运行！！**
+
+    **本Readme中所有docker部分的命令均需要在进入容器后运行！！**
+
+    **本Readme中所有docker部分的命令均需要在进入容器后运行！！**
+
     ```
     docker exec -it jd /bin/sh
     ```
