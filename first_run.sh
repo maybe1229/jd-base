@@ -13,6 +13,15 @@ LogDir="${RootDir}/log"
 ScriptsDir="${RootDir}/scripts"
 List=
 
+isDocker=$(cat /proc/1/cgroup | grep docker)
+
+if [ -d ${ScriptsDir} ] && [ -d ${ShellDir} ] && [ -f ${RootDir}/crontab.list ] && [ -n "${isDocker}" ]; then
+  echo -e "检测到本机为容器，并且${ScriptsDir}、${ShellDir}、${RootDir}/crontab.list均存在，开始自动恢复定时任务...\n"
+  crontab ${RootDir}/crontab.list
+  echo -e "当前的定时任务如下：\n"
+  crontab -l
+  echo ""
+fi
 
 if [ ! -d ${ScriptsDir} ]
 then
