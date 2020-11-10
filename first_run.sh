@@ -40,9 +40,13 @@ else
 fi
 
 
-if [ -d ${ScriptsDir}/.github/workflows ]; then
-  List=$(ls ${ScriptsDir}/.github/workflows/ | grep -E "jd_.+\.yml" | sed "s/\.yml//")
-fi
+# if [ -d ${ScriptsDir}/.github/workflows ]; then
+#   List=$(ls ${ScriptsDir}/.github/workflows/ | grep -E "jd_.+\.yml" | sed "s/\.yml//")
+# fi
+
+## 因js主库调整，临时解决办法，未来有时间再改
+
+List="jd_bean_change jd_bean_sign jd_blueCoin jd_collectProduceScore jd_daily_egg jd_club_lottery jd_fruit.sh jd_joy jd_joy_feedPets jd_joy_reward jd_joy_steal jd_lotteryMachine jd_moneyTree jd_pet jd_plantBean jd_rankingList jd_redPacket jd_shop jd_speed jd_superMarket jd_818.sh jd_xtg.sh jd_unsubscribe"
 
 
 if [ -n "$List" ]
