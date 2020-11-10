@@ -291,16 +291,6 @@ jdUnsubscribeStopShop=""
 
 ################################## 定义文件路径（勿动） ##################################
 ShellDir=$(cd $(dirname $0); pwd)
-RootDir=$(cd $(dirname $0); cd ..; pwd)
-LogDir=${RootDir}/log
-ScriptsDir=${RootDir}/scripts
-ScriptsURL=https://github.com/lxk0301/scripts
-ShellURL=https://github.com/EvineDeng/jd-base
-ListShell=${LogDir}/shell.list
-ListJs=${LogDir}/js.list
-ListJsAdd=${LogDir}/js-add.list
-ListJsDrop=${LogDir}/js-drop.list
-ListCron=${RootDir}/crontab.list
 
 
 ################################## 调用git_pull_function.sh（勿动） ##################################

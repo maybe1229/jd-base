@@ -7,6 +7,19 @@ export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 export LC_ALL=C
 
 
+################################## 定义文件路径（勿动） ##################################
+RootDir=$(cd $(dirname $0); cd ..; pwd)
+LogDir=${RootDir}/log
+ScriptsDir=${RootDir}/scripts
+ScriptsURL=https://github.com/lxk0301/jd_scripts
+ShellURL=https://github.com/EvineDeng/jd-base
+ListShell=${LogDir}/shell.list
+ListJs=${LogDir}/js.list
+ListJsAdd=${LogDir}/js-add.list
+ListJsDrop=${LogDir}/js-drop.list
+ListCron=${RootDir}/crontab.list
+
+
 ################################## 定义js脚本名称 ##################################
 FileCookie=jdCookie.js
 FileNotify=sendNotify.js
@@ -50,9 +63,9 @@ echo
 function Git_PullScripts {
   echo "更新JS脚本暂停，因为js主库已封，原地址：${ScriptsURL}"
   echo
-#  git fetch --all
-#  git reset --hard origin/master
-#  git pull
+  git fetch --all
+  git reset --hard origin/master
+  git pull
 }
 
 
@@ -611,8 +624,8 @@ fi
 ################################## npm install ##################################
 if [ ${GitPullExitStatus} -eq 0 ]; then
   PackageListNew=$(cat package.json)
-  if [ "${PackageListOld}" != "${PackageListNew}" ]; then
-    echo "检测到 package.json 有变化，运行npm install..."
+  if [ "${PackageListOld}" != "${PackageListNew}" ] || [ ! -d ${ScriptsDir}/node_modules ]; then
+    echo "检测到 package.json 有变化，或是初次运行，运行npm install..."
     echo
     npm install
     echo

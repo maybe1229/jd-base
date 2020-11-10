@@ -2,11 +2,12 @@
     只记录大的更新，小修小改不记录。
 - 2020-11-07：将原来的`git_pull.sh.sample`分离成两个文件`git_pull.sh.sample`（更小了）和`git_pull_function.sh`，用户以后只需要按下面教程将`git_pull.sh.sample`复制一份`git_pull.sh`后修改即可，具体的函数全放在`git_pull_function.sh`中，大家不再需要关注脚本函数的变化，并且还可以兼容不愿意升级的老的`git_pull.sh`脚本。
 - 2020-11-08：调整jd.sh.sample，无论容器环境是北京时间还是UTC时间，日志文件名均记录为北京时间。**在运行过一次最新的git_pull.sh并重启容器后生效。**
+- **2020-11-10：lxk0301/scripts 已被封，新的库为 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)，所有人必须删除原来的scripts文件夹后重新配置一遍！！**
 
 ## 使用背景
-- 本shell脚本用来运行[lxk0301/scripts](https://github.com/lxk0301/scripts)中的js脚本，解放双手，自动玩耍京东的各种游戏，主要有：各种签到、东东农场、种豆得豆、天天加速、摇钱树、宠汪汪、东东萌宠、东东超市，获取各种小羊毛。
+- 本shell脚本用来运行[lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)中的js脚本，解放双手，自动玩耍京东的各种游戏，主要有：各种签到、东东农场、种豆得豆、天天加速、摇钱树、宠汪汪、东东萌宠、东东超市，获取各种小羊毛。
 - 本脚本只是给lxk0301大佬的js脚本套了层壳，建议大家多多关注lxk0301大佬的仓库。
-- **如果是对js脚本有使用的上的问题请前往 [lxk0301/scripts](https://github.com/lxk0301/scripts) 提出，这里只解决shell脚本的问题。**
+- **如果是对js脚本有使用的上的问题请前往 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts) 提出，这里只解决shell脚本的问题。**
 
 ## 适合人群
 - 每个月要超出Github Action免费使用时长的；
@@ -46,7 +47,7 @@ docker run -dit \
 ### docker安装
 1. 第一次运行时，容器会自动克隆好跑JD小游戏的js脚本和shell脚本（如果网络不好，就会花很长时间）。会在映射的`/root`下产生以下三个文件夹。
     - `log`: 记录所有日志的文件夹，其中跑js脚本的日志会建立对应名称的子文件夹，并且js脚本日志会以`年-月-日-时-分-秒`的格式命名。
-    - `scripts`: 从 [lxk0301/scripts](https://github.com/lxk0301/scripts) 克隆的js脚本。
+    - `scripts`: 从 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts) 克隆的js脚本。
     - `shell`: 从 [EvineDeng/jd-base](https://github.com/EvineDeng/jd-base) 克隆的shell脚本。
 
 2. 进入容器环境（以下所有docker部分的命令均需要在进入容器后运行）：
@@ -146,8 +147,9 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
     ```
     cd /root/shell  # 如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
-    ./git_pull.sh
+    sh git_pull.sh  # 如果是物理机，请按下面说明修改
     ```
+    如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。
 2. 看看js脚本的信息替换是否正常。
     ```
     cd /root/scripts  # 如果是物理机，则为cd /home/myid/jd/scripts ，其中/home/myid/jd/为上面假定你设置的路径，后面不再说明，请自行替换。
