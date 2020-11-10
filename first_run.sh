@@ -38,7 +38,7 @@ if [ ! -d ${ShellDir} ]; then
 fi
 
 ## 因js主库调整，临时解决办法，未来有时间再改
-List="jd_bean_change jd_bean_sign jd_blueCoin jd_collectProduceScore jd_daily_egg jd_club_lottery jd_fruit jd_joy jd_joy_feedPets jd_joy_reward jd_joy_steal jd_lotteryMachine jd_moneyTree jd_pet jd_plantBean jd_rankingList jd_redPacket jd_shop jd_speed jd_superMarket jd_818 jd_xtg jd_unsubscribe"
+List="jd_bean_change jd_bean_sign jd_blueCoin jd_collectProduceScore jd_daily_egg jd_club_lottery jd_fruit jd_joy jd_joy_feedPets jd_joy_reward jd_joy_steal jd_lotteryMachine jd_moneyTree jd_pet jd_pigPet jd_plantBean jd_rankingList jd_redPacket jd_shop jd_speed jd_superMarket jd_818 jd_xtg jd_unsubscribe"
 
 
 if [ -n "$List" ]

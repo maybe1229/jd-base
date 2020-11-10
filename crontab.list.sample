@@ -23,6 +23,7 @@
 15 1 * * * /root/shell/jd_lotteryMachine.sh
 40 */3 * * * /root/shell/jd_moneyTree.sh
 15 7,12,18 * * * /root/shell/jd_pet.sh
+15 6-18/6 * * * /root/shell/jd_pigPet.sh
 0 7-21 * * * /root/shell/jd_plantBean.sh
 11 0 * * * /root/shell/jd_rankingList.sh
 1 1 * * * /root/shell/jd_redPacket.sh
