@@ -6,6 +6,8 @@
 
 - **2020-11-10：lxk0301/scripts 已被封，新的库为 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)，所有人请按[issue#26](https://github.com/EvineDeng/jd-base/issues/26)重新配置一下！！**
 
+- 2020-11-11：已构建多平台docker镜像，包括`linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6`。N1、树莓派等arm设备均可使用。
+
 ## 使用背景
 
 - 本shell脚本用来运行[lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)中的js脚本，解放双手，自动玩耍京东的各种游戏，主要有：各种签到、东东农场、种豆得豆、天天加速、摇钱树、宠汪汪、东东萌宠、东东超市，获取各种小羊毛。
@@ -296,7 +298,7 @@ exit
     # 不要忘记赋予修改后的.sh脚本可执行权限
     chmod +x git_pull.sh
     ```
-    
+
 - 向经常关注本脚本并且知道何为助力上车的人提供一个自动上车脚本`create_share_codes.sh.sample`，请自行参考上述`git_pull.sh`的修改方法修改为`create_share_codes.sh`，并修改其中必要的信息。在理解[这个链接](http://api.turinglabs.net/api/v1/jd/cleantimeinfo/)的含义之后自行添加定时任务，**有关于此的提问一概不回复，不解释**。
 
 - 如有帮助到你，请点亮 star 。
