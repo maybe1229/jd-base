@@ -20,22 +20,24 @@
 
 - 没有水果机的；
 - 想要精确控制脚本运行时间的；
-- 有nas或者vps等7×24运行设备的；
+- 有NAS、VPS、软路由、树莓派、N1小钢炮等可7×24运行设备的；
 - 想把Cookies牢牢掌握在自己手上的。
 
 ## 部署环境
 
 ### docker安装
 
-安装好docker([中文教程](https://mirrors.bfsu.edu.cn/help/docker-ce/))，然后创建容器：
+安装好docker([中文教程](https://mirrors.bfsu.edu.cn/help/docker-ce/))，然后在ssh工具中创建容器：
 
 ```
 docker run -dit \
-  -v /Host主机上的目录/:/root `#冒号左边请替换为Host主机上的目录` \
+  -v /Host主机上的目录/:/root `#冒号左边请更改为你docker所在主机上的原始路径` \
   --name jd \
   --restart unless-stopped \
   evinedeng/jd-base:latest
 ```
+*注1：只有这里是五行一起复制粘贴的，下面其他的地方均是一行一行复制粘贴。*
+*注2：对`-v`这个参数稍微解释一下，冒号前面是主机上的真实路径，冒号后面是虚拟路径，也就是在容器内部看到的路径，这个参数就是把冒号左右的真实路径映射为容器内冒号右边的虚拟路径。*
 
 ### 物理机安装
 
@@ -57,7 +59,7 @@ docker run -dit \
 
 ## 克隆脚本
 
-docker和物理机分别按下述方法执行之后，指定的路径会自动克隆好跑JD小游戏的js脚本和shell脚本，产生以下三个文件夹：
+docker和物理机分别按下述方法执行之后，指定的路径（docker固定在容器内的`/root`下，物理机由你指定）会自动克隆好跑JD小游戏的js脚本和shell脚本，产生以下三个文件夹：
 
 - `log`: 记录所有日志的文件夹，其中跑js脚本的日志会建立对应名称的子文件夹，并且js脚本日志会以`年-月-日-时-分-秒`的格式命名。
 
@@ -73,8 +75,9 @@ docker和物理机分别按下述方法执行之后，指定的路径会自动�
     docker logs -f jd
     ```
 
-    检查日志输出是否正常，如果是首次运行，那么最后一条输出将出现 `脚本执行成功，请按照 Readme 教程继续配置...` 在出现此消息后可按`CTRL + C`切出来。
-    如没有成功，请根据错误提示进行操作。如果啥中文提示都没有，那么是你网络不好，无法连接Github，请想办法改善。
+    *注：检查日志输出是否正常，如果是首次运行，那么最后一条输出将出现 `脚本执行成功，请按照 Readme 教程继续配置...` 在出现此消息后可按`CTRL + C`切出来。*
+
+    *如没有成功，请根据错误提示进行操作。如果啥中文提示都没有，那么是你网络不好，无法连接Github，请想办法改善。*
     
 2. 确保出现上述成功的消息后，进入容器环境：
 
@@ -98,7 +101,7 @@ cd /home/myid/jd
 # 使用curl
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh)"
 
-# 或使用wget
+# 或者使用wget
 bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_run.sh -O -)"
 ```
 
@@ -112,6 +115,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     chmod +x *.sh                      # 重要：必须赋予.sh脚本可执行权限
     nano git_pull.sh                   # 编辑git_pull.sh，容器中中文为乱码，建议直接导出来在外部使用可视化编辑器编辑这个文件后上传进去
     ```
+    
 
 - 物理机安装
 
@@ -126,11 +130,13 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 **注意：**
 
-- 请不要直接修改`git_pull.sh.sample`！而只修改`git_pull.sh`。
+- *请不要直接修改`git_pull.sh.sample`！而只修改`git_pull.sh`。*
 
-- 如果在windows下编辑`git_pull.sh`，请使用 notepad++ 等专业工具，请不要使用记事本。
+- *Windows用户可以使用WinSCP这个软件，连接机器找对应文件（docker安装的请前往部署容器时运行的 `-v /Host主机上的目录/:/root` 这个命令中冒号左边的路径去找；物理机安装的就是你定义的那个路径。）如何使用WinSCP请自行百度。*
 
-- `.sh`脚本如果没有可执行权限，定时任务将无法正常运行。
+- *如果在windows下编辑`git_pull.sh`，请使用 notepad++、VS Code、Sublime Text 3等软件，请不要使用记事本。*
+
+- *`.sh`脚本如果没有可执行权限，定时任务将无法正常运行。*
 
 - **如何修改请仔细阅读文件中的注释部分。**
 
@@ -143,7 +149,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 ### 2. 进阶玩法
 
-除`基本能用的玩法`中要修改的以外，再根据你的需要修改以下部分：
+除`基本能用的玩法`中要修改的以外，再根据你的需要修改以下部分（均为选填）：
 
 - 定义通知TOKEN
 - 定义东东农场每个人自己的互助码
@@ -155,7 +161,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 ### 3. 高级玩法
 
-除`基本能用的玩法`和`进阶玩法`中要修改的以外，再根据你的需要修改以下部分：
+除`基本能用的玩法`和`进阶玩法`中要修改的以外，再根据你的需要修改以下部分（均为选填）：
 
 - 定义是否自动删除失效的脚本与定时任务
 - 定义是否自动增加新的本地定时任务
@@ -188,7 +194,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     sh git_pull.sh  # 如果是物理机，请按下面说明修改
     ```
 
-    如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。
+    *注：如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。*
 
 2. 看看js脚本的信息替换是否正常。
 
@@ -200,27 +206,27 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本。
 
     ```
-    cd /root/shell
-    sh jd_bean_sign.sh  # 物理机参考本节1. 部分替换sh命令
+    cd /root/shell      # 物理机请修改为自己的路径
+    sh jd_bean_sign.sh  # 物理机参考本节第1.步替换sh命令
     ```
 
-    查看对应日志文件目录下的日志，查看结果是否正常。
+    去`log/jd_bean_sign`查看日志，查看结果是否正常。
 
 ## 定时任务
 
-1. 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己的目录。
+1. 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己一开始设置的目录。
 
     ```
     cp /root/shell/crontab.list.sample /root/crontab.list
     ```
 
-2. 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己的目录，包括`crontab.list`这个文件中的路径。
+2. 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己一开始设置的目录，包括`crontab.list`这个文件中的路径。
 
     ```
     nano /root/crontab.list
     ```
 
-3. 添加定时任务。**物理机请注意：1.请替换`/root`为自己的目录；2.以下命令会完整覆盖你当前用户的crontab清单，请务必确认当前用户不存在其他定时任务！！**。
+3. 添加定时任务。**物理机请注意：1.请替换`/root`为自己一开始设置的目录；2.以下命令会完整覆盖你当前用户的crontab清单，请务必确认当前用户不存在其他定时任务！！**。
 
     ```
     crontab /root/crontab.list
@@ -282,7 +288,7 @@ exit
 
 - 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
 
-- 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`(物理机则为一开始确定的位置)这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失，并且，如果重建容器，容器还将在启动时自动从`/root/crontab.list`中恢复定时任务。（物理机无法自动重建定时任务，需要手动恢复）
+- 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`/root/crontab.list`（物理机则为一开始设置的目录下）这个文件，然后使用`crontab /root/crontab.list`命令覆盖。这样的好处只要你没有删除容器映射目录`/root`在Host主机上的原始文件夹，重建容器时任务就不丢失，并且，如果重建容器，容器还将在启动时自动从`/root/crontab.list`中恢复定时任务。（针对物理机，为防止破坏本身存在的定时任务，脚本已设置不自动重建定时任务，需要手动恢复。）
 
 - 如果shell脚本有更新，需要你手动复制一份`git_pull.sh.sample`，并重新修改必须的信息，然后命名为`git_pull.sh`，流程如下（以docker为例）：
     ```
