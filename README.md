@@ -6,7 +6,7 @@
 
 - **2020-11-10：lxk0301/scripts 已被封，新的库为 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)，所有人请按[issue#26](https://github.com/EvineDeng/jd-base/issues/26)重新配置一下！！**
 
-- 2020-11-11：已构建多平台docker镜像，包括`linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6`。N1、树莓派等arm设备均可使用。
+- 2020-11-11：已构建多平台docker镜像，包括：linux/amd64, linux/arm64, linux/ppc64le, linux/s390x, linux/arm/v7, linux/arm/v6。树莓派、N1小钢炮等arm设备均可使用。
 
 ## 使用背景
 
@@ -36,7 +36,9 @@ docker run -dit \
   --restart unless-stopped \
   evinedeng/jd-base:latest
 ```
+
 *注1：只有这里是五行一起复制粘贴的，下面其他的地方均是一行一行复制粘贴。*
+
 *注2：对`-v`这个参数稍微解释一下，冒号前面是主机上的真实路径，冒号后面是虚拟路径，也就是在容器内部看到的路径，这个参数就是把冒号左右的真实路径映射为容器内冒号右边的虚拟路径。*
 
 ### 物理机安装
