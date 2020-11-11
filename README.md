@@ -47,17 +47,17 @@ docker run -dit \
 
 - debian/ubuntu/armbian，以及其他debian系：
     ```
-    apt install -y git wget curl nodejs npm
+    apt update && apt install -y git wget curl nodejs npm
     ```
 - CentOS/RedHat/Fedora等红帽系
     ```
-    yum install git wget curl nodejs npm
+    yum update && yum install git wget curl nodejs npm
     ```
-- OpenWrt， **需要添加官方软件源，并在安装前刷新一下列表。** 如果某个软件包已集成在固件中，则可跳过安装。如果你会编译，可以把下面这些包直接编译在固件中。
+- OpenWrt， **需要添加官方软件源，** 如果某个软件包已集成在固件中，则可跳过安装。如果你会编译，可以把下面这些包直接编译在固件中。
     ```
-    opkg install git git-http wget curl node node-npm
+    opkg update && opkg install git git-http wget curl node node-npm
     ```
-  **声明：OpenWrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果OpenWrt安装了docker，也可以使用docker的方法。**
+    **声明：OpenWrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果OpenWrt安装了docker，也可以使用docker的方法。**
 
 ## 克隆脚本
 
