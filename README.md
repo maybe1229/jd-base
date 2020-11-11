@@ -37,9 +37,9 @@ docker run -dit \
     ```
     yum install git wget curl nodejs npm
     ```
-- OpenWrt，需要添加官方软件源，如果某个软件包已集成在固件中，则可跳过安装。
+- OpenWrt，**需要添加官方软件源，并在安装前刷新一下列表。**如果某个软件包已集成在固件中，则可跳过安装。如果你会编译，可以把下面这些包直接编译在固件中。
     ```
-    opkg install git wget curl node node-npm
+    opkg install git git-http wget curl node node-npm
     ```
   **声明：OpenWrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果OpenWrt安装了docker，也可以使用docker的方法。**
 
