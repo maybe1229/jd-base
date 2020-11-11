@@ -94,7 +94,7 @@ function Copy_Shell {
           sleep 1
         fi
       done
-      echo -e "脚本执行成功，请按照 Readme 教程继续配置..."
+      echo -e "脚本执行成功，请按照 Readme 教程继续配置...\n"
     fi
   else
     if [ -z "${isDocker}" ]
