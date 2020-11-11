@@ -8,7 +8,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.bfsu.edu.cn/g' /etc/apk/repositorie
     rm -rf /var/cache/apk/*
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
-COPY docker-entrypoint.sh /usr/local/bin/
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 WORKDIR /root
-VOLUME ["/root"]
-ENTRYPOINT ["docker-entrypoint.sh"]
+VOLUME /root
+ENTRYPOINT /docker-entrypoint.sh
