@@ -67,7 +67,15 @@ docker run -dit \
     ```
 4. 如果发现没有以上三个文件夹，先看看docker日志，如果有问题，日志会告诉你问题在哪里以及解决办法的。
     ```
-    docker logs -f jd  # 按 ctrl+c 可切出来
+    # 退出容器环境
+    exit
+    
+    # 查看容器日志，按 ctrl + c可切出来
+    docker logs -f jd
+    
+    # 无误后再次进入容器环境
+    docker exec -it jd /bin/sh
+    
     ```
 
 ### 物理机安装
