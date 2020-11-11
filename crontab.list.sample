@@ -2,34 +2,34 @@
 ## 以下时间均为北京时间，如环境为UTC时间，请自行将任务时间提前8小时
 ## 所有时间建议各位自行调整为想要的时间
 
-# 脚本更新
-55 6-23/3 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
+# js脚本和shell脚本更新，并替换相关参数
+55 5-23/3 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
 
-# 删除旧日志
+# 删除旧日志，未复制一份rm_log.sh时不生效，不记录日志
 50 3 1,15 * * /root/shell/rm_log.sh
 
 # 运行lxk0301大佬的js脚本
-0 10 * * * /root/shell/jd_bean_change.sh
-3 0 * * * /root/shell/jd_bean_sign.sh
+0 */6 * * * /root/shell/jd_818.sh
+0 9 * * * /root/shell/jd_bean_change.sh
+3 0,8,14 * * * /root/shell/jd_bean_sign.sh
 0 0 * * * /root/shell/jd_blueCoin.sh
 30 * * * * /root/shell/jd_collectProduceScore.sh
 25 */3 * * * /root/shell/jd_daily_egg.sh
 2 0 * * * /root/shell/jd_club_lottery.sh
-25 7,12,18 * * * /root/shell/jd_fruit.sh
+30 7,12,18 * * * /root/shell/jd_fruit.sh
 1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh
-*/20 0-21 * * * /root/shell/jd_joy_feedPets.sh
+*/20 0-22 * * * /root/shell/jd_joy_feedPets.sh
 0 0,8,12,16 * * * /root/shell/jd_joy_reward.sh
 30 0,6 * * * /root/shell/jd_joy_steal.sh
 15 1 * * * /root/shell/jd_lotteryMachine.sh
-40 */3 * * * /root/shell/jd_moneyTree.sh
-15 7,12,18 * * * /root/shell/jd_pet.sh
+40 */4 * * * /root/shell/jd_moneyTree.sh
+10 7,12,18 * * * /root/shell/jd_pet.sh
 15 6-18/6 * * * /root/shell/jd_pigPet.sh
-0 7-21 * * * /root/shell/jd_plantBean.sh
+35 7-22 * * * /root/shell/jd_plantBean.sh
 11 0 * * * /root/shell/jd_rankingList.sh
 1 1 * * * /root/shell/jd_redPacket.sh
 0 0 * * * /root/shell/jd_shop.sh
 35 */3 * * * /root/shell/jd_speed.sh
 10 1-23/5 * * * /root/shell/jd_superMarket.sh
-0 */6 * * * /root/shell/jd_818.sh
 0 0 * * * /root/shell/jd_xtg.sh
 45 23 * * * /root/shell/jd_unsubscribe.sh
