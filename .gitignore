@@ -5,3 +5,4 @@ git_pull_function2.sh
 jd_*.sh
 add_*.sh
 *.bak
+*.ash
