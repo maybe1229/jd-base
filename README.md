@@ -45,7 +45,7 @@ docker run -dit \
 
 请根据系统的不同，安装好`git wget curl nodejs npm`（不同系统的包名不一定一样）：
 
-- debian/ubuntu，以及其他debian系：
+- debian/ubuntu/armbian，以及其他debian系：
     ```
     apt install -y git wget curl nodejs npm
     ```
@@ -53,7 +53,7 @@ docker run -dit \
     ```
     yum install git wget curl nodejs npm
     ```
-- OpenWrt，**需要添加官方软件源，并在安装前刷新一下列表。**如果某个软件包已集成在固件中，则可跳过安装。如果你会编译，可以把下面这些包直接编译在固件中。
+- OpenWrt， **需要添加官方软件源，并在安装前刷新一下列表。** 如果某个软件包已集成在固件中，则可跳过安装。如果你会编译，可以把下面这些包直接编译在固件中。
     ```
     opkg install git git-http wget curl node node-npm
     ```
@@ -114,11 +114,9 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     ```
     cd /root/shell
     cp git_pull.sh.sample git_pull.sh  # 复制git_pull.sh.sample为git_pull.sh
-    chmod +x *.sh                      # 重要：必须赋予.sh脚本可执行权限
     nano git_pull.sh                   # 编辑git_pull.sh，容器中中文为乱码，建议直接导出来在外部使用可视化编辑器编辑这个文件后上传进去
     ```
     
-
 - 物理机安装
 
     仍然以上面举例的`/home/myid/jd`，后面就默认以docker的目录来举例了，如果是物理机安装请自行修改：
@@ -126,7 +124,6 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     ```
     cd /home/myid/jd/shell
     cp git_pull.sh.sample git_pull.sh  # 复制git_pull.sh.sample为git_pull.sh
-    chmod +x *.sh                      # 重要：必须赋予.sh脚本可执行权限
     nano git_pull.sh                   # 编辑git_pull.sh，如果不习惯，请直接使用可视化编辑器编辑这个文件
     ```
 
@@ -187,12 +184,13 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 ## 初始化
 
-**无论是docker运行，还是物理机运行，为了能第一时间检查有没有问题，请务必手动运行一次git_pull.sh，流程如下：**
+**在编辑好git_pull.sh这个文件后无论是docker运行，还是物理机运行，为了能第一时间检查有没有问题，请务必手动运行一次git_pull.sh，流程如下：**
 
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 
     ```
     cd /root/shell  # 如果是物理机，则为cd /home/myid/jd/shell ，其中/home/myid/jd/为上面假定你设置的路径。
+    chmod +x *.sh   # 重要：必须赋予.sh脚本可执行权限
     sh git_pull.sh  # 如果是物理机，请按下面说明修改
     ```
 
@@ -205,30 +203,31 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     git diff          # 请使用上下左右键、Page Down、Page Up进行浏览，按q退出
     ```
 
-3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本。
+3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本（有些脚本会运行很长时间，sh本身不输入任何内容在屏幕上，而把日志全部记录在日志文件中）。
 
     ```
     cd /root/shell      # 物理机请修改为自己的路径
     sh jd_bean_sign.sh  # 物理机参考本节第1.步替换sh命令
     ```
 
-    去`log/jd_bean_sign`查看日志，查看结果是否正常。
+    去`log/jd_bean_sign`文件夹下查看日志，查看结果是否正常。
 
 ## 定时任务
 
-1. 然后复制一份crontab.list到/root目录下。物理机请替换`/root`为自己一开始设置的目录。
+1. 然后复制一份`crontab.list`到`/root`目录下。物理机请替换`/root`为自己一开始设置的目录。
 
     ```
     cp /root/shell/crontab.list.sample /root/crontab.list
     ```
 
-2. 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己一开始设置的目录，包括`crontab.list`这个文件中的路径。
+2. 编辑定时任务并自己根据你的需要调整，也可以使用其他可视化工具编辑。物理机请替换`/root`为自己一开始设置的目录，包括`crontab.list`这个文件定时任务中的路径。
 
     ```
     nano /root/crontab.list
     ```
 
-3. 添加定时任务。**物理机请注意：1.请替换`/root`为自己一开始设置的目录；2.以下命令会完整覆盖你当前用户的crontab清单，请务必确认当前用户不存在其他定时任务！！**。
+3. 添加定时任务。
+    **物理机请注意：1.请替换`/root`为自己一开始设置的目录；2.以下命令会完整覆盖你当前用户的crontab清单，请务必确认当前用户不存在其他定时任务！！。**
 
     ```
     crontab /root/crontab.list
@@ -271,17 +270,21 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 单个日志虽然小，但如果长期运行的话，日志也会占用大量空间，如需要自动删除，请按以下流程操作：
 
 1. 复制一份rm_log.sh，并赋予可执行权限（以docker为例）：
+
     ```
     cd /root/shell
     cp rm_log.sh.sample rm_log.sh
     chmod +x rm_log.sh
     ```
+
 2. 该脚本在运行时默认删除`30天`以前的日志，如果需要设置为其他天数，请修改脚本中的`HowManyDays`。
+
 3. 按`定时任务`部分的说明修改定时任务。
 
 ## 退出容器
 
 如果是Docker安装的，请在配置完成以后退出容器环境：
+
 ```
 exit
 ```
