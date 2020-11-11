@@ -18,7 +18,7 @@
 
 ## 部署环境
 ### docker安装
-自行安装好docker，然后创建容器：
+自行安装好docker([中文教程](https://mirrors.bfsu.edu.cn/help/docker-ce/))，然后创建容器：
 ```
 docker run -dit \
   -v /Host主机上的目录/:/root `#冒号左边请替换为Host主机上的目录` \
