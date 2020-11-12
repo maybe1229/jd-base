@@ -199,6 +199,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     ```
 
     *注1：如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。*
+    
     *注2：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行，。*
 
 2. 看看js脚本的信息替换是否正常。
