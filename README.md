@@ -4,7 +4,7 @@
 
 - 2020-11-08：调整jd.sh.sample，无论容器环境是北京时间还是UTC时间，日志文件名均记录为北京时间。**在运行过一次最新的git_pull.sh并重启容器后生效。**
 
-- **2020-11-10：lxk0301/scripts 已被封，新的库为 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)，所有人请按[issue#26](https://github.com/EvineDeng/jd-base/issues/26)重新配置一下！！**
+- **2020-11-10：lxk0301/scripts 已被封，新的库为 [lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)，所有人请按[#26](https://github.com/EvineDeng/jd-base/issues/26)重新配置一下！！**
 
 - 2020-11-11：已构建多平台docker镜像，包括：linux/amd64, linux/arm64, linux/ppc64le, linux/s390x, linux/arm/v7, linux/arm/v6。树莓派、N1小钢炮等arm设备均可使用。
 
@@ -45,7 +45,7 @@ docker run -dit \
 
 ### 物理机安装
 
-请根据系统的不同，安装好`git wget curl nodejs npm`。**不同系统的包名不一定一样，需保证 node 大版本 >=10，安装好后使用`node -v`或`nodejs -v`命令可查看版本。**
+请根据系统的不同，安装好`git wget curl nodejs npm`。
 
 - debian/ubuntu/armbian，以及其他debian系：
     ```
@@ -60,6 +60,10 @@ docker run -dit \
     opkg update && opkg install git git-http wget curl node node-npm
     ```
     **声明：OpenWrt环境千差万别，不保证一定可用，需要根据自己的环境来配置，如果OpenWrt安装了docker，也可以使用docker的方法。**
+
+*注1：不同系统的包名不一定一样，需保证 node 大版本 >=10，安装好后使用`node -v`或`nodejs -v`命令可查看版本。*
+
+*注2：如果是按以上命令安装成功，那应该没问题。如果是nvm安装的或其他方式安装的，请确保安装后的命令在 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin" 中，如不在，请参考[#21](https://github.com/EvineDeng/jd-base/issues/21)修改。*
 
 ## 克隆脚本
 
@@ -200,7 +204,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
     *注1：如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。*
     
-    *注2：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行，。*
+    *注2：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行。*
 
 2. 看看js脚本的信息替换是否正常。
 
