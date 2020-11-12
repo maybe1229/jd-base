@@ -600,9 +600,9 @@ git reset --hard origin/main
 git pull
 if [ $? -eq 0 ]
 then
-  echo -e "shell脚本更新完成...\n"
+  echo -e "\nshell脚本更新完成...\n"
 else
-  echo -e "shell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+  echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
 fi
 
 
