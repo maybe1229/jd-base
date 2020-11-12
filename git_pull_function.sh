@@ -465,7 +465,7 @@ Git_PullScripts
 GitPullExitStatus=$?
 if [ ${GitPullExitStatus} -eq 0 ]
 then
-  echo -e "更新JS脚本完成...\n"
+  echo -e "js脚本更新完成...\n"
   Change_Cookie
   Change_Token
   Change_FruitShareCodes
@@ -493,7 +493,7 @@ then
   Git_Status
   Cron_Different
 else
-  echo -e "JS脚本拉取不正常，请检查原因...\n"
+  echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
 fi
 
 ## 检测是否有新的定时任务
@@ -562,7 +562,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   fi
   echo
   else
-  echo -e "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}...\n未能成功添加新的定时任务，请自行添加...\n"
+  echo -e "${ShellDir}/jd.sh.sample 文件不存在，可能是shell脚本克隆不正常...\n未能成功添加新的定时任务，请自行添加...\n"
   fi
 fi
 
@@ -571,13 +571,21 @@ fi
 if [ ${GitPullExitStatus} -eq 0 ]; then
   PackageListNew=$(cat package.json)
   if [ "${PackageListOld}" != "${PackageListNew}" ]; then
-    echo -e "检测到 package.json 有变化，再次运行npm install...\n"
-    npm install
+    echo -e "检测到 ${ScriptsDir}/package.json 内容有变化，再次运行 npm install...\n"
+    npm install || npm install --registry=https://registry.npm.taobao.org
+    if [ $? -ne 0 ]; then
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
+      rm -rf ${ScriptsDir}/node_modules
+    fi
     echo
   fi
   if [ ! -d ${ScriptsDir}/node_modules ]; then
-    echo -e "检测到本程序为首次运行，运行npm install...\n"
-    npm install
+    echo -e "运行npm install...\n"
+    npm install || npm install --registry=https://registry.npm.taobao.org
+    if [ $? -ne 0 ]; then
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n请进入 ${ScriptsDir} 目录后手动运行 npm install，或等待定时任务再次运行git_pull.sh ..."
+      rm -rf ${ScriptsDir}/node_modules
+    fi
     echo
   fi
 fi
@@ -590,5 +598,12 @@ echo
 git fetch --all
 git reset --hard origin/main
 git pull
+if [ $? -eq 0 ]
+then
+  echo -e "shell脚本更新完成...\n"
+else
+  echo -e "shell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+fi
+
 
 
