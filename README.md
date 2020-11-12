@@ -194,7 +194,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 ## 初始化
 
-**在编辑好git_pull.sh这个文件后无论是docker运行，还是物理机运行，为了能第一时间检查有没有问题，请务必手动运行一次git_pull.sh，流程如下：**
+**在编辑好git_pull.sh这个文件后无论是docker运行，还是物理机运行，请务必手动运行一次git_pull.sh，不仅是为检查错误，也是为了运行一次`npm install`用以安装js指定的依赖。流程如下：**
 
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 
