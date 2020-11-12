@@ -503,7 +503,7 @@ then
   Change_jdJoyStealCoin
   Change_NotifyPet
   Change_Unsubscribe
-  Change_Notify818
+#  Change_Notify818
   Git_Status
   Cron_Different
 else
