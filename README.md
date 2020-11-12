@@ -194,7 +194,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 ## 初始化
 
-**在编辑好git_pull.sh这个文件后无论是docker运行，还是物理机运行，请务必手动运行一次git_pull.sh，不仅是为检查错误，也是为了运行一次`npm install`用以安装js指定的依赖。流程如下：**
+**在编辑好git_pull.sh这个文件后无论是docker运行，还是物理机运行，请务必手动运行一次git_pull.sh，不仅是为检查错误，也是为了运行一次`npm install`用以安装js指定的依赖。**
 
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 
@@ -207,6 +207,13 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     *注1：如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。*
     
     *注2：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行。*
+
+    *注3：首次运行的日志很重要，如果过程中有任何错误，请参考错误提示来解决问题。主要包括两类问题：一是无法访问github，请想办法改善网络；二是git_pull.sh会运行npm install，用来安装js指定的依赖，如果你网络不好，日志中会有提示，请注意观察。如果npm install失败，请尝试手动运行，比如容器可按如下操作：*
+
+    ```
+    cd /root/scripts
+    npm install
+    ```
 
 2. 看看js脚本的信息替换是否正常。
 
