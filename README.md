@@ -141,8 +141,6 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 - *如果在windows下编辑`git_pull.sh`，请使用 notepad++、VS Code、Sublime Text 3等软件，请不要使用记事本。*
 
-- *`.sh`脚本如果没有可执行权限，定时任务将无法正常运行。*
-
 - **如何修改请仔细阅读文件中的注释部分。**
 
 ### 1.基本能用的玩法
@@ -200,7 +198,8 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     sh git_pull.sh  # 如果是物理机，请按下面说明修改
     ```
 
-    *注：如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。*
+    *注1：如果是物理机，请先使用`echo $SHELL`命令查看自己的shell，如果返回的是`/bin/bash`，那么可以替换`sh git_pull.sh`命令为`bash git_pull.sh`。*
+    *注2：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行，。*
 
 2. 看看js脚本的信息替换是否正常。
 
@@ -216,7 +215,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     sh jd_bean_sign.sh  # 物理机参考本节第1.步替换sh命令
     ```
 
-    去`log/jd_bean_sign`文件夹下查看日志，查看结果是否正常。
+    去`log/jd_bean_sign`文件夹下查看日志，查看结果是否正常，如不正常，请从头检查。
 
 ## 定时任务
 
