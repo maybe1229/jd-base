@@ -45,7 +45,7 @@ docker run -dit \
 
 ### 物理机安装
 
-请根据系统的不同，安装好`git wget curl nodejs npm`（不同系统的包名不一定一样）：
+请根据系统的不同，安装好`git wget curl nodejs npm`。**不同系统的包名不一定一样，需保证 node 大版本 >=10，安装好后使用`node -v`或`nodejs -v`命令可查看版本。**
 
 - debian/ubuntu/armbian，以及其他debian系：
     ```
