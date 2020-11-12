@@ -53,6 +53,15 @@ echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "-------------------------------------------------------------------\n"
 
 
+################################## 判断是否输入用户数量 ##################################
+function Detect_UserSum {
+  if [ -z "${UserSum}" ]; then
+    echo -e "请输入有效的用户数量(UserSum)...\n"
+    exit 1
+  fi
+}
+
+
 ################################## 更新JS脚本 ##################################
 function Git_PullScripts {
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
@@ -444,7 +453,7 @@ function Git_Status {
 }
 
 
-################################## 检测Github Action定时任务是否有变化 ##################################
+################################## 检测定时任务是否有变化 ##################################
 ## 此函数会在Log文件夹下生成四个文件，分别为：
 ## shell.list   shell文件夹下用来跑js文件的以“jd_”开头的所有 .sh 文件清单（去掉后缀.sh）
 ## js.list      scripts/docker/crontab_list.sh文件中用来运行js脚本的清单（非运行脚本的不会包括在内）
@@ -460,9 +469,14 @@ function Cron_Different {
 
 ################################## 依次修改上述设定的值 ##################################
 cd ${ScriptsDir}
-PackageListOld=$(cat package.json)
-Git_PullScripts
-GitPullExitStatus=$?
+Detect_UserSum
+DetectUserSumExitStatus=$?
+if [ ${DetectUserSumExitStatus} -eq 0 ]; then
+  PackageListOld=$(cat package.json)
+  Git_PullScripts
+  GitPullExitStatus=$?
+fi
+
 if [ ${GitPullExitStatus} -eq 0 ]
 then
   echo -e "js脚本更新完成，开始替换信息...\n"
@@ -591,17 +605,23 @@ fi
 
 
 ################################## 更新shell脚本 ##################################
-cd ${ShellDir}
-echo "更新shell脚本，原地址：${ShellURL}"
-echo
-git fetch --all
-git reset --hard origin/main
-git pull
-if [ $? -eq 0 ]
-then
-  echo -e "\nshell脚本更新完成...\n"
-else
-  echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+function Git_PullShell {
+  echo "更新shell脚本，原地址：${ShellURL}"
+  echo
+  git fetch --all
+  git reset --hard origin/main
+  git pull
+  if [ $? -eq 0 ]
+  then
+    echo -e "\nshell脚本更新完成...\n"
+  else
+    echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+  fi
+}
+
+if [ ${DetectUserSumExitStatus} -eq 0 ]; then
+  cd ${ShellDir}
+  Git_PullShell
 fi
 
 
