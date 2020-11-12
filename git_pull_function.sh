@@ -465,7 +465,7 @@ Git_PullScripts
 GitPullExitStatus=$?
 if [ ${GitPullExitStatus} -eq 0 ]
 then
-  echo -e "js脚本更新完成...\n"
+  echo -e "js脚本更新完成，开始替换信息...\n"
   Change_Cookie
   Change_Token
   Change_FruitShareCodes
@@ -542,27 +542,26 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   JsAdd=$(cat ${ListJsAdd})
   if [ -f ${ShellDir}/jd.sh.sample ]
   then
-  for Cron in ${JsAdd}
-  do
-    grep ${Cron} "${ScriptsDir}/docker/crontab_list.sh" | awk -F " >> " '{print $1}' | sed "{s|node /scripts|/root/shell|;s|\.js|\.sh|}" >> ${ListCron}
-  done
-  if [ $? -eq 0 ]
-  then
     for Cron in ${JsAdd}
     do
-      cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Cron}.sh"
-      chmod +x "${ShellDir}/${Cron}.sh"
+      grep ${Cron} "${ScriptsDir}/docker/crontab_list.sh" | awk -F " >> " '{print $1}' | sed "{s|node /scripts|/root/shell|;s|\.js|\.sh|}" >> ${ListCron}
     done
-    crontab ${ListCron}
-    echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n"
-    crontab -l
-    echo
+    if [ $? -eq 0 ]
+    then
+      for Cron in ${JsAdd}
+      do
+        cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Cron}.sh"
+        chmod +x "${ShellDir}/${Cron}.sh"
+      done
+      crontab ${ListCron}
+      echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n"
+      crontab -l
+      echo
+    else
+      echo -e "未能添加新的定时任务，请自行添加...\n"
+    fi
   else
-    echo -e "未能添加新的定时任务，请自行添加...\n"
-  fi
-  echo
-  else
-  echo -e "${ShellDir}/jd.sh.sample 文件不存在，可能是shell脚本克隆不正常...\n未能成功添加新的定时任务，请自行添加...\n"
+    echo -e "${ShellDir}/jd.sh.sample 文件不存在，可能是shell脚本克隆不正常...\n未能成功添加新的定时任务，请自行添加...\n"
   fi
 fi
 
