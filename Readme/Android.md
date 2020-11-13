@@ -245,3 +245,28 @@ nano git_pull.sh
 但即使这样，遇到特殊情况时，不仍然可以进入`~/jd/scripts/`后手动运行js脚本吗？
 
 如果有个旧的安卓手机，是不是可以考虑一直充电放家中，无限制地运行此脚本？
+
+## 补充说明
+
+- 其实`shell`目录下所有以`jd_`开头以`.sh`结尾的文件内容全都一样，全都是从`jd.sh.sample`复制来的，它们是依靠它们自身的文件名来找到所对应的`scripts`目录下的js文件并且执行的。所以，有新的任务时，只要你把`jd.sh.sample`复制一份和新增的`.js`脚本名称一样，赋予可执行权限，再增加定时任务就可以了。
+
+- 如果想要重新调整定时任务运行时间，请不要直接使用`crontab -e`命令修改，而是编辑`~/jd/crontab.list`这个文件，然后使用`crontab ~/jd/crontab.list`命令覆盖。这样的好处脚本会自动依靠这个文件来增加新的定时任务和删除失效的定时任务。
+
+- 如果shell脚本有更新，需要你手动复制一份`git_pull.sh.sample`，并重新修改必须的信息，然后命名为`git_pull.sh`，流程如下（以docker为例）：
+    ```
+    cd ~/jd/shell
+    cp git_pull.sh.sample git_pull_2.sh
+
+    # 然后修改git_pull_2.sh
+    nano git_pull_2.sh
+
+    # 修改好后，替换旧的git_pull.sh
+    mv git_pull_2.sh git_pull.sh
+
+    # 不要忘记赋予修改后的.sh脚本可执行权限
+    chmod +x git_pull.sh
+    ```
+
+- 向经常关注本脚本并且知道何为助力上车的人提供一个自动上车脚本`create_share_codes.sh.sample`，请自行参考上述`git_pull.sh`的修改方法修改为`create_share_codes.sh`，并修改其中必要的信息。在理解[这个链接](http://api.turinglabs.net/api/v1/jd/cleantimeinfo/)的含义之后自行添加定时任务，**有关于此的提问一概不回复，不解释**。
+
+- 如有帮助到你，请点亮 star 。
