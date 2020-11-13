@@ -18,7 +18,7 @@
 
 ## TO DO LIST
 
-- 重新用Perl语言改写sed命令，使脚本可以兼容Android、MacOS。
+已完成 重新用Perl语言改写sed命令，使脚本可以兼容Android、MacOS。
 
 ## 更新日志
 
