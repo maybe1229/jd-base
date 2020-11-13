@@ -74,8 +74,8 @@ nano git_pull.sh                   # 编辑git_pull.sh，如果不习惯，请�
 
     ```
     cd /home/myid/jd/shell
-    chmod +x *.sh   # 重要：必须赋予.sh脚本可执行权限
-    bash git_pull.sh  # 如果是物理机，请按下面说明修改
+    chmod +x *.sh
+    bash git_pull.sh
     ```
 
     *注1：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行。*
@@ -126,7 +126,7 @@ nano git_pull.sh                   # 编辑git_pull.sh，如果不习惯，请�
 
 **说明：**
 
-- `crontab.list`这个文件必须存放在`/home/myid/jd`下。
+- `crontab.list`这个文件必须存放在`/home/myid/jd`（和 shell scripts log 三个文件夹在同一级）下。
 
 - crond任务日志一般在`/var/log/`下，不在脚本目录，并且一般可能需要开启日志功能才会有。
 

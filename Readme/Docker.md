@@ -62,7 +62,7 @@ docker run -dit \
     cp /root/shell/git_pull.sh.sample /root/shell/git_pull.sh  # 
     ```
 
-2. 编辑`git_pull.sh`，容器中中文为乱码，建议Windows用户使用WinSCP工具进行可视化编辑。请前往部署容器时运行的 `-v /Host主机上的目录/:/root` 这个命令中冒号左边的路径下面去找，如何使用WinSCP请自行百度。可定义内容清单：[parameter_change](Parameter.md)
+2. 编辑`git_pull.sh`，容器中中文为乱码，建议Windows用户使用WinSCP工具，以SFTP协议连接机器，前往部署容器时运行的 `-v /Host主机上的目录/:/root` 这个命令中冒号左边的路径下面去找，如何使用WinSCP请自行百度。可定义内容清单：[parameter_change](Parameter.md)
 
     - *注1：如果在windows下编辑`git_pull.sh`，请使用WinSCP自带编辑器，或 notepad++、VS Code、Sublime Text 3等软件，请不要使用记事本。*
 
@@ -101,8 +101,8 @@ docker run -dit \
 3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本（有些脚本会运行很长时间，sh本身不输入任何内容在屏幕上，而把日志全部记录在日志文件中）。
 
     ```
-    cd /root/shell      # 物理机请修改为自己的路径
-    sh jd_bean_sign.sh  # 物理机参考本节第1.步替换sh命令
+    cd /root/shell
+    sh jd_bean_sign.sh
     ```
 
     去容器中`/root/log/jd_bean_sign`文件夹下查看日志，查看结果是否正常，如不正常，请从头检查。
