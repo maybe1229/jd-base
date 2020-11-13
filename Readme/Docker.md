@@ -1,5 +1,7 @@
 ## 部署环境
 
+请先确认你的平台属于这几种：linux/amd64, linux/arm64, linux/ppc64le, linux/s390x, linux/arm/v7, linux/arm/v6，如不属于则无法使用本方法。
+
 安装好docker([中文教程](https://mirrors.bfsu.edu.cn/help/docker-ce/))，然后在ssh工具中创建容器：
 
 ```
