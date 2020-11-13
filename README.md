@@ -8,7 +8,7 @@
 
 ## 教程
 
-- [Armbian/OpenWrt/Debian/Ubuntu/CentOS/Fedora/RedHat等Linux系统](Readme/Computer.md)
+- [Armbian/OpenWrt/Debian/OpenMediaVault/Ubuntu/CentOS/Fedora/RedHat等Linux系统](Readme/Computer.md)
 
 - [Android](Readme/Android.md)
 

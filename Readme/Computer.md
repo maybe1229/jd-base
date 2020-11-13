@@ -1,6 +1,6 @@
 ## 部署环境
 
-- debian/ubuntu/armbian，以及其他debian系：
+- debian/ubuntu/armbian/OpenMediaVault，以及其他debian系：
     ```
     apt update && apt install -y git wget curl nodejs npm
     ```
