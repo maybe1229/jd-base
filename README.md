@@ -1,5 +1,11 @@
+## TO Do LIST
+
+- 重新用Perl语言改写sed命令，使之兼容Android、MacOS。
+
 ## 更新日志
+
     只记录大的更新，小修小改不记录。
+
 - 2020-11-07：将原来的`git_pull.sh.sample`分离成两个文件`git_pull.sh.sample`（更小了）和`git_pull_function.sh`，用户以后只需要按下面教程将`git_pull.sh.sample`复制一份`git_pull.sh`后修改即可，具体的函数全放在`git_pull_function.sh`中，大家不再需要关注脚本函数的变化，并且还可以兼容不愿意升级的老的`git_pull.sh`脚本。
 
 - 2020-11-08：调整jd.sh.sample，无论容器环境是北京时间还是UTC时间，日志文件名均记录为北京时间。**在运行过一次最新的git_pull.sh并重启容器后生效。**
