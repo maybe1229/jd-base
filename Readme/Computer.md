@@ -64,7 +64,7 @@ nano git_pull.sh                   # 编辑git_pull.sh，如果不习惯，请�
 
 - *如果在windows下编辑`git_pull.sh`，请使用WinSCP自带编辑器，或 notepad++、VS Code、Sublime Text 3 等软件，请不要使用记事本。*
 
-- **[参数清单](Parameter.md)，如何修改请仔细阅读文件中的注释部分。**
+- [参数清单](Parameter.md)，**如何修改请仔细阅读`git_pull.sh`中的注释。**
 
 ## 初始化
 
