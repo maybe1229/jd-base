@@ -1,7 +1,3 @@
-## TO DO LIST
-
-- 重新用Perl语言改写sed命令，使之兼容Android、MacOS。
-
 ## 使用背景
 
 - 本shell脚本用来运行[lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)中的js脚本，解放双手，自动玩耍京东的各种游戏，主要有：各种签到、东东农场、种豆得豆、天天加速、摇钱树、宠汪汪、东东萌宠、东东超市，获取各种小羊毛。
@@ -19,6 +15,10 @@
 - MacOS（请等待代码修改完成后再提供教程）
 
 - [Docker](Readme/Docker.md)
+
+## TO DO LIST
+
+- 重新用Perl语言改写sed命令，使脚本可以兼容Android、MacOS。
 
 ## 更新日志
 
