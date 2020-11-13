@@ -3,7 +3,7 @@
 ## 修改日期：2020-11-10
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
 export LC_ALL=C
 
 
