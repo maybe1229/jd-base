@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
 export LC_ALL=C
 
 ## 按以下格式修改为自己的种豆得豆互助码，每个互助码间使用换行来分开，首尾一对引号
