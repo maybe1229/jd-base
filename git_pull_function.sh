@@ -81,7 +81,7 @@ function Change_Cookie {
   do
     Temp1=Cookie${ii}
     eval CookieTemp=$(echo \$${Temp1})
-    CookieALL="${CookieALL}\\n'${CookieTemp}',"
+    CookieALL="${CookieALL}\\n  '${CookieTemp}',"
     let ii++
   done
   perl -0777 -i -pe "s|let CookieJDs = \[\n(.+\n?){2}\]|let CookieJDs = \[${CookieALL}\n\]|" ${FileCookie}
@@ -141,7 +141,7 @@ function Change_FruitShareCodes {
   do
     Temp2=ForOtherFruit${ij}
     eval ForOtherFruitTemp=$(echo \$${Temp2})
-    ForOtherFruitALL="${ForOtherFruitALL}\\n'${ForOtherFruitTemp}',"
+    ForOtherFruitALL="${ForOtherFruitALL}\\n  '${ForOtherFruitTemp}',"
     let ij++
   done
   perl -0777 -i -pe "s|let FruitShareCodes = \[\n(.+\n?){2}\]|let FruitShareCodes = \[${ForOtherFruitALL}\n\]|" ${FileFruitShareCodes}
@@ -157,7 +157,7 @@ function Change_PetShareCodes {
   do
     Temp3=ForOtherPet${ik}
     eval ForOtherPetTemp=$(echo \$${Temp3})
-    ForOtherPetALL="${ForOtherPetALL}\\n'${ForOtherPetTemp}',"
+    ForOtherPetALL="${ForOtherPetALL}\\n  '${ForOtherPetTemp}',"
     let ik++
   done
   perl -0777 -i -pe "s|let PetShareCodes = \[\n(.+\n?){2}\]|let PetShareCodes = \[${ForOtherPetALL}\n\]|" ${FilePetShareCodes}
@@ -173,7 +173,7 @@ function Change_PlantBeanShareCodes {
   do
     Temp4=ForOtherPlantBean${il}
     eval ForOtherPlantBeanTemp=$(echo \$${Temp4})
-    ForOtherPlantBeanALL="${ForOtherPlantBeanALL}\\n'${ForOtherPlantBeanTemp}',"
+    ForOtherPlantBeanALL="${ForOtherPlantBeanALL}\\n  '${ForOtherPlantBeanTemp}',"
     let il++
   done
   perl -0777 -i -pe "s|let PlantBeanShareCodes = \[\n(.+\n?){2}\]|let PlantBeanShareCodes = \[${ForOtherPlantBeanALL}\n\]|" ${FilePlantBeanShareCodes}
