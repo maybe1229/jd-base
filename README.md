@@ -10,9 +10,9 @@
 
 - [Armbian/OpenWrt/Debian/Ubuntu/CentOS/Fedora/RedHat等Linux系统](Readme/Computer.md)
 
-- Android（请等待代码修改完成后再提供教程）
+- [Android](Readme/Android.md)
 
-- MacOS（请等待代码修改完成后再提供教程）
+- [MacOS](Readme/MacOS.md)
 
 - [Docker](Readme/Docker.md)
 
