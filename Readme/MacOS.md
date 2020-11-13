@@ -2,7 +2,7 @@
 
 ## 部署环境
 
-1. 在Node.js官网(https://nodejs.org/zh-cn/download/)下载并安装Node.js长期支持版（已包括npm）；
+1. 在[Node.js官网](https://nodejs.org/zh-cn/download)下载并安装Node.js长期支持版（已包括npm）；
 
 2. 安装git、wget、curl。
 
