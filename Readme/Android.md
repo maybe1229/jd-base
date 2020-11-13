@@ -196,9 +196,9 @@ nano git_pull.sh
 
 **说明**
 
-- `crontab.list`这个文件必须存放在`~/jd`（和 shell scripts log 三个文件夹在同一级）下。
+- `crontab.list`这个文件必须存放在`~/jd`（和 `shell scripts log` 三个文件夹在同一级）下。
 
-- 第一条定时任务`/data/data/com.termux/files/home/jd/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/data/data/com.termux/files/home/jd/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。"..."指代你的目录。
+- 第一条定时任务`/data/data/com.termux/files/home/jd/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/data/data/com.termux/files/home/jd/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。
 
 - 第二条定时任务`/data/data/com.termux/files/home/jd/shell/rm_log.sh`用来自动删除旧的js脚本日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。
 
@@ -234,7 +234,7 @@ nano git_pull.sh
     chmod +x rm_log.sh
     ```
 
-2. 该脚本在运行时默认删除`30天`以前的日志，因手机存储空间有限，强烈建议修改脚本中的`HowManyDays`。
+2. 该脚本在运行时默认删除`30天`以前的日志，因手机存储空间有限，强烈建议修改脚本中的`HowManyDays`为小一些的天数。另外，也建议修改计划运行时间，针对手机，建议修改为 `50 3 * * *`，即在每天凌晨3：50运行。
 
 3. 按`定时任务`部分的说明修改定时任务（默认一个月只在1日、15日运行一次`rm_log.sh`）。
 
