@@ -55,7 +55,6 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 
     ```
-    cd
     cd /Users/用户名/jd/shell
     chmod +x *.sh       
     bash git_pull.sh
@@ -64,7 +63,6 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     *注：首次运行的日志很重要，如果过程中有任何错误，请参考错误提示来解决问题。主要包括两类问题：一是无法访问github，请想办法改善网络；二是`git_pull.sh`会运行`npm install`，用来安装js指定的依赖，如果你网络不好，日志中会有提示，请注意观察。如果`npm install`失败，请尝试手动运行，可按如下操作，如果失败，可运行多次：*
 
     ```
-    cd
     cd /Users/用户名/jd/scripts
     npm install || npm install --registry=https://registry.npm.taobao.org
     ```
@@ -79,7 +77,6 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本（有些脚本会运行很长时间，sh本身不输入任何内容在屏幕上，而把日志全部记录在日志文件中）。
 
     ```
-    cd
     cd /Users/用户名/myjd/jd/shell
     bash jd_bean_sign.sh
     ```
@@ -105,7 +102,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
 - `crontab.list`这个文件必须存放在`/Users/用户名/jd`（和 shell scripts log 三个文件夹在同一级）下。
 
-- 第一条定时任务`/Users/用户名/jd/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`.../log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。
+- 第一条定时任务`/Users/用户名/jd/shell/git_pull.sh`会自动更新js脚本和shell脚本，并完成Cookie、互助码等信息修改，这个任务本身的日志会存在`/Users/用户名/jd/log/git_pull.log`中。更新过程不会覆盖掉你已经修改好的`git_pull.sh`文件。
 
 - 第二条定时任务`/Users/用户名/jd/shell/rm_log.sh`用来自动删除旧的js脚本日志，如果你未按下一节`自动删除旧日志`中操作的话，这条定时任务不会生效。
 
@@ -159,7 +156,8 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     cd /Users/用户名/jd/shell
     cp git_pull.sh.sample git_pull_2.sh
 
-    # 然后修改git_pull_2.sh
+    # 然后修改git_pull_2.sh，你也可以可视化编辑
+    nano git_pull_2.sh
     
     # 修改好后，替换旧的git_pull.sh
     mv git_pull_2.sh git_pull.sh
