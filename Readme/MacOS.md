@@ -4,9 +4,9 @@
 
 1. 在[Node.js官网](https://nodejs.org/zh-cn/download)下载并安装Node.js长期支持版（已包括npm）；
 
-2. 安装git、wget、curl。
+2. 安装git、wget、curl、perl，可能某个软件已经集成在系统中。
 
-*注：如果上述软件不在这几个路径中：`/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin`，那么请在`/usr/local/bin`目录下创建软连接。*
+    *注：如果上述软件不在这几个路径中：`/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin`，那么请在`/usr/local/bin`目录下创建软连接。*
 
 ## 克隆脚本
 
