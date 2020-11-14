@@ -26,7 +26,7 @@ pkg upgrade
 pkg install git perl nodejs-lts wget curl nano cronie
 ```
 
-针对`Termux`输入麻烦，多多使用`Tab`键自动补全是个好习惯。启用`termux-ohmyzsh`后帮助输入。
+针对`Termux`输入麻烦，多多使用`Tab`键自动补全是个好习惯。`termux-ohmyzsh`也是一个神器，启用后可以帮助输入。
 
 ## 下载脚本
 
