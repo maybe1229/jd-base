@@ -138,7 +138,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 1. 复制一份rm_log.sh，并赋予可执行权限：
 
     ```
-    cd `/Users/用户名/myid/jd/shell`
+    cd /Users/用户名/myid/jd/shell
     cp rm_log.sh.sample rm_log.sh
     chmod +x rm_log.sh
     ```
