@@ -11,7 +11,7 @@ RootDir=$(cd $(dirname $0); cd ..; pwd)
 ScriptsDir=${RootDir}/scripts
 LogDir=${RootDir}/log
 FileCurrentBashName=$(basename $0)
-FileRun=$(echo $FileCurrentBashName | sed "s/\..*sh//" )
+FileRun=$(echo $FileCurrentBashName | perl -pe "s|\..*sh||")
 
 ## 无论是UTC时间还是北京时间，日志文件名均记录为北京时间
 if [ "$TZ" = "UTC" ]
