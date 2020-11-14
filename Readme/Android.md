@@ -26,6 +26,8 @@ pkg upgrade
 pkg install git perl nodejs-lts wget curl nano cronie
 ```
 
+针对`Termux`输入麻烦，多多使用`Tab`键自动补全是个好习惯。启用`termux-ohmyzsh`后帮助输入。
+
 ## 下载脚本
 
 - **前提：**
@@ -127,14 +129,20 @@ nano git_pull.sh
     bash jd_bean_sign.sh
     ```
 
-4. 去`~/jd/log/jd_bean_sign`文件夹下查看日志，查看结果是否正常，如不正常，请从头检查。
+    去`~/jd/log/jd_bean_sign`文件夹下查看日志，查看结果是否正常，如不正常，请从头检查。
     ```
     cd ~/jd/log/jd_bean_sign
     ls   # 列出文件
-    cat 2020-11-13-12-00-00  # 假如ls列出的文件名是这个的话
+    cat 2020-11-13-12-00-00.log  # 假如ls列出的文件名是这个的话
     ```
+    如需要使用手机的文本编辑器打开这些日志，在没有ROOT时，可以先将其复制到外置存储后，在文本编辑器中打开。假如要查看上面这个日志`~/jd/log/jd_bean_sign/2020-11-13-12-00-00`，可按如下操作：
+    ```
+    cp ~/jd/log/jd_bean_sign/2020-11-13-12-00-00.log ~/storage/shared/Documents/
+    ```
+    上述命令会将这个日志文件复制到外置存储的Documents文件夹下（这个文件夹必须事先存在）。文件名长就多使用`Tab`~~
 
-5. 如果不想写入日志文件，想直接在`Termux`中看到输出，那么可以如下操作：
+
+4. 如果不想写入日志文件，想直接在`Termux`中看到输出，那么可以如下操作：
     ```
     cd ~/jd/scripts
     node jd_bean_sign.js
