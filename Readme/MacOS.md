@@ -117,7 +117,7 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
     1. 检查有没有新增脚本：
         ```
-        cd `/Users/用户名/jd`  # 先cd至你存放脚本的目录
+        cd /Users/用户名/jd  # 先cd至你存放脚本的目录
         cat log/js-add.list
         ```
     2. 如果上一条命令不为空说明有新的定时任务待添加，把内容记下来，比如有个新增的任务叫为`jd_test`，那么就运行以下命令:
