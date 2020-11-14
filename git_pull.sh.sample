@@ -1,6 +1,6 @@
 #!/bin/sh
 
-## 修改日期：2020-11-10
+## 修改日期：2020-11-14
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
@@ -270,7 +270,8 @@ NotifyPet=""
 
 ################################## 定义手机狂欢城是否发送上车提醒（选填） ##################################
 ## 情况请见jd_818的日志，默认为false，不发送上车提醒，如想要收到提醒，请修改为 true
-Notify818=""
+## 暂时没有手机狂欢城活动
+# Notify818=""
 
 
 ################################## 定义取关参数（选填） ##################################

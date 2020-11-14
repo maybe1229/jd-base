@@ -14,7 +14,7 @@ jobs:
             with:
               publish: true
               imageName: evinedeng/jd-base
-              dockerFile: Dockerfile
+              dockerFile: Docker/Dockerfile
               platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
               tag: latest,node12,node12.19,node12.19.0
               dockerHubUser: ${{ secrets.DOCKER_USERNAME }}
