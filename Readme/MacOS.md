@@ -83,6 +83,13 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
 
     去`/Users/用户名/jd/log/jd_bean_sign`文件夹下查看日志，查看结果是否正常，如不正常，请从头检查。
 
+4. 如何想在终端中看到输出，那么可如下操作：
+
+    ```
+    cd /Users/用户名/jd/scripts
+    node jd_bean_sign.js
+    ```
+
 ## 定时任务
 
 1. 进入`/Users/用户名/jd/shell`目录，复制`crontab.list.sample`为`crontab.list`到`/Users/用户名/jd`目录下，然后编辑`crontab.list`。
