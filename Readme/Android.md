@@ -195,7 +195,7 @@ nano git_pull.sh
     ```
     根据帮助文档，如果想要以`deamon`形式启动`cronie`，那么可以输入：
     ```
-    crond -i -P
+    crond -ipP
     ```
     **请注意：每次重启手机或重启`Termux`后需要重新输入上述命令。**
 
