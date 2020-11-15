@@ -1,9 +1,9 @@
-#!/bin/sh
+#!/bin/bash
 
-## 修改日期：2020-11-14
+## 修改日期：2020-11-15
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
 
 

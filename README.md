@@ -29,3 +29,11 @@
 - 2020-11-11：已构建多平台docker镜像，包括：linux/amd64, linux/arm64, linux/ppc64le, linux/s390x, linux/arm/v7, linux/arm/v6。树莓派、N1小钢炮等arm设备均可使用。
 
 - 2020-11-13：重新用Perl语言改写sed命令，脚本已经可以兼容Android、MacOS。
+
+- 2020-11-15：为保持跨平台兼容性，把`Docker`的`shell`也更换为`bash`，Docker用户需要删除原来的镜像重新部署方可正常使用。
+    ```
+    docker stop jd
+    docker rm jd 
+    docker rmi evinedeng/jd-base
+    ```
+    无需重新配置，直接按原来的`docker run`命令重新部署即可恢复原有内容。

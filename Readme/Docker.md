@@ -39,13 +39,13 @@ docker run -dit \
     **本Readme中所有docker部分的命令均需要在进入容器后运行！！**
 
     ```
-    docker exec -it jd /bin/sh
+    docker exec -it jd /bin/bash
     ```
     
     成功进入后光标处应变为下面这样，如果没有，那么请检查容器安装日志。
     
     ```
-    ~ # 
+    bash-5.0# 
     ```
     
 3. docker容器创建后会在容器中的`/root`文件夹下自动克隆好跑JD小游戏的js脚本和shell脚本，产生以下三个文件夹：
@@ -81,7 +81,7 @@ docker run -dit \
     ```
     cd /root/shell
     chmod +x *.sh
-    sh git_pull.sh
+    bash git_pull.sh
     ```
 
     *注1：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行。*
@@ -104,7 +104,7 @@ docker run -dit \
 
     ```
     cd /root/shell
-    sh jd_bean_sign.sh
+    bash jd_bean_sign.sh
     ```
 
     去容器中`/root/log/jd_bean_sign`文件夹下查看日志，查看结果是否正常，如不正常，请从头检查。
