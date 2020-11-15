@@ -22,6 +22,17 @@
     cp ~/git_pull.sh ~/jd/shell/git_pull.sh
     nano ~/jd/shell/git_pull.sh    # 将第一行内容从`#!/bin/sh`更改为`#!/bin/bash`，按Ctrl+O保存，Ctrl+X退出
     ```
+## 如何自动更新Docker容器
+
+安装`containrrr/watchtower`可以自动更新容器，它也是一个容器，但这个容器可以监视你安装的所有容器的原始镜像的更新情况，如有更新，它将使用你原来的配置自动重新部署容器。部署`containrrr/watchtower`最简单的方式如下：
+
+```
+docker run -d \
+    --name watchtower \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    containrrr/watchtower
+```
+你也可以访问 https://containrrr.dev/watchtower/ 获取更详细的部署说明，包括如何避开某些容器不让它自动更新，如何发更新容器后发送通知等等。
 
 ## 准备工作
 
