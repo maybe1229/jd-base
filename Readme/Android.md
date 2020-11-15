@@ -328,6 +328,22 @@ nano git_pull.sh
     chmod +x git_pull.sh
     ```
 
+- 手机上的`git`在运行时总会弹出一个警告如下：
+
+    ```
+    warning: Pulling without specifying how to reconcile divergent branches is discouraged. You can squelch this message by running one of the following commands sometime before your next pull:
+
+    git config pull.rebase false  # merge (the default strategy)
+    git config pull.rebase true   # rebase
+    git config pull.ff only       # fast-forward only
+    
+    You can replace "git config" with "git config --global" to set a default preference for all repositories. You can also pass --rebase, --no-rebase, or --ff-only on the command line to override the configured default perinvocation.
+    ```
+    如果想要永久消除这个提示，按它说明的操作方式输入一下命令即可：
+    ```
+    git config --global pull.rebase true
+    ```
+
 - 向经常关注本脚本并且知道何为助力上车的人提供一个自动上车脚本`create_share_codes.sh.sample`，请自行参考上述`git_pull.sh`的修改方法修改为`create_share_codes.sh`，并修改其中必要的信息。在理解[这个链接](http://api.turinglabs.net/api/v1/jd/cleantimeinfo/)的含义之后自行添加定时任务，**有关于此的提问一概不回复，不解释**。
 
 - 如有帮助到你，请点亮 star 。
