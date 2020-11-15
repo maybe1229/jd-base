@@ -10,6 +10,19 @@
 
 5. **手机无需Root即可使用本方法，只是不Root时，看日志可能不是特别方便，Root后可以通过手机的文件管理器查看。**
 
+## 更新说明
+
+- 2020-11-15：在2020-11-15之前部署的Android设备，要么手动将`~/jd/shell`文件夹下所有的`.sh`文件的第一行内容从`#!/bin/sh`更改为`#!/bin/bash`，要么重新删除整个`~/jd`文件夹后重新按下面教程部署一下。经测试，原来的解释器`#!/bin/sh`在安卓下面无法正常运行定时任务，因此必须改为`#!/bin/bash`。
+    ```
+    cp ~/jd/shell/git_pull.sh ~/git_pull.sh   # 把原来的git_pull.sh复制到家目录下备份
+    rm -rf ~/jd/shell                         # 删除整个shell目录
+    ```
+    然后重新按下面`下载脚本`章节内容重新下载脚本部署以后，把git_pull.sh复制回去，并修改解释器
+    ```
+    cp ~/git_pull.sh ~/jd/shell/git_pull.sh
+    nano ~/jd/shell/git_pull.sh    # 将第一行内容从`#!/bin/sh`更改为`#!/bin/bash`，按Ctrl+O保存，Ctrl+X退出
+    ```
+
 ## 准备工作
 
 1. 想办法安装好谷歌服务框架，注意：需要科学上网条件。
