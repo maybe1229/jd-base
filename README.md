@@ -37,3 +37,5 @@
     docker rmi evinedeng/jd-base
     ```
     无需重新配置，直接按原来的`docker run`命令重新部署即可恢复原有内容。
+
+[![Stargazers over time](https://starchart.cc/EvineDeng/jd-base.svg)](https://starchart.cc/EvineDeng/jd-base)
