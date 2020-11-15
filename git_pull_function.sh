@@ -279,8 +279,7 @@ function Change_joyFeedCount {
     20 | 40 | 80)
       echo -e "${FileJoy}: 修改宠汪汪喂食克数为：${joyFeedCount}g...\n"
       echo -e "${FileJoyFeed}: 修改宠汪汪喂食克数为：${joyFeedCount}g...\n"
-      perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoy}
-      perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoyFeed};;
+      perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoy} ${FileJoyFeed};;
     10)
       echo -e "${FileJoy}: 宠汪汪喂食克数保持默认值：10g...\n"
       echo -e "${FileJoyFeed}: 宠汪汪喂食克数保持默认值：10g...\n";;
@@ -504,7 +503,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   JsDrop=$(cat ${ListJsDrop})
   for Cron in ${JsDrop}
   do
-    perl -i -ne "{print unless /${Cron}/}" ${ListCron}
+    perl -i -ne "{print unless /\/${Cron}\./}" ${ListCron}
     rm -f "${ShellDir}/${Cron}.sh"
   done
   crontab ${ListCron}
