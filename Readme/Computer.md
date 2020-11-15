@@ -196,6 +196,4 @@ nano git_pull.sh                   # 编辑git_pull.sh，如果不习惯，请�
     chmod +x git_pull.sh
     ```
 
-- 向经常关注本脚本并且知道何为助力上车的人提供一个自动上车脚本`create_share_codes.sh.sample`，请自行参考上述`git_pull.sh`的修改方法修改为`create_share_codes.sh`，并修改其中必要的信息。在理解[这个链接](http://api.turinglabs.net/api/v1/jd/cleantimeinfo/)的含义之后自行添加定时任务，**有关于此的提问一概不回复，不解释**。
-
 - 如有帮助到你，请点亮 star 。
