@@ -17,7 +17,7 @@ HowManyDays=30
 ShellDir=$(cd $(dirname $0); pwd)
 RootDir=$(cd $(dirname $0); cd ..; pwd)
 LogDir=${RootDir}/log
-LogFileList=$(ls -l ${LogDir}/*/*.log | awk '{print $9}')
+LogFileList=$(ls -l ${LogDir}/jd_*/*.log | awk '{print $9}')
 
 
 for i in ${LogFileList}
