@@ -393,7 +393,7 @@ function Change_NotifyPet {
 ################################## 修改取关参数 ##################################
 function Change_Unsubscribe {
   if [ ${goodPageSize} -gt 0 ]; then
-    echo -e "${FileUnsubscribe}：修改店铺取关数量为：${shopPageSize}...\n"
+    echo -e "${FileUnsubscribe}：修改商品取关数量为：${goodPageSize}...\n"
     perl -i -pe "s|let goodPageSize = .+;|let goodPageSize = ${goodPageSize};|" ${FileUnsubscribe}
   fi
   if [ ${shopPageSize} -gt 0 ]; then
