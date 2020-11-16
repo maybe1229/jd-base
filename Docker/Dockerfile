@@ -6,10 +6,11 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.bfsu.edu.cn/g' /etc/apk/repositorie
     apk update -f && \
     apk --no-cache add -f openssl coreutils git wget curl nano tzdata perl bash && \
     rm -rf /var/cache/apk/*
-COPY Docker/Entrypoint.sh /Entrypoint.sh
-RUN chmod 777 /Entrypoint.sh && \
+COPY Docker/entrypoint.sh /entrypoint.sh
+COPY first_run.sh /first_run.sh 
+RUN chmod 777 /entrypoint.sh && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
     echo "Asia/Shanghai" > /etc/timezone
 WORKDIR /root
 VOLUME /root
-ENTRYPOINT /Entrypoint.sh
+ENTRYPOINT /entrypoint.sh
