@@ -423,10 +423,38 @@ function Change_Notify818 {
 }
 
 
+################################## 汇总 ##################################
+function Change_ALL {
+  Change_Cookie
+  Change_Token
+  Change_FruitShareCodes
+  Change_PetShareCodes
+  Change_PlantBeanShareCodes
+  Change_coinToBeans
+  Change_NotifyBlueCoin
+  Change_superMarketUpgrade
+  Change_businessCircleJump
+  Change_drawLotteryFlag
+  Change_NotifyFruit
+  Change_jdFruitBeanCard
+  Change_joyFeedCount
+  Change_joyRewardName
+  Change_NotifyJoyReward
+  Change_NotifyJoySteal
+  Change_NotifyJoy
+  Change_joyRunFlag
+  Change_jdJoyHelpFeed
+  Change_jdJoyStealCoin
+  Change_NotifyPet
+  Change_Unsubscribe
+#  Change_Notify818
+}
+
+
 ################################## 检测定时任务是否有变化 ##################################
 ## 此函数会在Log文件夹下生成四个文件，分别为：
 ## shell.list   shell文件夹下用来跑js文件的以“jd_”开头的所有 .sh 文件清单（去掉后缀.sh）
-## js.list      scripts/docker/crontab_list.sh文件中用来运行js脚本的清单（非运行脚本的不会包括在内）
+## js.list      scripts/docker/crontab_list.sh文件中用来运行js脚本的清单（去掉后缀.js，非运行脚本的不会包括在内）
 ## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Cron_Different {
@@ -452,11 +480,11 @@ function Git_PullShell {
   fi
 }
 
+
 ################################## 依次修改上述设定的值 ##################################
 cd ${ScriptsDir}
 Detect_UserSum
-DetectUserSumExitStatus=$?
-if [ ${DetectUserSumExitStatus} -eq 0 ]; then
+if [ $? -eq 0 ]; then
   PackageListOld=$(cat package.json)
   Git_PullScripts
   GitPullExitStatus=$?
@@ -464,45 +492,26 @@ fi
 
 if [ ${GitPullExitStatus} -eq 0 ]
 then
-  echo -e "js脚本更新完成，开始替换信息...\n"
-  Change_Cookie
-  Change_Token
-  Change_FruitShareCodes
-  Change_PetShareCodes
-  Change_PlantBeanShareCodes
-  Change_coinToBeans
-  Change_NotifyBlueCoin
-  Change_superMarketUpgrade
-  Change_businessCircleJump
-  Change_drawLotteryFlag
-  Change_NotifyFruit
-  Change_jdFruitBeanCard
-  Change_joyFeedCount
-  Change_joyRewardName
-  Change_NotifyJoyReward
-  Change_NotifyJoySteal
-  Change_NotifyJoy
-  Change_joyRunFlag
-  Change_jdJoyHelpFeed
-  Change_jdJoyStealCoin
-  Change_NotifyPet
-  Change_Unsubscribe
-#  Change_Notify818
+  echo -e "js脚本更新完成，开始替换信息，并检测定时任务变化情况...\n"
+  Change_ALL
   Cron_Different
 else
-  echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
+  echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh...\n为保证js脚本在更新失败时能够继续运行，仍然替换信息，但不再检测定时任务是否有变化...\n"
+  Change_ALL
 fi
 
-## 检测是否有新的定时任务
+
+################################## 输出是否有新的定时任务 ##################################
 if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
   echo -e "检测到有新的定时任务：\n"
   cat ${ListJsAdd}
   echo
 fi
-  
-## 检测失效的定时任务  
+
+
+################################## 输出是否有失效的定时任务 ##################################
 if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
-  echo -e "检测到失效的定时任务：\n"
+  echo -e "检测到有失效的定时任务：\n"
   cat ${ListJsDrop}
   echo
 fi
