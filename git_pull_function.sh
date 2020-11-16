@@ -437,6 +437,21 @@ function Cron_Different {
 }
 
 
+################################## 更新shell脚本 ##################################
+function Git_PullShell {
+  echo "更新shell脚本，原地址：${ShellURL}"
+  echo
+  git fetch --all
+  git reset --hard origin/main
+  git pull
+  if [ $? -eq 0 ]
+  then
+    echo -e "\nshell脚本更新完成...\n"
+  else
+    echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+  fi
+}
+
 ################################## 依次修改上述设定的值 ##################################
 cd ${ScriptsDir}
 Detect_UserSum
@@ -564,30 +579,16 @@ if [ ${GitPullExitStatus} -eq 0 ]; then
     echo -e "运行npm install...\n"
     npm install || npm install --registry=https://registry.npm.taobao.org
     if [ $? -ne 0 ]; then
-      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n请进入 ${ScriptsDir} 目录后手动运行 npm install，或等待定时任务再次运行git_pull.sh ..."
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n请进入 ${ScriptsDir} 目录后手动运行 npm install...\n"
       rm -rf ${ScriptsDir}/node_modules
+      exit 1
     fi
-    echo
   fi
 fi
 
 
 ################################## 更新shell脚本 ##################################
-function Git_PullShell {
-  echo "更新shell脚本，原地址：${ShellURL}"
-  echo
-  git fetch --all
-  git reset --hard origin/main
-  git pull
-  if [ $? -eq 0 ]
-  then
-    echo -e "\nshell脚本更新完成...\n"
-  else
-    echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
-  fi
-}
-
-if [ ${DetectUserSumExitStatus} -eq 0 ]; then
+if [ $? -eq 0 ]; then
   cd ${ShellDir}
   Git_PullShell
 fi
