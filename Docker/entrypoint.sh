@@ -14,7 +14,7 @@ fi
 
 cd /root
 
-if [ ! -d /root/scripts ] || [ ! -d /root/shell ] || [ ! -d /root/log ]; then
+if [ ! -d /root/scripts ] || [ ! -d /root/shell ] || [ ! -d /root/log ] || [ -f /root/crontab.list ]; then
   bash first_run.sh
 fi
 
