@@ -96,9 +96,9 @@ docker run -d \
 
 ## 初始化
 
-**在首次编辑好git_pull.sh这个文件后，请务必手动运行一次git_pull.sh，不仅是为检查错误，也是为了运行一次`npm install`用以安装js指定的依赖。**
+**在首次编辑好`git_pull.sh`这个文件后，请务必手动运行一次`git_pull.sh`，不仅是为检查错误，也是为了运行一次`npm install`用以安装js指定的依赖。**
 
-**在其他任何时候，只要你编辑过git_pull.sh，又想马上看到效果，请必须手动运行一次git_pull.sh！**
+**在其他任何时候，只要你编辑过`git_pull.sh`，又想马上看到效果，请必须手动运行一次`git_pull.sh`！**
 
 1. 完成所有信息修改以后，先检查一下git_pull.sh能否正常运行。
 
