@@ -101,11 +101,17 @@ nano git_pull.sh                   # 编辑git_pull.sh，如果不习惯，请�
 3. 然后你可以手动运行一次任何一个以`jd_`开头并以`.sh`结尾的脚本（有些脚本会运行很长时间，sh本身不输入任何内容在屏幕上，而把日志全部记录在日志文件中）。
 
     ```
-    cd /root/shell
+    cd /home/myid/jd/shell
     bash jd_bean_sign.sh
     ```
 
     去`/home/myid/jd/log/jd_bean_sign`文件夹下查看日志，查看结果是否正常，如不正常，请从头检查。
+
+4. 如果不想写入日志文件，想直接在终端中看到输出，那么可以如下操作：
+    ```
+    cd /home/myid/jd/scripts
+    node jd_bean_sign.js
+    ```
 
 ## 定时任务
 
