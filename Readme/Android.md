@@ -139,6 +139,16 @@ nano git_pull.sh
     npm install || npm install --registry=https://registry.npm.taobao.org
     ```
 
+    出现类似以下字样才表示运行成功：
+    ```
+    audited 205 packages in 3.784s
+
+    11 packages are looking for funding
+    run `npm fund` for details
+
+    found 0 vulnerabilities
+    ```
+
 2. 看看js脚本的信息替换是否正常。
 
     ```
