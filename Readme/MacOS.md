@@ -62,14 +62,9 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     bash git_pull.sh
     ```
 
-    *注：首次运行的日志很重要，如果过程中有任何错误，请参考错误提示来解决问题。主要包括两类问题：一是无法访问github，请想办法改善网络；二是`git_pull.sh`会运行`npm install`，用来安装js指定的依赖，如果你网络不好，日志中会有提示，请注意观察。如果`npm install`失败，请尝试手动运行，可按如下操作，如果失败，可运行多次：*
+    **注：首次运行的日志很重要，如果过程中有任何错误，请参考错误提示来解决问题。主要包括两类问题：一是无法访问github，请想办法改善网络；二是`git_pull.sh`会运行`npm install`，用来安装js指定的依赖，如果你网络不好，日志中会有提示，请注意阅读。**
 
-    ```
-    cd /Users/用户名/jd/scripts
-    npm install || npm install --registry=https://registry.npm.taobao.org
-    ```
-
-    出现类似以下字样才表示运行成功：
+    出现类似以下字样才表示`npm install`运行成功：
     ```
     audited 205 packages in 3.784s
 
@@ -77,6 +72,13 @@ bash -c "$(wget https://raw.githubusercontent.com/EvineDeng/jd-base/main/first_r
     run `npm fund` for details
 
     found 0 vulnerabilities
+    ```
+    
+    如果`npm install`失败，请尝试手动运行，可按如下操作，如果失败，可运行多次：
+
+    ```
+    cd /Users/用户名/jd/scripts
+    npm install || npm install --registry=https://registry.npm.taobao.org
     ```
 
 2. 看看js脚本的信息替换是否正常。

@@ -108,14 +108,9 @@ docker run -d \
     bash git_pull.sh
     ```
 
-    *注1：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行。*
+    **注1：`.sh`脚本如果没有可执行权限，虽然手动执行可以运行，但定时任务将无法正常运行。**
 
-    *注2：首次运行的日志很重要，如果过程中有任何错误，请参考错误提示来解决问题。主要包括两类问题：一是无法访问github，请想办法改善网络；二是`git_pull.sh`会运行`npm install`，用来安装js指定的依赖，如果你网络不好，日志中会有提示，请注意观察。如果`npm install`失败，请尝试手动运行，可按如下操作，如果失败，可运行多次：*
-
-    ```
-    cd /root/scripts
-    npm install || npm install --registry=https://registry.npm.taobao.org
-    ```
+    **注2：首次运行的日志很重要，如果过程中有任何错误，请参考错误提示来解决问题。主要包括两类问题：一是无法访问github，请想办法改善网络；二是`git_pull.sh`会运行`npm install`，用来安装js指定的依赖，如果你网络不好，日志中会有提示，请注意观察。**
 
     出现类似以下字样才表示运行成功：
     ```
@@ -125,6 +120,13 @@ docker run -d \
     run `npm fund` for details
 
     found 0 vulnerabilities
+    ```
+
+    如果`npm install`失败，请尝试手动运行，可按如下操作，如果失败，可运行多次：
+
+    ```
+    cd /root/scripts
+    npm install || npm install --registry=https://registry.npm.taobao.org
     ```
 
 2. 看看js脚本的信息替换是否正常。
