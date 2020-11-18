@@ -2,7 +2,7 @@
 反馈前请阅读
 
 - 常见问题： https://github.com/EvineDeng/jd-base/wiki/FAQ
-- 使用教程： https://github.com/EvineDeng/jd-base/wiki/%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B
+- 使用教程： https://github.com/EvineDeng/jd-base/wiki/Documents
 - 请先在 issues 页面搜索你的问题，包括已关闭的issue，很可能已被解决。
 -->
 
