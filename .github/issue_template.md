@@ -69,4 +69,3 @@ A：
 ### (3)npm install的日志
 <!-- 在scripts文件夹下运行npm install 的日志-->
 A：
-A：
