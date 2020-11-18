@@ -1,3 +1,11 @@
+---
+name: BUG 反馈
+about: 出现bug
+title: ''
+labels: ''
+assignees: ''
+---
+
 <!--
 反馈前请阅读
 
