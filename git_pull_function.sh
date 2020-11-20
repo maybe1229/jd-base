@@ -1,10 +1,7 @@
 #!/bin/bash
 
-## 修改日期：2020-11-15
+## 修改日期：2020-11-20
 ## 作者：Evine Deng <evinedeng@foxmail.com>
-
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
-export LC_ALL=C
 
 
 ################################## 定义文件路径（勿动） ##################################
@@ -572,8 +569,104 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
 fi
 
 
+################################## 更新额外的js脚本 ##################################
+function Update_ExtraJs {
+  echo -e "-------------------------------------------------------------------\n"
+  echo -e "开始更新额外的js脚本：${JsList2}\n"
+  echo -e "来源：${ScriptsURL2}\n"
+  for js in ${JsList2}
+  do
+    wget -q ${ScriptsURL2Raw}${js}.js -O /tmp/${js}.js
+    if [ -s "/tmp/${js}.js" ]
+    then
+      mv -f /tmp/${js}.js ${ScriptsDir}/${js}.js
+	  echo -e "${js}.js：更新成功...\n"
+    else
+      echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件...\n"
+    fi
+  done
+}
+
+
+################################## 替换东东工厂互助码 ##################################
+function Change_FactoryShareCodes {
+  ForOtherFactoryALL=""
+  echo -e "${FileFactory}: 替换东东工厂互助码...\n"
+  im=1
+  while [ ${im} -le ${UserSum} ]
+  do
+    Temp5=ForOtherFactory${im}
+    eval ForOtherFactoryTemp=$(echo \$${Temp5})
+    ForOtherFactoryALL="${ForOtherFactoryALL}\\n        '${ForOtherFactoryTemp}',"
+    let im++
+  done
+  perl -0777 -i -pe "s|(.+sharecodes = \[)\n(.+\n){2}(.+\];)|\1${ForOtherFactoryALL}\n\3|" ${FileFactory}
+}
+
+
+################################## 修改东东工厂是否自动注入电量 ##################################
+function Change_AutoAddPower {
+  if [ "${AutoAddPower}" = "true" ]; then
+    echo -e "${FileFactory}：修改东东工厂是否自动注入电量为：${AutoAddPower}..."
+	perl -i -pe "s|autoAdd = false;|autoAdd = ${AutoAddPower};|" ${FileFactory}
+  fi
+}
+
+
+################################## 复制额外的js脚本对应的ash脚本并增加定时任务 ##################################
+function Copy_ExtraAsh {
+  if [ -f ${ShellDir}/jd.sh.sample ]
+  then
+    JdShSample=$(cat ${ShellDir}/jd.sh.sample)
+    for js in ${JsList2}
+    do
+      if [ -f ${ShellDir}/${js}.ash ]
+	  then
+        AshTemp=$(cat ${ShellDir}/${js}.ash)
+	    if [ "${JdShSample}" != "${AshTemp}" ]; then
+	      cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
+	      chmod +x ${js}.ash
+	    fi
+	  else
+	    cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
+	    chmod +x ${js}.ash
+	  fi
+	  isAshAdd=$(grep "${js}.ash" ${ListCron})
+	  if [ -z "${isAshAdd}" ]; then
+	    cat ${ShellDir}/crontab.list.sample | grep "${js}\.ash" | perl -pe "s|/root/shell|${ShellDir}|" >> ${ListCron}
+	    crontab ${ListCron}
+	  fi
+    done
+  else
+    echo -e "${ShellDir}/jd.sh.sample 文件不存在，可能是shell脚本克隆不正常...\n未能成功添加额外的定时任务，请自行添加...\n"
+  fi
+}
+
+
+################################## 额外的js脚本 ##################################
+if [ "${EnableExtraJs}" = "true" ]; then
+  cd ${ScriptsDir}
+  
+  ## 仅列出需要修改信息的名称
+  FileFactory=jd_factory.js
+
+  ## 清单
+  JsList2="jd_factory jd_paopao"
+
+  ## 来源
+  ScriptsURL2="https://github.com/799953468/Quantumult-X"
+  ScriptsURL2Raw="https://raw.githubusercontent.com/799953468/Quantumult-X/master/Scripts/JD/"
+  
+  Update_ExtraJs
+  Change_FactoryShareCodes
+  Change_AutoAddPower
+  Copy_ExtraAsh
+fi
+
+
 ################################## npm install ##################################
 if [ ${GitPullExitStatus} -eq 0 ]; then
+  cd ${ScriptsDir}
   PackageListNew=$(cat package.json)
   if [ "${PackageListOld}" != "${PackageListNew}" ]; then
     echo -e "检测到 ${ScriptsDir}/package.json 内容有变化，再次运行 npm install...\n"

@@ -2,11 +2,15 @@
 ## 以下时间均为北京时间，如环境为UTC时间，请自行将任务时间提前8小时
 ## 所有时间建议各位自行调整为想要的时间
 
-# js脚本和shell脚本更新，并替换相关参数
-55 5-23/3 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
+# js脚本和shell脚本更新，并替换相关参数，日志需要手动清除
+55 5-23 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
 
 # 删除旧日志，未复制一份rm_log.sh时不生效，不记录日志
 50 3 1,15 * * /root/shell/rm_log.sh
+
+# 除了lxk0301大佬开发的脚本外，额外的一些脚本，均以ash结尾以作区分
+0 */3 * * * /root/shell/jd_factory.ash
+2 0 * * * /root/shell/jd_paopao.ash
 
 # 运行lxk0301大佬的js脚本
 0 9 * * * /root/shell/jd_bean_change.sh
@@ -14,6 +18,7 @@
 0 0 * * * /root/shell/jd_blueCoin.sh
 2 0 * * * /root/shell/jd_club_lottery.sh
 25 */3 * * * /root/shell/jd_daily_egg.sh
+20 * * * * /root/shell/jd_dreamFactory.sh
 30 7,12,18 * * * /root/shell/jd_fruit.sh
 1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh
 */20 0-22 * * * /root/shell/jd_joy_feedPets.sh
@@ -21,6 +26,7 @@
 30 0,6 * * * /root/shell/jd_joy_steal.sh
 15 1 * * * /root/shell/jd_lotteryMachine.sh
 40 */4 * * * /root/shell/jd_moneyTree.sh
+20 0,20 * * * /root/shell/jd_necklace.sh
 10 7,12,18 * * * /root/shell/jd_pet.sh
 12 13 * * * /root/shell/jd_pigPet.sh
 35 7-22 * * * /root/shell/jd_plantBean.sh
