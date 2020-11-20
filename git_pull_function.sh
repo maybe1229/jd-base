@@ -619,6 +619,9 @@ function Copy_ExtraAsh {
     JdShSample=$(cat ${ShellDir}/jd.sh.sample)
     for js in ${JsList2}
     do
+      if [ ! -d ${LogDir}/${js} ]; then
+        mkdir -p ${LogDir}/${js}
+      fi
       if [ -f ${ShellDir}/${js}.ash ]
       then
         AshTemp=$(cat ${ShellDir}/${js}.ash)
