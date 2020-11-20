@@ -620,21 +620,21 @@ function Copy_ExtraAsh {
     for js in ${JsList2}
     do
       if [ -f ${ShellDir}/${js}.ash ]
-	  then
+      then
         AshTemp=$(cat ${ShellDir}/${js}.ash)
-	    if [ "${JdShSample}" != "${AshTemp}" ]; then
-	      cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
-	      chmod +x ${js}.ash
-	    fi
-	  else
-	    cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
-	    chmod +x ${js}.ash
-	  fi
-	  isAshAdd=$(grep "${js}.ash" ${ListCron})
-	  if [ -z "${isAshAdd}" ]; then
-	    cat ${ShellDir}/crontab.list.sample | grep "${js}\.ash" | perl -pe "s|/root/shell|${ShellDir}|" >> ${ListCron}
-	    crontab ${ListCron}
-	  fi
+        if [ "${JdShSample}" != "${AshTemp}" ]; then
+          cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
+          chmod +x ${js}.ash
+        fi
+      else
+        cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
+        chmod +x ${js}.ash
+      fi
+      isAshAdd=$(grep "${js}.ash" ${ListCron})
+      if [ -z "${isAshAdd}" ]; then
+        cat ${ShellDir}/crontab.list.sample | grep "${js}\.ash" | perl -pe "s|/root/shell|${ShellDir}|" >> ${ListCron}
+        crontab ${ListCron}
+      fi
     done
   else
     echo -e "${ShellDir}/jd.sh.sample 文件不存在，可能是shell脚本克隆不正常...\n未能成功添加额外的定时任务，请自行添加...\n"
