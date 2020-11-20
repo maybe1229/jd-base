@@ -623,12 +623,12 @@ function Copy_ExtraAsh {
       then
         AshTemp=$(cat ${ShellDir}/${js}.ash)
         if [ "${JdShSample}" != "${AshTemp}" ]; then
-          cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
-          chmod +x ${js}.ash
+          cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${js}.ash"
+          chmod +x "${ShellDir}/${js}.ash"
         fi
       else
-        cp -f ${ShellDir}/jd.sh.sample ${ShellDir}/${js}.ash
-        chmod +x ${js}.ash
+        cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${js}.ash"
+        chmod +x "${ShellDir}/${js}.ash"
       fi
       isAshAdd=$(grep "${js}.ash" ${ListCron})
       if [ -z "${isAshAdd}" ]; then
