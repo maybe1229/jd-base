@@ -464,8 +464,7 @@ function Cron_Different {
 
 ################################## 更新shell脚本 ##################################
 function Git_PullShell {
-  echo "更新shell脚本，原地址：${ShellURL}"
-  echo
+  echo -e "更新shell脚本，原地址：${ShellURL}\n"
   git fetch --all
   git reset --hard origin/main
   git pull
