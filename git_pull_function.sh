@@ -629,8 +629,7 @@ function Copy_ExtraAsh {
           cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${js}.ash"
           chmod +x "${ShellDir}/${js}.ash"
         fi
-      elif [ ! -f ${ShellDir}/${js}.ash ]
-      then
+      else [ ! -f ${ShellDir}/${js}.ash ]
         cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${js}.ash"
         chmod +x "${ShellDir}/${js}.ash"
       fi
