@@ -589,10 +589,13 @@ function Update_ExtraJs {
   echo -e "来源：${ScriptsURL2}\n"
   for js in ${JsList2}
   do
-    wget -q --no-check-certificate ${ScriptsURL2Raw}${js}.js -O /tmp/${js}.js
-    if [ -s "/tmp/${js}.js" ]
+    if [ -f "${ScriptsDir}/${js}.js.new" ]; then
+      rm -f "${ScriptsDir}/${js}.js.new"
+    fi
+    wget -q --no-check-certificate ${ScriptsURL2Raw}${js}.js -O ${ScriptsDir}/${js}.js.new
+    if [ -s "${ScriptsDir}/${js}.js.new" ]
     then
-      mv -f /tmp/${js}.js ${ScriptsDir}/${js}.js
+      mv -f ${ScriptsDir}/${js}.js.new ${ScriptsDir}/${js}.js
       echo -e "${js}.js：更新成功...\n"
     else
       echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件，如无法访问，建议禁用额外的js脚本功能...\n"
