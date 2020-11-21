@@ -247,6 +247,19 @@ NotifyPet=""
 # Notify818=""
 
 
+################################## 定义京喜工厂是否静默运行（选填） ##################################
+## true 为静默不发送推送通知消息，false 为不静默发出通知 
+## 考虑到京喜工厂每小时都要运行，次次通知太频繁了，改成只在10点多那一次发通知，但前提是执行 git_pull.sh 的定时任务在9点多必须执行一次
+## 以下代码中判断条件 [ $(date "+%H") -eq 9 ] 即检测在运行 git_pull.sh 时间的小时数是否等于9
+## 如果等于9，就把 NotifyDreamFactory 改为false，那么在下一次执行 jd_dreamFactory.sh 脚本时，也就是10点多的那一次，就将发出通知
+if [ $(date "+%H") -eq 9 ]
+then
+  NotifyDreamFactory=false
+else
+  NotifyDreamFactory=true
+fi
+
+
 ################################## 定义取关参数（选填） ##################################
 ## jd_unsubscribe这个任务是用来取关每天做任务关注的商品和店铺，默认在每次运行时取关20个商品和20个店铺
 ## 如果取关数量不够，可以根据情况增加，还可以设置 jdUnsubscribeStopGoods 和 jdUnsubscribeStopShop 

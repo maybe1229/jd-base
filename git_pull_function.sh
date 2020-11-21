@@ -34,6 +34,7 @@ FileFruit=jd_fruit.js
 FilePet=jd_pet.js
 File818=jd_818.js
 FileUnsubscribe=jd_unsubscribe.js
+FileDreamFactory=jd_dreamFactory.js
 
 
 ################################## 在日志中记录时间与路径 ##################################
@@ -387,6 +388,18 @@ function Change_NotifyPet {
 }
 
 
+################################## 修改京喜工厂是否静默运行 ##################################
+function Change_NotifyDreamFactory {
+  if [ "${NotifyDreamFactory}" = "false" ]
+  then
+    echo -e "${FileDreamFactory}：修改京喜工厂是否静默运行为：${NotifyDreamFactory}，不静默运行发出通知...\n"
+    perl -i -pe "s|let jdNotify = true;|let jdNotify = ${NotifyDreamFactory};|" ${FileDreamFactory}
+  else
+    echo -e "${FileDreamFactory}：京喜工厂保持默认静默运行...\n"
+  fi
+}
+
+
 ################################## 修改取关参数 ##################################
 function Change_Unsubscribe {
   if [ ${goodPageSize} -gt 0 ]; then
@@ -445,6 +458,7 @@ function Change_ALL {
   Change_NotifyPet
   Change_Unsubscribe
 #  Change_Notify818
+  Change_NotifyDreamFactory
 }
 
 
