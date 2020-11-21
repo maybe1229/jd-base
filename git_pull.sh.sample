@@ -264,7 +264,7 @@ jdUnsubscribeStopShop=""
 ## 除了lxk0301大佬开发的js脚本之外，还有一些其他的作者也在开发脚本，启用请设置为true，禁用请设置为false
 ## 目前增加了 https://github.com/799953468/Quantumult-X/ 的两个京东的脚本
 ## 额外的脚本均直接下载Github的RAW文件，如果启用后你下不下来，建议禁用
-EnableExtraJs=true
+EnableExtraJs=
 
 
 ################################## 定义东东工厂每个人自己的互助码 ##################################
@@ -278,7 +278,6 @@ MyFactory3=""
 MyFactory4=""
 MyFactory5=""
 MyFactory6=""
-MyFactory7=""
 MyFactoryA=""
 MyFactoryB=""
 
