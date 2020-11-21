@@ -3,6 +3,9 @@
 ## 修改日期：2020-11-21
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
+export LC_ALL=C
+
 
 ################################## 定义文件路径（勿动） ##################################
 RootDir=$(cd $(dirname $0); cd ..; pwd)
