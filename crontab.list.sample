@@ -10,14 +10,14 @@
 
 # 除了lxk0301大佬开发的脚本外，额外的一些脚本，均以ash结尾以作区分
 0 */3 * * * /root/shell/jd_factory.ash
-2 0 * * * /root/shell/jd_paopao.ash
+15 0 * * * /root/shell/jd_paopao.ash
 
 # 运行lxk0301大佬的js脚本
 0 9 * * * /root/shell/jd_bean_change.sh
 3 0,8,14 * * * /root/shell/jd_bean_sign.sh
 0 0 * * * /root/shell/jd_blueCoin.sh
 2 0 * * * /root/shell/jd_club_lottery.sh
-25 */3 * * * /root/shell/jd_daily_egg.sh
+54 2-23/3 * * * /root/shell/jd_daily_egg.sh
 20 * * * * /root/shell/jd_dreamFactory.sh
 30 7,12,18 * * * /root/shell/jd_fruit.sh
 1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh
