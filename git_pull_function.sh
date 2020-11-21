@@ -575,13 +575,13 @@ function Update_ExtraJs {
   echo -e "来源：${ScriptsURL2}\n"
   for js in ${JsList2}
   do
-    wget -q ${ScriptsURL2Raw}${js}.js -O /tmp/${js}.js
+    wget -q --no-check-certificate ${ScriptsURL2Raw}${js}.js -O /tmp/${js}.js
     if [ -s "/tmp/${js}.js" ]
     then
       mv -f /tmp/${js}.js ${ScriptsDir}/${js}.js
-	  echo -e "${js}.js：更新成功...\n"
+      echo -e "${js}.js：更新成功...\n"
     else
-      echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件...\n"
+      echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件，如无法访问，建议禁用额外的js脚本功能...\n"
     fi
   done
 }
@@ -607,7 +607,7 @@ function Change_FactoryShareCodes {
 function Change_AutoAddPower {
   if [ "${AutoAddPower}" = "true" ]; then
     echo -e "${FileFactory}：修改东东工厂是否自动注入电量为：${AutoAddPower}..."
-	perl -i -pe "s|autoAdd = false;|autoAdd = ${AutoAddPower};|" ${FileFactory}
+    perl -i -pe "s|autoAdd = false;|autoAdd = ${AutoAddPower};|" ${FileFactory}
   fi
 }
 
