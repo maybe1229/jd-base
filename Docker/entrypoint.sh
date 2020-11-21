@@ -7,9 +7,17 @@ fi
 
 crond -L /root/log/crond.log
 
-if [ ! -f /root/first_run.sh ]; then
-  cp /first_run.sh /root/first_run.sh
+if [ ! -f /root/first_run.sh ]
+then
+  cp -f /first_run.sh /root/first_run.sh
   chmod 777 /root/first_run.sh
+else
+  FirstRunOld=$(cat /root/first_run.sh)
+  FirstRunNew=$(cat /first_run.sh)
+  if [ "${FirstRunOld}" != "${FirstRunNew}" ]; then
+    cp -f /first_run.sh /root/first_run.sh
+    chmod 777 /root/first_run.sh
+  fi
 fi
 
 cd /root
