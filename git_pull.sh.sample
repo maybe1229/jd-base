@@ -240,9 +240,9 @@ joyRunFlag=""
 ## 默认 false（不静默，发送推送通知消息），如想静默请修改为 true
 ## 每次执行脚本通知太频繁了，改成只在周三和周六中午那一次运行时发送通知提醒
 ## 特别说明：针对北京时间有效。并且定时任务要注意：在git_pull.sh于9：00-14：00间将NotifyPet改为false以后再执行jd_pet.sh才有效。
-if [ $(date -d "8 hour" "+%w") -eq 6 ] && [ $(date -d "8 hour" "+%H") -ge 9 ] && [ $(date -d "8 hour" "+%H") -lt 14 ]; then
+if [ $(date "+%w") -eq 6 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
   NotifyPet="false"
-elif [ $(date -d "8 hour" "+%w") -eq 3 ] && [ $(date -d "8 hour" "+%H") -ge 9 ] && [ $(date -d "8 hour" "+%H") -lt 14 ]; then
+elif [ $(date "+%w") -eq 3 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
   NotifyPet="false"
 else
   NotifyPet="true"
