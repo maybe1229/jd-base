@@ -47,8 +47,8 @@ function Detect_Cron {
 
 ## 创建初始日志目录
 function Make_LogDir {
-  ## 读取 ${ScriptsDir}/docker/crontab_list.sh 中的 js 脚本定时任务为初始任务清单
-  [ -f ${ScriptsDir}/docker/crontab_list.sh ] && JsList=$(cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" | sort -u)
+  ## 读取 ${ShellDir}/crontab.list.sample 中定时任务为初始任务清单
+  [ -f ${ShellDir}/crontab.list.sample ] && JsList=$(cat ${ShellDir}/crontab.list.sample | grep -E "jd_.+\.sh" | perl -pe "s|.+(jd_.+)\.sh.*|\1|" | sort -u)
   
   if [ -n "${JsList}" ]
   then
