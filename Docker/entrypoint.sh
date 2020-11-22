@@ -1,23 +1,12 @@
 #!/bin/bash
 set -e
 
-if [ ! -d /root/log ]; then
-  mkdir -p /root/log
-fi
-
+[ ! -d /root/log ] && mkdir -p /root/log
 crond -L /root/log/crond.log
 
-if [ ! -f /root/first_run.sh ]
-then
+if [ ! -f /root/first_run.sh ] || [[ "$(cat /root/first_run.sh)" != "$(cat /first_run.sh)" ]]; then
   cp -f /first_run.sh /root/first_run.sh
   chmod 777 /root/first_run.sh
-else
-  FirstRunOld=$(cat /root/first_run.sh)
-  FirstRunNew=$(cat /first_run.sh)
-  if [ "${FirstRunOld}" != "${FirstRunNew}" ]; then
-    cp -f /first_run.sh /root/first_run.sh
-    chmod 777 /root/first_run.sh
-  fi
 fi
 
 cd /root
