@@ -60,7 +60,6 @@ function Make_LogDir {
         echo -e "创建 ${LogDir}/${Task} 日志目录...\n"
         mkdir -p ${LogDir}/${Task}
         [ -z "${isDocker}" ] && sleep 1
-        fi
       else 
         echo -e "日志目录 ${LogDir}/${Task} 已存在，跳过创建...\n"
         [ -z "${isDocker}" ] && sleep 1
@@ -101,11 +100,5 @@ function Copy_Shell {
 
 
 cd ${RootDir}
-Detect_Cron
-if [ $? -eq 0 ]; then
-  Make_LogDir
-fi
-if [ $? -eq 0 ]; then
-  Copy_Shell
-fi
+Detect_Cron && Make_LogDir && Copy_Shell
 
