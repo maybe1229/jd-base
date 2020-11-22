@@ -576,10 +576,7 @@ function Copy_ExtraAsh {
     do
       [ ! -d "${LogDir}/${js}" ] && mkdir -p ${LogDir}/${js}
 
-      if [ -f "${ShellDir}/${js}.ash" ]
-      then
-        [[ "${JdShSample}" != "$(cat ${ShellDir}/${js}.ash)" ]] && cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
-      else
+      if [ ! -f "${ShellDir}/${js}.ash" ] || [[ "${JdShSample}" != "$(cat ${ShellDir}/${js}.ash)" ]]; then
         cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
       fi
 
@@ -620,8 +617,7 @@ fi
 ################################## npm install ##################################
 if [ ${GitPullExitStatus} -eq 0 ]; then
   cd ${ScriptsDir}
-  PackageListNew=$(cat package.json)
-  if [ "${PackageListOld}" != "${PackageListNew}" ]; then
+  if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
     echo -e "检测到 ${ScriptsDir}/package.json 内容有变化，再次运行 npm install...\n"
     npm install || npm install --registry=https://registry.npm.taobao.org
     if [ $? -ne 0 ]; then
