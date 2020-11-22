@@ -97,4 +97,6 @@ function Copy_Shell {
 }
 
 cd ${RootDir}
-Detect_Cron && Make_LogDir && Copy_Shell
+Detect_Cron
+[ $? = 0 ] && Make_LogDir
+[ $? = 0 ] && Copy_Shell
