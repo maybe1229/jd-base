@@ -1,6 +1,6 @@
 #!/bin/bash
 
-## 修改日期：2020-11-15
+## 修改日期：2020-11-22
 ## 作者：Evine Deng <evinedeng@foxmail.com>
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
@@ -11,7 +11,6 @@ ShellDir="${RootDir}/shell"
 LogDir="${RootDir}/log"
 ScriptsDir="${RootDir}/scripts"
 isDocker=$(cat /proc/1/cgroup | grep docker)
-
 
 ## 尝试自动恢复任务，如文件夹不存在则尝试克隆
 function Detect_Cron {
@@ -46,13 +45,10 @@ function Detect_Cron {
   fi
 }
 
-
 ## 创建初始日志目录
 function Make_LogDir {
   ## 读取 ${ScriptsDir}/docker/crontab_list.sh 中的 js 脚本定时任务为初始任务清单
-  if [ -f ${ScriptsDir}/docker/crontab_list.sh ]; then
-    JsList=$(cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" | sort)
-  fi
+  [ -f ${ScriptsDir}/docker/crontab_list.sh ] && JsList=$(cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" | sort -u)
   
   if [ -n "${JsList}" ]
   then
@@ -61,14 +57,10 @@ function Make_LogDir {
       then
         echo -e "创建 ${LogDir}/${Task} 日志目录...\n"
         mkdir -p ${LogDir}/${Task}
-        if [ -z "${isDocker}" ]; then
-          sleep 1
-        fi
+        [ -z "${isDocker}" ] && sleep 1
       else 
         echo -e "日志目录 ${LogDir}/${Task} 已存在，跳过创建...\n"
-        if [ -z "${isDocker}" ]; then
-          sleep 1
-        fi
+        [ -z "${isDocker}" ] && sleep 1
       fi
     done
   else
@@ -90,9 +82,7 @@ function Copy_Shell {
         cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Task}.sh"
         chmod +x "${ShellDir}/${Task}.sh"
         echo
-        if [ -z "${isDocker}" ]; then
-          sleep 1
-        fi
+        [ -z "${isDocker}" ] && sleep 1
       done
       echo -e "脚本执行成功，请按照 Readme 教程继续配置...\n"
     fi
@@ -106,13 +96,5 @@ function Copy_Shell {
   fi
 }
 
-
 cd ${RootDir}
-Detect_Cron
-if [ $? -eq 0 ]; then
-  Make_LogDir
-fi
-if [ $? -eq 0 ]; then
-  Copy_Shell
-fi
-
+Detect_Cron && Make_LogDir && Copy_Shell
