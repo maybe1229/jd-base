@@ -200,7 +200,7 @@ function Change_coinToBeans {
         ;;
     esac
   else
-    echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换实物奖品：${coinToBeans}，该奖品是否可兑换以js运行日志为准...\n"
+    echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换实物奖品 \"${coinToBeans}\"，该奖品是否可兑换以js运行日志为准...\n"
     perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
   fi
 }
@@ -353,7 +353,7 @@ function Change_NotifyPet {
 ################################## 修改京喜工厂是否静默运行 ##################################
 function Change_NotifyDreamFactory {
   if [ "${NotifyDreamFactory}" = "false" ] || [ "${NotifyDreamFactory}" = "true" ]; then
-    echo -e "${FileDreamFactory}：修改京喜工厂是否静默运行为 ${NotifyDreamFactory}...\n"
+    echo -e "${FileDreamFactory}：设置京喜工厂是否静默运行为 ${NotifyDreamFactory}...\n"
     perl -i -pe "s|let jdNotify = .+;|let jdNotify = ${NotifyDreamFactory};|" ${FileDreamFactory}
   fi
 }
@@ -362,19 +362,19 @@ function Change_NotifyDreamFactory {
 ################################## 修改取关参数 ##################################
 function Change_Unsubscribe {
   if [ ${goodPageSize} -gt 0 ]; then
-    echo -e "${FileUnsubscribe}：修改商品取关数量为 ${goodPageSize}...\n"
+    echo -e "${FileUnsubscribe}：设置商品取关数量为 ${goodPageSize}...\n"
     perl -i -pe "s|let goodPageSize = .+;|let goodPageSize = ${goodPageSize};|" ${FileUnsubscribe}
   fi
   if [ ${shopPageSize} -gt 0 ]; then
-    echo -e "${FileUnsubscribe}：修改店铺取关数量为 ${shopPageSize}...\n"
+    echo -e "${FileUnsubscribe}：设置店铺取关数量为 ${shopPageSize}...\n"
     perl -i -pe "s|let shopPageSize = .+;|let shopPageSize = ${shopPageSize};|" ${FileUnsubscribe}
   fi
   if [ ${jdUnsubscribeStopGoods} ]; then
-    echo -e "修改禁止取关商品的截止关键字为 ${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品...\n"
+    echo -e "设置禁止取关商品的截止关键字为 ${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品...\n"
     perl -i -pe "s|let stopGoods = .+;|let stopGoods = \'${jdUnsubscribeStopGoods}\';|" ${FileUnsubscribe}
   fi
   if [ ${jdUnsubscribeStopShop} ]; then
-    echo -e "修改禁止取关店铺的截止关键字为 ${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺...\n"
+    echo -e "设置禁止取关店铺的截止关键字为 ${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺...\n"
     perl -i -pe "s|let stopShop = .+;|let stopShop = \'${jdUnsubscribeStopShop}\';|" ${FileUnsubscribe}
   fi
 }
@@ -383,7 +383,7 @@ function Change_Unsubscribe {
 ################################## 修改手机狂欢城是否发送上车提醒 ##################################
 function Change_Notify818 {
   if [ "${Notify818}" = "true" ] || [ "${Notify818}" = "false" ]; then
-    echo -e "${File818}：修改手机狂欢城是否发送上车提醒为 ${Notify818}...\n"
+    echo -e "${File818}：设置手机狂欢城是否发送上车提醒为 ${Notify818}...\n"
     perl -i -pe "s|let jdNotify = .+;|let jdNotify = ${Notify818};|" ${File818}
   fi
 }
@@ -412,8 +412,8 @@ function Change_ALL {
   Change_jdJoyHelpFeed
   Change_jdJoyStealCoin
   Change_NotifyPet
-  Change_Unsubscribe
   Change_NotifyDreamFactory
+  Change_Unsubscribe
   # Change_Notify818
 }
 
