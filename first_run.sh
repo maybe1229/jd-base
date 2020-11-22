@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ## 修改日期：2020-11-22
 ## 作者：Evine Deng <evinedeng@foxmail.com>
@@ -59,14 +59,11 @@ function Make_LogDir {
       then
         echo -e "创建 ${LogDir}/${Task} 日志目录...\n"
         mkdir -p ${LogDir}/${Task}
-        if [ -z "${isDocker}" ]; then
-          sleep 1
+        [ -z "${isDocker}" ] && sleep 1
         fi
       else 
         echo -e "日志目录 ${LogDir}/${Task} 已存在，跳过创建...\n"
-        if [ -z "${isDocker}" ]; then
-          sleep 1
-        fi
+        [ -z "${isDocker}" ] && sleep 1
       fi
     done
   else
@@ -88,9 +85,7 @@ function Copy_Shell {
         cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Task}.sh"
         chmod +x "${ShellDir}/${Task}.sh"
         echo
-        if [ -z "${isDocker}" ]; then
-          sleep 1
-        fi
+        [ -z "${isDocker}" ] && sleep 1
       done
       echo -e "脚本执行成功，请按照 Readme 教程继续配置...\n"
     fi
