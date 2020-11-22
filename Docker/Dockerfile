@@ -5,7 +5,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.bfsu.edu.cn/g' /etc/apk/repositorie
     apk update -f && \
     apk --no-cache add -f openssl coreutils git wget curl nano tzdata perl bash && \
     rm -rf /var/cache/apk/*
-ENV HOME=/root LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 LC_ALL=C SHELL=/bin/bash
+ENV HOME=/root LANGUAGE=en_US.UTF-8 LANG=en_US.UTF-8 LC_ALL=C SHELL=/bin/bash PS1="\u@\h:\w \$ "
 COPY Docker/entrypoint.sh /entrypoint.sh
 COPY first_run.sh /first_run.sh 
 RUN chmod 777 /entrypoint.sh && \
