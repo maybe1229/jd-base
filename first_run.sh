@@ -16,14 +16,14 @@ isDocker=$(cat /proc/1/cgroup | grep docker)
 function Detect_Cron {
   if [ -d ${ScriptsDir} ] && [ -d ${ShellDir} ] && [ -f ${RootDir}/crontab.list ] && [ -n "${isDocker}" ]
   then
-    echo -e "检测到本机为容器，并且${ScriptsDir}、${ShellDir}、${RootDir}/crontab.list均存在，开始自动恢复定时任务...\n"
+    echo -e "\n检测到本机为容器，并且${ScriptsDir}、${ShellDir}、${RootDir}/crontab.list均存在，开始自动恢复定时任务...\n"
     crontab ${RootDir}/crontab.list
     echo -e "当前的定时任务如下：\n"
     crontab -l
-    echo -e "成功恢复定时任务...\n"
+    echo -e "\n成功恢复定时任务...\n"
   elif [ -d ${ScriptsDir} ] && [ -d ${ShellDir} ] && [ -f ${RootDir}/crontab.list ] && [ -z "${isDocker}" ]
   then
-    echo -e "检测到本机为物理机，虽然${ScriptsDir}、${ShellDir}、${RootDir}/crontab.list均存在...\n但为防止破坏物理机上本身已经存在的定时任务，跳过恢复定时任务，请手动添加...\n"
+    echo -e "\n检测到本机为物理机，虽然${ScriptsDir}、${ShellDir}、${RootDir}/crontab.list均存在...\n但为防止破坏物理机上本身已经存在的定时任务，跳过恢复定时任务，请手动添加...\n"
     echo -e "3...\n"
     sleep 1
     echo -e "2...\n"
@@ -32,15 +32,13 @@ function Detect_Cron {
     sleep 1
   else
     if [ ! -d ${ScriptsDir} ]; then
-      echo -e "${ScriptsDir} 目录不存在，开始克隆...\n"
+      echo -e "\n${ScriptsDir} 目录不存在，开始克隆...\n"
       git clone https://github.com/lxk0301/jd_scripts ${ScriptsDir}
-      echo
     fi
   
     if [ ! -d ${ShellDir} ]; then
-      echo -e "${ShellDir} 目录不存在，开始克隆...\n"
+      echo -e "\n${ShellDir} 目录不存在，开始克隆...\n"
       git clone https://github.com/EvineDeng/jd-base ${ShellDir}
-      echo
     fi
   fi
 }
@@ -57,13 +55,13 @@ function Make_LogDir {
     for Task in ${JsList}; do
       if [ ! -d ${LogDir}/${Task} ]
       then
-        echo -e "创建 ${LogDir}/${Task} 日志目录...\n"
+        echo -e "\n创建 ${LogDir}/${Task} 日志目录..."
         mkdir -p ${LogDir}/${Task}
         if [ -z "${isDocker}" ]; then
           sleep 1
         fi
       else 
-        echo -e "日志目录 ${LogDir}/${Task} 已存在，跳过创建...\n"
+        echo -e "\n日志目录 ${LogDir}/${Task} 已存在，跳过创建..."
         if [ -z "${isDocker}" ]; then
           sleep 1
         fi
@@ -72,9 +70,9 @@ function Make_LogDir {
   else
     if [ -z "${isDocker}" ]
     then
-      echo -e "${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新运行本脚本...\n"
+      echo -e "\n${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新运行本脚本..."
     else
-      echo -e "${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新启动容器...\n"
+      echo -e "\n${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新启动容器..."
     fi
   fi
 }
@@ -84,6 +82,7 @@ function Copy_Shell {
   if [ -s ${ShellDir}/jd.sh.sample ]
   then
     if [ -n "${JsList}" ]; then
+      echo
       for Task in ${JsList}; do
         cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Task}.sh"
         chmod +x "${ShellDir}/${Task}.sh"
@@ -97,9 +96,9 @@ function Copy_Shell {
   else
     if [ -z "${isDocker}" ]
     then
-      echo -e "${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新运行本脚本...\n"
+      echo -e "\n${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新运行本脚本...\n"
     else
-      echo -e "${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新启动容器...\n"
+      echo -e "\n${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新启动容器...\n"
     fi
   fi
 }
