@@ -12,7 +12,6 @@ LogDir="${RootDir}/log"
 ScriptsDir="${RootDir}/scripts"
 isDocker=$(cat /proc/1/cgroup | grep docker)
 
-
 ## 尝试自动恢复任务，如文件夹不存在则尝试克隆
 function Detect_Cron {
   if [ -d ${ScriptsDir} ] && [ -d ${ShellDir} ] && [ -f ${RootDir}/crontab.list ] && [ -n "${isDocker}" ]
@@ -46,11 +45,12 @@ function Detect_Cron {
   fi
 }
 
-
 ## 创建初始日志目录
 function Make_LogDir {
-## 读取 ${ShellDir}/crontab.list.sample 中定时任务为初始任务清单
-  [ -f ${ShellDir}/crontab.list.sample ] && JsList=$(cat ${ShellDir}/crontab.list.sample | grep -E "jd_.+\.sh" | perl -pe "s|.+(jd_.+)\.sh.*|\1|" | sort -u)
+  ## 读取 ${ShellDir}/crontab.list.sample 中定时任务为初始任务清单
+  if [ -f ${ShellDir}/crontab.list.sample ]; then
+    JsList=$(cat ${ShellDir}/crontab.list.sample | grep -E "jd_.+\.sh" | perl -pe "s|.+(jd_.+)\.sh.*|\1|" | sort -u)
+  fi
   
   if [ -n "${JsList}" ]
   then
@@ -59,10 +59,14 @@ function Make_LogDir {
       then
         echo -e "创建 ${LogDir}/${Task} 日志目录...\n"
         mkdir -p ${LogDir}/${Task}
-        [ -z "${isDocker}" ] && sleep 1
+        if [ -z "${isDocker}" ]; then
+          sleep 1
+        fi
       else 
         echo -e "日志目录 ${LogDir}/${Task} 已存在，跳过创建...\n"
-        [ -z "${isDocker}" ] && sleep 1
+        if [ -z "${isDocker}" ]; then
+          sleep 1
+        fi
       fi
     done
   else
@@ -84,7 +88,9 @@ function Copy_Shell {
         cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Task}.sh"
         chmod +x "${ShellDir}/${Task}.sh"
         echo
-        [ -z "${isDocker}" ] && sleep 1
+        if [ -z "${isDocker}" ]; then
+          sleep 1
+        fi
       done
       echo -e "脚本执行成功，请按照 Readme 教程继续配置...\n"
     fi
@@ -98,7 +104,4 @@ function Copy_Shell {
   fi
 }
 
-
-cd ${RootDir}
-Detect_Cron && Make_LogDir && Copy_Shell
-
+cd ${RootDir} && Detect_Cron && Make_LogDir && Copy_Shell
