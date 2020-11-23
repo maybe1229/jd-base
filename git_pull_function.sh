@@ -405,6 +405,7 @@ function Change_Notify818 {
 function Change_ALL {
   Change_Cookie
   Change_Token
+  Change_BeanSignStop
   Change_FruitShareCodes
   Change_PetShareCodes
   Change_PlantBeanShareCodes
