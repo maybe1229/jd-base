@@ -461,7 +461,7 @@ function Set_NotifyBeanSign {
       for file in ${ListShellDir}
       do
         perl -i -pe "s|^.*(export JD_BEAN_SIGN_STOP_NOTIFY=).*$|# \1|" ${file}
-        perl -i -pe "s|^.*(export JD_BEAN_SIGN_NOTIFY_SIMPLE=).*$|\1true" ${file}
+        perl -i -pe "s|^.*(export JD_BEAN_SIGN_NOTIFY_SIMPLE=).*$|\1true|" ${file}
       done
       ;;
     *)
