@@ -1,7 +1,10 @@
 #!/bin/bash
 
-## 修改日期：2020-11-22
-## 作者：Evine Deng <evinedeng@foxmail.com>
+## Author: Evine Deng
+## Source: https://github.com/EvineDeng/jd-base
+## Modified： 2020-11-23
+## Version： v2.3.0
+
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
 export LC_ALL=C
@@ -31,15 +34,28 @@ function Detect_Cron {
     echo -e "1...\n"
     sleep 1
   else
-    if [ ! -d ${ScriptsDir} ]; then
+    if [ ! -d ${ScriptsDir} ]
+    then
       echo -e "\n${ScriptsDir} 目录不存在，开始克隆...\n"
       git clone https://github.com/lxk0301/jd_scripts ${ScriptsDir}
+    else
+      echo -e "\n${ScriptsDir} 目录已存在，跳过克隆...\n"
     fi
   
-    if [ ! -d ${ShellDir} ]; then
+    if [ ! -d ${ShellDir} ]
+    then
       echo -e "\n${ShellDir} 目录不存在，开始克隆...\n"
       git clone https://github.com/EvineDeng/jd-base ${ShellDir}
+    else
+      echo -e "\n${ShellDir} 目录已存在，跳过克隆...\n"
     fi
+  fi
+}
+
+## 判断主机是不是Docker容器，如果不是，等待1秒
+function Detect_Docker {
+  if [ -z "${isDocker}" ]; then
+    sleep 1
   fi
 }
 
@@ -57,49 +73,54 @@ function Make_LogDir {
       then
         echo -e "\n创建 ${LogDir}/${Task} 日志目录..."
         mkdir -p ${LogDir}/${Task}
-        if [ -z "${isDocker}" ]; then
-          sleep 1
-        fi
+        Detect_Docker
       else 
         echo -e "\n日志目录 ${LogDir}/${Task} 已存在，跳过创建..."
-        if [ -z "${isDocker}" ]; then
-          sleep 1
-        fi
+        Detect_Docker
       fi
     done
   else
     if [ -z "${isDocker}" ]
     then
-      echo -e "\n${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新运行本脚本..."
+      echo -e "\n${ShellDir}/crontab.list.sample 不存在，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新运行本脚本..."
     else
-      echo -e "\n${ScriptsDir}/docker/crontab_list.sh 不存在，可能是 js 脚本克隆不正常，请删除 ${ScriptsDir} 文件夹后重新启动容器..."
+      echo -e "\n${ShellDir}/crontab.list.sample 不存在，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新启动容器..."
     fi
   fi
 }
 
+## 复制初始任务脚本子函数
+function Copy_ShellSub {
+  cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Task}.sh"
+  chmod +x "${ShellDir}/${Task}.sh"
+  echo
+  Detect_Docker
+}
+
 ## 复制初始任务脚本
 function Copy_Shell {
-  if [ -s ${ShellDir}/jd.sh.sample ]
+  if [ -s ${ShellDir}/jd.sh.sample ] && [ -n "${JsList}" ]
   then
-    if [ -n "${JsList}" ]; then
-      echo
-      for Task in ${JsList}; do
-        cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/${Task}.sh"
-        chmod +x "${ShellDir}/${Task}.sh"
-        echo
-        if [ -z "${isDocker}" ]; then
-          sleep 1
+    echo
+    VerSample=$(cat ${ShellDir}/jd.sh.sample | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+    for Task in ${JsList}; do
+      if [ -f ${ShellDir}/${Task}.sh ]
+      then
+        VerJdShell=$(cat ${ShellDir}/${Task}.sh | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+        if [ "${VerSample}" != "${VerJdShell}" ]; then
+          Copy_ShellSub
         fi
-      done
-      echo -e "脚本执行成功，请按照 Readme 教程继续配置...\n"
-    fi
-  else
-    if [ -z "${isDocker}" ]
-    then
-      echo -e "\n${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新运行本脚本...\n"
-    else
-      echo -e "\n${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新启动容器...\n"
-    fi
+      else
+        Copy_ShellSub
+      fi
+    done
+    echo -e "脚本执行成功，请按照教程继续配置...\n"
+  elif [ ! -s ${ShellDir}/jd.sh.sample ] && [ -z "${isDocker}" ]
+  then
+    echo -e "\n${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新运行本脚本...\n"
+  elif [ ! -s ${ShellDir}/jd.sh.sample ] && [ -n "${isDocker}" ]
+  then
+    echo -e "\n${ShellDir}/jd.sh.sample 不存在或内容为空，可能是 shell 脚本克隆不正常，请删除 ${ShellDir} 文件夹后重新启动容器...\n"
   fi
 }
 
