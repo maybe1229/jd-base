@@ -141,7 +141,7 @@ function Change_Token {
 function Change_BeanSignStop {
   if [ ${BeanSignStop} -gt 0 ]; then
     echo -e "${FileBeanSign}：设置每日签到每个接口延迟时间为 ${BeanSignStop} ms...\n"
-    perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\n\s{2,}(.+, ).+\);\n\s*\}|\1var stop = \"${BeanSignStop}\"\);|" ${FileBeanSign}
+    perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\n\s{2,}(.+, ).+\);\n\s*\}|\1\"var stop = ${BeanSignStop}\"\);|" ${FileBeanSign}
   fi
 }
 
