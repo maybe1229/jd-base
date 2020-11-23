@@ -1,5 +1,15 @@
 ## 所有教程已转移至[WIKI](https://github.com/EvineDeng/jd-base/wiki)。
 
+适用于以下系统：
+
+- ArmBian/OpenWRT/Debian/Ubuntu/OpenMediaVault/CentOS/Fedora/RHEL
+
+- Android
+
+- MacOS
+
+- Docker
+
 ## 更新日志
 
 > 只记录大的更新，小修小改不记录。
