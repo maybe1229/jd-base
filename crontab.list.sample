@@ -23,7 +23,7 @@
 1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh
 */20 0-22 * * * /root/shell/jd_joy_feedPets.sh
 0 0,8,12,16 * * * /root/shell/jd_joy_reward.sh
-30 0,6 * * * /root/shell/jd_joy_steal.sh
+0 0,6 * * * /root/shell/jd_joy_steal.sh
 15 1 * * * /root/shell/jd_lotteryMachine.sh
 40 */4 * * * /root/shell/jd_moneyTree.sh
 20 0,20 * * * /root/shell/jd_necklace.sh
