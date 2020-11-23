@@ -2,7 +2,9 @@
 
 适用于以下系统：
 
-- ArmBian/OpenWRT/Debian/Ubuntu/OpenMediaVault/CentOS/Fedora/RHEL
+- ArmBian/Debian/Ubuntu/OpenMediaVault/CentOS/Fedora/RHEL等Linux系统
+
+- OpenWRT
 
 - Android
 
