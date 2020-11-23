@@ -5,7 +5,7 @@
 # 更新lxk0301大佬的js脚本和EvineDeng的shell脚本，并替换相关参数，该日志需要手动清除
 55 5-23 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
 
-# 删除旧的"jd_"日志，未复制一份rm_log.sh时不生效，不记录日志
+# 删除旧的运行京东js脚本的日志，未复制一份rm_log.sh时不生效，不记录日志
 50 3 1,15 * * /root/shell/rm_log.sh
 
 # 除了lxk0301大佬开发的脚本外，额外的一些脚本，均以.ash结尾以作区分
