@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-11-23
-## Version： v2.3.0
+## Version： v2.3.1
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -21,6 +21,7 @@ ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 ListCron=${RootDir}/crontab.list
+ListShellDir=$(ls ${ShellDir}/jd_*.sh)
 
 
 ################################## 定义js脚本名称 ##################################
@@ -56,6 +57,19 @@ fi
 echo -e "\nSHELL脚本目录：${ShellDir}\n"
 echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "-------------------------------------------------------------------\n"
+
+
+################################## 检测jd_*.sh文件是否最新 ##################################
+function Detect_VerJdShell {
+  VerSample=$(cat ${FileJdSample} | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+  for file in ${ListShellDir}
+  do
+    VerJdShell=$(cat ${file} | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+    if [ -z "${VerJdShell}" ] || [ "${VerJdShell}" != "${VerSample}" ]; then
+      cp -f ${FileJdSample} ${file}
+    fi
+  done
+}
 
 
 ################################## 判断是否输入用户数量 ##################################
@@ -272,7 +286,7 @@ function Change_jdFruitBeanCard {
 ################################## 修改宠汪汪喂食克数 ##################################
 function Change_joyFeedCount {
   case ${joyFeedCount} in
-    10 | 20 | 40 | 80)
+    [1248]0)
       echo -e "${FileJoy}: 设置宠汪汪喂食克数为：${joyFeedCount}g...\n"
       echo -e "${FileJoyFeed}: 设置宠汪汪喂食克数为：${joyFeedCount}g...\n"
       perl -i -pe "s|let FEED_NUM = .+;|let FEED_NUM = ${joyFeedCount};|" ${FileJoy} ${FileJoyFeed}
@@ -370,11 +384,11 @@ function Change_NotifyDreamFactory {
 
 ################################## 修改取关参数 ##################################
 function Change_Unsubscribe {
-  if [ ${goodPageSize} -gt 0 ]; then
+  if [ ${goodPageSize} ] && [ ${goodPageSize} -gt 0 ]; then
     echo -e "${FileUnsubscribe}：设置商品取关数量为 ${goodPageSize}...\n"
     perl -i -pe "s|let goodPageSize = .+;|let goodPageSize = ${goodPageSize};|" ${FileUnsubscribe}
   fi
-  if [ ${shopPageSize} -gt 0 ]; then
+  if [ ${shopPageSize} ] && [ ${shopPageSize} -gt 0 ]; then
     echo -e "${FileUnsubscribe}：设置店铺取关数量为 ${shopPageSize}...\n"
     perl -i -pe "s|let shopPageSize = .+;|let shopPageSize = ${shopPageSize};|" ${FileUnsubscribe}
   fi
@@ -586,6 +600,7 @@ function Git_PullShell {
 ################################## 调用各函数来修改为设定值 ##################################
 ## 仅包括修改 lxk0301 大佬的 js 文件的相关函数，不包括设置临时环境变量
 cd ${ScriptsDir}
+Detect_VerJdShell
 Detect_UserSum
 if [ $? -eq 0 ]; then
   PackageListOld=$(cat package.json)
@@ -678,7 +693,6 @@ fi
 ## 设置临时环境变量要在检测并增删定时任务以后运行
 ## 仅在运行${ShellDir}下的jd_xxx.sh时生效，运行${ScriptsDir}下的jd_xxx.js无效
 if [ ${GitPullExitStatus} -eq 0 ]; then
-  ListShellDir=$(ls ${ShellDir}/jd_*.sh)
   Set_NotifyBeanSign
   Set_UserAgent
 fi
