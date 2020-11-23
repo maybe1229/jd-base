@@ -140,7 +140,7 @@ function Change_Token {
 ################################## 修改每日签到的延迟时间 ##################################
 function Change_BeanSignStop {
   if [ ${BeanSignStop} -gt 0 ]; then
-    echo "设置每日签到每个接口延迟时间为 ${BeanSignStop} ms...\n"
+    echo -e "设置每日签到每个接口延迟时间为 ${BeanSignStop} ms...\n"
     perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\n\s{2,}(.+, ).+\);\n\s*\}|\1var stop = \"${BeanSignStop}\"\);|" ${FileBeanSign}
   fi
 }
