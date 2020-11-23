@@ -275,8 +275,6 @@ if [ $(date "+%w") -eq 6 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 
   NotifyPet="false"
 elif [ $(date "+%w") -eq 3 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
   NotifyPet="false"
-else
-  NotifyPet="true"
 fi
 
 
@@ -288,7 +286,15 @@ fi
 
 ################################## 定义京喜工厂是否静默运行（选填） ##################################
 ## true 为静默不发送推送通知消息，false 为不静默发出通知，默认为true
-NotifyDreamFactory=
+## jd_dreamFactory.js这个脚本每小时都要运行，次次发通知就过于频繁了，改成一天只通知一次
+## 如果按照我提供的最新的cronta.list，也就是每小时的第20分运行jd_dreamFactory.sh，白天每小时的第55分运行git_pull.sh
+## 那么下面命令的含义就是，在13:55将 jd_dreamFactory.js 是否静默运行置为 false，即不静默、发通知，然后在14:20运行jd_dreamFactory.sh时，那么就将发出通知
+## 除此之外，其他时间，jd_dreamFactory.js中这个参数均保持默认值为 true，即静默不发通知
+## 如果你不需要一天只发一次，而是全部静默，那么将下面第一行注释掉，将下面第二行解除注释即可
+## 如果你需要每次运行都发通知，那么将下面第一行注释掉，将下面第二行解除注释并赋值为 false
+## 特别说明：针对北京时间
+[ $(date "+%H") -eq 13 ] && NotifyDreamFactory=false
+# NotifyDreamFactory=
 
 
 ################################## 定义取关参数（选填） ##################################
