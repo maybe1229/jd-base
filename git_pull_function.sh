@@ -24,7 +24,7 @@ ListCron=${RootDir}/crontab.list
 
 
 ################################## 定义js脚本名称 ##################################
-FileBeanSign=jd_bean_change.js
+FileBeanSign=jd_bean_sign.js
 FileCookie=jdCookie.js
 FileNotify=sendNotify.js
 FileFruitShareCodes=jdFruitShareCodes.js
