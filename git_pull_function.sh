@@ -1,7 +1,9 @@
 #!/bin/bash
 
-## 修改日期：2020-11-22
-## 作者：Evine Deng <evinedeng@foxmail.com>
+## Author: Evine Deng
+## Source: https://github.com/EvineDeng/jd-base
+## Modified： 2020-11-23
+## Version： v2.3.0
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -22,6 +24,7 @@ ListCron=${RootDir}/crontab.list
 
 
 ################################## 定义js脚本名称 ##################################
+FileBeanSign=jd_bean_change.js
 FileCookie=jdCookie.js
 FileNotify=sendNotify.js
 FileFruitShareCodes=jdFruitShareCodes.js
@@ -64,7 +67,7 @@ function Detect_UserSum {
 }
 
 
-################################## 更新JS脚本 ##################################
+################################## git更新JS脚本 ##################################
 function Git_PullScripts {
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
   git fetch --all
@@ -130,6 +133,15 @@ function Change_Token {
   ## 未输入任何通知渠道
   if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ] && [ -z "${IGOT_PUSH_KEY}" ]; then
     echo -e "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志...\n"
+  fi
+}
+
+
+################################## 修改每日签到的延迟时间 ##################################
+function Change_BeanSignStop {
+  if [ ${BeanSignStop} -gt 0 ]; then
+    echo "设置每日签到每个接口延迟时间为 ${BeanSignStop} ms..."
+    perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\n\s{2,}(.+, ).+\);\n\s*\}|\1var stop = \"${BeanSignStop}\"\);|" ${FileBeanSign}
   fi
 }
 
@@ -389,7 +401,7 @@ function Change_Notify818 {
 }
 
 
-################################## 汇总 ##################################
+################################## 修改lxk0301大佬js文件的函数汇总 ##################################
 function Change_ALL {
   Change_Cookie
   Change_Token
@@ -432,7 +444,149 @@ function Cron_Different {
 }
 
 
-################################## 依次修改上述设定的值 ##################################
+################################## 设置环境变量：每日签到的通知形式 ##################################
+## 要在检测并增删定时任务以后再运行
+function Set_NotifyBeanSign {
+  case ${NotifyBeanSign} in
+    0)
+      echo -e "设置每日签到的通知形式为 关闭通知，仅在运行 shell 脚本时有效，直接运行 js 脚本无效...\n"
+      for file in ${ListShellDir}
+      do
+        perl -i -pe "s|^.*(export JD_BEAN_SIGN_STOP_NOTIFY=).*$|\1true|" ${file}
+        perl -i -pe "s|^.*(export JD_BEAN_SIGN_NOTIFY_SIMPLE=).*$|# \1" ${file}
+      done
+      ;;
+    1)
+      echo -e "设置每日签到的通知形式为 简洁通知，仅在运行 shell 脚本时有效，直接运行 js 脚本无效...\n"
+      for file in ${ListShellDir}
+      do
+        perl -i -pe "s|^.*(export JD_BEAN_SIGN_STOP_NOTIFY=).*$|# \1|" ${file}
+        perl -i -pe "s|^.*(export JD_BEAN_SIGN_NOTIFY_SIMPLE=).*$|\1true" ${file}
+      done
+      ;;
+    *)
+      echo -e "每日签到的通知形式保持默认为 原始通知...\n"
+      for file in ${ListShellDir}
+      do
+        perl -i -pe "s|^.*(export JD_BEAN_SIGN_STOP_NOTIFY=).*$|# \1|" ${file}
+        perl -i -pe "s|^.*(export JD_BEAN_SIGN_NOTIFY_SIMPLE=).*$|# \1" ${file}
+      done
+      ;;
+  esac
+}
+
+
+################################## 设置环境变量：User-Agent ##################################
+## 要在检测并增删定时任务以后再运行
+function Set_UserAgent {
+  if [ -n "${UserAgent}" ]
+  then
+    echo -e "设置User-Agent为 ${UserAgent}\n仅在运行 shell 脚本时有效，直接运行 js 脚本无效...\n"
+    for file in ${ListShellDir}
+    do
+      perl -i -pe "s|^.*(export JD_USER_AGENT=).*$|\1${UserAgent}" ${file}
+    done
+  else
+    for file in ${ListShellDir}
+    do
+      perl -i -pe "s|^.*(export JD_USER_AGENT=).*$|# \1" ${file}
+    done
+  fi
+}
+
+
+################################## wget更新额外的js脚本 ##################################
+## 额外的脚本
+function Update_ExtraJs {
+  echo -e "-------------------------------------------------------------------\n"
+  echo -e "开始更新额外的js脚本：${JsList2}\n"
+  echo -e "来源：${ScriptsURL2}\n"
+  for js in ${JsList2}
+  do
+    [ -f "${ScriptsDir}/${js}.js.new" ] && rm -f "${ScriptsDir}/${js}.js.new"
+    wget -q --no-check-certificate ${ScriptsURL2Raw}${js}.js -O ${ScriptsDir}/${js}.js.new
+    if [ -s "${ScriptsDir}/${js}.js.new" ]
+    then
+      mv -f ${ScriptsDir}/${js}.js.new ${ScriptsDir}/${js}.js
+      echo -e "${js}.js：更新成功...\n"
+    else
+      echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件，如无法访问，建议禁用额外的js脚本功能...\n"
+    fi
+  done
+}
+
+
+################################## 替换东东工厂互助码 ##################################
+## 额外的脚本
+function Change_FactoryShareCodes {
+  ForOtherFactoryALL=""
+  echo -e "${FileFactory}: 替换东东工厂互助码...\n"
+  im=1
+  while [ ${im} -le ${UserSum} ]
+  do
+    Temp5=ForOtherFactory${im}
+    eval ForOtherFactoryTemp=$(echo \$${Temp5})
+    ForOtherFactoryALL="${ForOtherFactoryALL}\\n        '${ForOtherFactoryTemp}',"
+    let im++
+  done
+  perl -0777 -i -pe "s|(.+sharecodes = \[)\n(.+\n){2}(.+\];)|\1${ForOtherFactoryALL}\n\3|" ${FileFactory}
+}
+
+
+################################## 修改东东工厂是否自动注入电量 ##################################
+## 额外的脚本
+function Change_AutoAddPower {
+  if [ "${AutoAddPower}" = "true" ] || [ "${AutoAddPower}" = "false" ]; then
+    echo -e "${FileFactory}：修改东东工厂是否自动注入电量为：${AutoAddPower}..."
+    perl -i -pe "s|autoAdd = .+;|autoAdd = ${AutoAddPower};|" ${FileFactory}
+  fi
+}
+
+
+################################## 复制额外的js脚本对应的ash脚本并增加定时任务 ##################################
+## 额外的脚本
+function Copy_ExtraAsh {
+  if [ -f ${FileJdSample} ]
+  then
+    JdShSample=$(cat ${FileJdSample})
+    for js in ${JsList2}
+    do
+      [ ! -d "${LogDir}/${js}" ] && mkdir -p ${LogDir}/${js}
+
+      if [ ! -f "${ShellDir}/${js}.ash" ] || [[ "${JdShSample}" != "$(cat ${ShellDir}/${js}.ash)" ]]; then
+        cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
+      fi
+
+      [ ! -x "${ShellDir}/${js}.ash" ] && chmod +x "${ShellDir}/${js}.ash"
+
+      if [[ -z $(grep "${js}\.ash" ${ListCron}) ]]; then
+        cat ${ShellDir}/crontab.list.sample | grep "${js}\.ash" | perl -pe "s|/root/shell|${ShellDir}|" >> ${ListCron}
+        crontab ${ListCron}
+      fi
+    done
+  else
+    echo -e "${FileJdSample} 文件不存在，可能是shell脚本克隆不正常...\n未能添加额外的定时任务，请自行添加...\n"
+  fi
+}
+
+
+################################## git更新shell脚本 ##################################
+function Git_PullShell {
+  echo -e "更新shell脚本，原地址：${ShellURL}\n"
+  git fetch --all
+  git reset --hard origin/main
+  git pull
+  if [ $? -eq 0 ]
+  then
+    echo -e "\nshell脚本更新完成...\n"
+  else
+    echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
+  fi
+}
+
+
+################################## 调用各函数来修改为设定值 ##################################
+## 仅包括修改 lxk0301 大佬的 js 文件的相关函数，不包括设置临时环境变量
 cd ${ScriptsDir}
 Detect_UserSum
 if [ $? -eq 0 ]; then
@@ -522,78 +676,17 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
 fi
 
 
-################################## 更新额外的js脚本 ##################################
-function Update_ExtraJs {
-  echo -e "-------------------------------------------------------------------\n"
-  echo -e "开始更新额外的js脚本：${JsList2}\n"
-  echo -e "来源：${ScriptsURL2}\n"
-  for js in ${JsList2}
-  do
-    [ -f "${ScriptsDir}/${js}.js.new" ] && rm -f "${ScriptsDir}/${js}.js.new"
-    wget -q --no-check-certificate ${ScriptsURL2Raw}${js}.js -O ${ScriptsDir}/${js}.js.new
-    if [ -s "${ScriptsDir}/${js}.js.new" ]
-    then
-      mv -f ${ScriptsDir}/${js}.js.new ${ScriptsDir}/${js}.js
-      echo -e "${js}.js：更新成功...\n"
-    else
-      echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件，如无法访问，建议禁用额外的js脚本功能...\n"
-    fi
-  done
-}
+################################## 设置临时环境变量 ##################################
+## 设置临时环境变量要在检测并增删定时任务以后运行
+## 仅在运行${ShellDir}下的jd_xxx.sh时生效，运行${ScriptsDir}下的jd_xxx.js无效
+if [ ${GitPullExitStatus} -eq 0 ]; then
+  ListShellDir=$(ls ${ShellDir}/jd_*.sh)
+  Set_NotifyBeanSign
+  Set_UserAgent
+fi
 
 
-################################## 替换东东工厂互助码 ##################################
-function Change_FactoryShareCodes {
-  ForOtherFactoryALL=""
-  echo -e "${FileFactory}: 替换东东工厂互助码...\n"
-  im=1
-  while [ ${im} -le ${UserSum} ]
-  do
-    Temp5=ForOtherFactory${im}
-    eval ForOtherFactoryTemp=$(echo \$${Temp5})
-    ForOtherFactoryALL="${ForOtherFactoryALL}\\n        '${ForOtherFactoryTemp}',"
-    let im++
-  done
-  perl -0777 -i -pe "s|(.+sharecodes = \[)\n(.+\n){2}(.+\];)|\1${ForOtherFactoryALL}\n\3|" ${FileFactory}
-}
-
-
-################################## 修改东东工厂是否自动注入电量 ##################################
-function Change_AutoAddPower {
-  if [ "${AutoAddPower}" = "true" ] || [ "${AutoAddPower}" = "false" ]; then
-    echo -e "${FileFactory}：修改东东工厂是否自动注入电量为：${AutoAddPower}..."
-    perl -i -pe "s|autoAdd = .+;|autoAdd = ${AutoAddPower};|" ${FileFactory}
-  fi
-}
-
-
-################################## 复制额外的js脚本对应的ash脚本并增加定时任务 ##################################
-function Copy_ExtraAsh {
-  if [ -f ${FileJdSample} ]
-  then
-    JdShSample=$(cat ${FileJdSample})
-    for js in ${JsList2}
-    do
-      [ ! -d "${LogDir}/${js}" ] && mkdir -p ${LogDir}/${js}
-
-      if [ ! -f "${ShellDir}/${js}.ash" ] || [[ "${JdShSample}" != "$(cat ${ShellDir}/${js}.ash)" ]]; then
-        cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
-      fi
-
-      [ ! -x "${ShellDir}/${js}.ash" ] && chmod +x "${ShellDir}/${js}.ash"
-
-      if [[ -z $(grep "${js}\.ash" ${ListCron}) ]]; then
-        cat ${ShellDir}/crontab.list.sample | grep "${js}\.ash" | perl -pe "s|/root/shell|${ShellDir}|" >> ${ListCron}
-        crontab ${ListCron}
-      fi
-    done
-  else
-    echo -e "${FileJdSample} 文件不存在，可能是shell脚本克隆不正常...\n未能添加额外的定时任务，请自行添加...\n"
-  fi
-}
-
-
-################################## 额外的js脚本 ##################################
+################################## 额外的js脚本相关程序 ##################################
 if [ "${EnableExtraJs}" = "true" ]; then
   cd ${ScriptsDir}
   
@@ -638,19 +731,7 @@ if [ ${GitPullExitStatus} -eq 0 ]; then
 fi
 
 
-################################## 更新shell脚本 ##################################
-function Git_PullShell {
-  echo -e "更新shell脚本，原地址：${ShellURL}\n"
-  git fetch --all
-  git reset --hard origin/main
-  git pull
-  if [ $? -eq 0 ]
-  then
-    echo -e "\nshell脚本更新完成...\n"
-  else
-    echo -e "\nshell脚本更新失败，请检查原因后再次运行git_pull.sh，或等待定时任务自动再次运行git_pull.sh...\n"
-  fi
-}
+
 
 if [ $? -eq 0 ]; then
   cd ${ShellDir}
