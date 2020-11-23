@@ -710,7 +710,7 @@ if [ "${EnableExtraJs}" = "true" ]; then
 
   ## 来源
   ScriptsURL2="https://github.com/799953468/Quantumult-X"
-  ScriptsURL2Raw="https://raw.githubusercontent.com/799953468/Quantumult-X/master/Scripts/JD/"
+  ScriptsURL2Raw="https://raw.fastgit.org/799953468/Quantumult-X/master/Scripts/JD/"
   
   Update_ExtraJs
   Change_FactoryShareCodes
