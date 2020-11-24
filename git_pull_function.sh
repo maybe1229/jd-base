@@ -454,6 +454,8 @@ function Change_ALL {
   Change_joyRunFlag
   Change_jdJoyHelpFeed
   Change_jdJoyStealCoin
+  Change_NotifyMoneyTree
+  Change_MoneyTreeAutoSell
   Change_NotifyPet
   Change_NotifyDreamFactory
   Change_Unsubscribe
@@ -585,7 +587,7 @@ function Copy_ExtraAsh {
       [ ! -d "${LogDir}/${js}" ] && mkdir -p ${LogDir}/${js}
 
       VerJdShell=$(cat ${ShellDir}/${js}.ash | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
-      if [ ! -f "${ShellDir}/${js}.ash" ] || [ -z "${VerJdShell}" ] || [[ "${VerSample}" != "$(VerJdShell)" ]]; then
+      if [ ! -f "${ShellDir}/${js}.ash" ] || [ -z "${VerJdShell}" ] || [[ "${VerSample}" != "${VerJdShell}" ]]; then
         cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
       fi
 
