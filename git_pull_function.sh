@@ -69,6 +69,7 @@ function Detect_VerJdShell {
     if [ -z "${VerJdShell}" ] || [ "${VerJdShell}" != "${VerSample}" ]; then
       cp -f ${FileJdSample} ${file}
     fi
+    [ ! -x ${file} ] && chmod +x ${file}
   done
 }
 
