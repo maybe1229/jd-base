@@ -1,11 +1,11 @@
-name: "jd-base Docker Image Buildx"
+name: "jd-base Docker Image Buildx Dev"
 on:
   release:
     types: [published]
 jobs:
   build:
       runs-on: ubuntu-latest
-      name: Build the jd-base Docker image
+      name: Build jd-base Docker Image Dev
       steps:
           - name: Checkout master
             uses: actions/checkout@master
@@ -14,8 +14,8 @@ jobs:
             with:
               publish: true
               imageName: evinedeng/jd-base
-              dockerFile: Docker/Dockerfile
+              dockerFile: Docker/Dockerfile-Dev
               platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
-              tag: latest,node12,node12.19,node12.19.1
+              tag: node14,node14.15,node14.15.1
               dockerHubUser: ${{ secrets.DOCKER_USERNAME }}
               dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }}

@@ -1,0 +1,21 @@
+name: "jd-base Docker Image Buildx Stable"
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+      runs-on: ubuntu-latest
+      name: Build jd-base Docker Image Stable
+      steps:
+          - name: Checkout master
+            uses: actions/checkout@master
+          - name: Build and publish image
+            uses: ilteoood/docker_buildx@master
+            with:
+              publish: true
+              imageName: evinedeng/jd-base
+              dockerFile: Docker/Dockerfile
+              platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
+              tag: latest,node12,node12.19,node12.19.1
+              dockerHubUser: ${{ secrets.DOCKER_USERNAME }}
+              dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }}
