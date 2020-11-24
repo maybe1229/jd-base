@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-11-24
-## Version： v2.3.2
+## Version： v2.3.3
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -62,10 +62,10 @@ echo -e "-------------------------------------------------------------------\n"
 
 ################################## 检测jd_*.sh文件是否最新 ##################################
 function Detect_VerJdShell {
-  VerSample=$(cat ${FileJdSample} | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+  VerSample=$(cat ${FileJdSample} | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
   for file in ${ListShellDir}
   do
-    VerJdShell=$(cat ${file} | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+    VerJdShell=$(cat ${file} | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
     if [ -z "${VerJdShell}" ] || [ "${VerJdShell}" != "${VerSample}" ]; then
       cp -f ${FileJdSample} ${file}
     fi
@@ -579,12 +579,13 @@ function Change_AutoAddPower {
 function Copy_ExtraAsh {
   if [ -f ${FileJdSample} ]
   then
-    JdShSample=$(cat ${FileJdSample})
+    VerSample=$(cat ${FileJdSample} | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
     for js in ${JsList2}
     do
       [ ! -d "${LogDir}/${js}" ] && mkdir -p ${LogDir}/${js}
 
-      if [ ! -f "${ShellDir}/${js}.ash" ] || [[ "${JdShSample}" != "$(cat ${ShellDir}/${js}.ash)" ]]; then
+      VerJdShell=$(cat ${ShellDir}/${js}.ash | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
+      if [ ! -f "${ShellDir}/${js}.ash" ] || [ -z "${VerJdShell}" ] || [[ "${VerSample}" != "$(VerJdShell)" ]]; then
         cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
       fi
 

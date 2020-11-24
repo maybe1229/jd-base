@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-11-23
-## Version： v2.3.0
+## Version： v2.3.3
 
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
@@ -102,11 +102,11 @@ function Copy_Shell {
   if [ -s ${ShellDir}/jd.sh.sample ] && [ -n "${JsList}" ]
   then
     echo
-    VerSample=$(cat ${ShellDir}/jd.sh.sample | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+    VerSample=$(cat ${ShellDir}/jd.sh.sample | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
     for Task in ${JsList}; do
       if [ -f ${ShellDir}/${Task}.sh ]
       then
-        VerJdShell=$(cat ${ShellDir}/${Task}.sh | grep -i "Version" | perl -pe "s|.+v((\d\.){2}\d)|\1|")
+        VerJdShell=$(cat ${ShellDir}/${Task}.sh | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
         if [ "${VerSample}" != "${VerJdShell}" ]; then
           Copy_ShellSub
         fi
