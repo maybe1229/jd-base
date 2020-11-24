@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-11-23
-## Version： v2.3.1
+## Version： v2.3.2
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -43,6 +43,7 @@ FilePet=jd_pet.js
 File818=jd_818.js
 FileUnsubscribe=jd_unsubscribe.js
 FileDreamFactory=jd_dreamFactory.js
+FileMoneyTree=jd_moneyTree.js
 
 
 ################################## 在日志中记录时间与路径 ##################################
@@ -364,6 +365,24 @@ function Change_jdJoyStealCoin {
 }
 
 
+################################## 修改摇钱树是否静默运行 ##################################
+function Change_NotifyMoneyTree {
+  if [ "${NotifyMoneyTree}" = "false" ] || [ "${NotifyMoneyTree}" = "true" ]; then
+    echo -e "${FileMoneyTree}：设置摇钱树是否静默运行为 ${NotifyMoneyTree}...\n"
+    perl -i -pe "s|let jdNotify = .+;|let jdNotify = ${NotifyJoy};|" ${FileMoneyTree}
+  fi
+}
+
+
+################################## 修改摇钱树是否是否自动将金果卖出变成金币 ##################################
+function Change_MoneyTreeAutoSell {
+  if [ "${MoneyTreeAutoSell}" = "false" ]; then
+    echo -e "${FileMoneyTree}：设置摇钱树是否自动将金果卖出变成金币为 ${MoneyTreeAutoSell}...\n"
+    perl -0777 -i -pe "s|if \(process\.env\.MONEY_TREE_SELL_FRUIT.+\{\n\s{2,}(\S+\n)\s{2,}(\S+\n)\s+\}\n|\1        \2|" ${FileMoneyTree}
+  fi
+}
+
+
 ################################## 修改东东萌宠是否静默运行 ##################################
 function Change_NotifyPet {
   if [ "${NotifyPet}" = "true" ] || [ "${NotifyPet}" = "false" ]; then
@@ -597,6 +616,17 @@ function Git_PullShell {
 }
 
 
+################################## npm install 子程序 ##################################
+function NpmInstallSub {
+  if [ -n "${isTermux}" ]
+  then
+    npm install --no-bin-links || npm install --no-bin-links --registry=https://registry.npm.taobao.org
+  else
+    npm install || npm install --registry=https://registry.npm.taobao.org
+  fi
+}
+
+
 ################################## 调用各函数来修改为设定值 ##################################
 ## 仅包括修改 lxk0301 大佬的 js 文件的相关函数，不包括设置临时环境变量
 cd ${ScriptsDir}
@@ -722,9 +752,10 @@ fi
 ################################## npm install ##################################
 if [ ${GitPullExitStatus} -eq 0 ]; then
   cd ${ScriptsDir}
+  isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
   if [[ "${PackageListOld}" != "$(cat package.json)" ]]; then
     echo -e "检测到 ${ScriptsDir}/package.json 内容有变化，再次运行 npm install...\n"
-    npm install || npm install --registry=https://registry.npm.taobao.org
+    NpmInstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules 后再次尝试一遍..."
       rm -rf ${ScriptsDir}/node_modules
@@ -733,7 +764,7 @@ if [ ${GitPullExitStatus} -eq 0 ]; then
   fi
   if [ ! -d ${ScriptsDir}/node_modules ]; then
     echo -e "运行npm install...\n"
-    npm install || npm install --registry=https://registry.npm.taobao.org
+    NpmInstallSub
     if [ $? -ne 0 ]; then
       echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n请进入 ${ScriptsDir} 目录后手动运行 npm install...\n"
       rm -rf ${ScriptsDir}/node_modules

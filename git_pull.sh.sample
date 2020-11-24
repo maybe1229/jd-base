@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-11-23
-## Version： v2.3.0
+## Version： v2.3.1
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -265,6 +265,16 @@ jdJoyStealCoin=""
 ################################## 定义宠汪汪是否自动报名宠物赛跑（选填） ##################################
 ## 默认参加宠物赛跑，如需关闭，请改成 false
 joyRunFlag=""
+
+
+################################## 定义摇钱树是否静默运行（选填） ##################################
+## 默认为true，静默，不发送推送通知消息，如想要收到通知，请修改为 false
+NotifyMoneyTree=""
+
+
+################################## 定义摇钱树是否自动将金果卖出变成金币（选填） ##################################
+## 默认为true，自动将金果卖出，变成金币，如想要不希望自动卖出，请修改为 false
+MoneyTreeAutoSell=""
 
 
 ################################## 定义东东萌宠是否静默运行（选填） ##################################
