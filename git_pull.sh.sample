@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-11-24
-## Version： v2.3.1
+## Version： v2.3.3
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -281,10 +281,13 @@ MoneyTreeAutoSell=""
 ## 默认 false（不静默，发送推送通知消息），如想静默请修改为 true
 ## 每次执行脚本通知太频繁了，改成只在周三和周六中午那一次运行时发送通知提醒
 ## 特别说明：针对北京时间有效。并且定时任务要注意：在git_pull.sh于9：00-14：00间将NotifyPet改为false以后再执行jd_pet.sh才有效。
+## 除掉上述提及时间之外，均设置为 true，静默不发通知
 if [ $(date "+%w") -eq 6 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
   NotifyPet="false"
 elif [ $(date "+%w") -eq 3 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
   NotifyPet="false"
+else
+  NotifyPet="true"
 fi
 
 
