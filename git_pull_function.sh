@@ -708,7 +708,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
       for Cron in ${JsAdd}
       do
         cp -fv "${FileJdSample}" "${ShellDir}/${Cron}.sh"
-        chmod +x "${ShellDir}/${Cron}.sh"
+        [ ! -x "${ShellDir}/${Cron}.sh" ] && chmod +x "${ShellDir}/${Cron}.sh"
       done
       crontab ${ListCron}
       echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n"
