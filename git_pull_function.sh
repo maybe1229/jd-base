@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-11-24
-## Version： v2.3.3
+## Version： v2.3.4
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -379,7 +379,7 @@ function Change_NotifyMoneyTree {
 function Change_MoneyTreeAutoSell {
   if [ "${MoneyTreeAutoSell}" = "false" ]; then
     echo -e "${FileMoneyTree}：设置摇钱树是否自动将金果卖出变成金币为 ${MoneyTreeAutoSell}...\n"
-    perl -0777 -i -pe "s|if \(process\.env\.MONEY_TREE_SELL_FRUIT.+\{\n\s{2,}(\S+\n)\s{2,}(\S+\n)\s+\}\n|\1        \2|" ${FileMoneyTree}
+    perl -0777 -i -pe "s|([ \t]+)if \(process\.env\.MONEY_TREE_SELL_FRUIT.+\{\s+(\S.+\n)\s+(\S.+\n)\s+\}\n|\1\2\1\3|" ${FileMoneyTree}
   fi
 }
 
