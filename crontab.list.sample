@@ -8,10 +8,6 @@
 # 删除旧的运行京东js脚本的日志，未复制一份rm_log.sh时不生效，不记录日志，错误记录在crond日志中
 50 3 1,15 * * /root/shell/rm_log.sh
 
-# 除了lxk0301大佬开发的脚本外，额外的一些脚本，均以.ash结尾以作区分，错误记录在crond日志中
-0 */3 * * * /root/shell/jd_factory.ash
-15 0 * * * /root/shell/jd_paopao.ash
-
 # 运行lxk0301大佬的js脚本，错误记录在crond日志中
 0 9 * * * /root/shell/jd_bean_change.sh
 3 0,8,14 * * * /root/shell/jd_bean_sign.sh
@@ -20,6 +16,7 @@
 54 2-23/3 * * * /root/shell/jd_daily_egg.sh
 20 * * * * /root/shell/jd_dreamFactory.sh
 30 7,12,18 * * * /root/shell/jd_fruit.sh
+36 * * * * /root/shell/jd_jdfactory.sh
 1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh
 */20 0-22 * * * /root/shell/jd_joy_feedPets.sh
 0 0,8,12,16 * * * /root/shell/jd_joy_reward.sh
