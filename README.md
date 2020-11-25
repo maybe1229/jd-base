@@ -1,4 +1,4 @@
-## 所有教程已转移至[WIKI](https://github.com/EvineDeng/jd-base/wiki)。
+## 所有教程已转移至[WIKI](https://github.com/EvineDeng/jd-base/wiki)，如有帮助到你，请点亮Star
 
 适用于以下系统：
 
