@@ -41,6 +41,7 @@ FilePet=jd_pet.js
 File818=jd_818.js
 FileUnsubscribe=jd_unsubscribe.js
 FileDreamFactory=jd_dreamFactory.js
+FileJdFactory=jd_jdfactory.js
 FileMoneyTree=jd_moneyTree.js
 
 ## 在日志中记录时间与路径
@@ -370,6 +371,22 @@ function Change_NotifyDreamFactory {
   fi
 }
 
+## 修改东东工厂是否静默运行
+function Change_NotifyJdFactory {
+  if [ "${NotifyJdFactory}" = "false" ] || [ "${NotifyJdFactory}" = "true" ]; then
+    echo -e "${FileJdFactory}：设置东东工厂是否静默运行为 ${NotifyJdFactory}...\n"
+    perl -i -pe "s|let jdNotify = .+;|let jdNotify = ${NotifyJdFactory};|" ${FileJdFactory}
+  fi
+}
+
+## 修改东东工厂心仪的商品
+function Change_WantProduct {
+  if [ -n "${WantProduct}" ]; then
+    echo -e "${FileJdFactory}：设置东东工厂心仪商品为 \"${WantProduct}\"...\n"
+    perl -i -pe "s|(const wantProduct = ).+;|\1\'${WantProduct}\';|" ${FileJdFactory}
+  fi
+}
+
 ## 修改取关参数
 function Change_Unsubscribe {
   if [ ${goodPageSize} ] && [ ${goodPageSize} -gt 0 ]; then
@@ -425,6 +442,8 @@ function Change_ALL {
   Change_MoneyTreeAutoSell
   Change_NotifyPet
   Change_NotifyDreamFactory
+  Change_NotifyJdFactory
+  Change_WantProduct
   Change_Unsubscribe
   # Change_Notify818
 }
@@ -488,75 +507,6 @@ function Set_UserAgent {
     do
       perl -i -pe "s|^.*(export JD_USER_AGENT=).*$|# \1|" ${file}
     done
-  fi
-}
-
-## wget更新额外的js脚本
-function Update_ExtraJs {
-  echo -e "--------------------------------------------------------------\n"
-  echo -e "开始更新额外的js脚本：${JsList2}\n"
-  echo -e "来源：${ScriptsURL2}\n"
-  for js in ${JsList2}
-  do
-    [ -f "${ScriptsDir}/${js}.js.new" ] && rm -f "${ScriptsDir}/${js}.js.new"
-    wget -q --no-check-certificate ${ScriptsURL2Raw}${js}.js -O ${ScriptsDir}/${js}.js.new
-    if [ -s "${ScriptsDir}/${js}.js.new" ]
-    then
-      mv -f ${ScriptsDir}/${js}.js.new ${ScriptsDir}/${js}.js
-      echo -e "${js}.js：更新成功...\n"
-    else
-      echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件，如无法访问，建议禁用额外的js脚本功能...\n"
-    fi
-  done
-}
-
-## 额外的脚本：替换东东工厂互助码
-function Change_FactoryShareCodes {
-  ForOtherFactoryALL=""
-  echo -e "${FileFactory}: 替换东东工厂互助码...\n"
-  im=1
-  while [ ${im} -le ${UserSum} ]
-  do
-    Temp5=ForOtherFactory${im}
-    eval ForOtherFactoryTemp=$(echo \$${Temp5})
-    ForOtherFactoryALL="${ForOtherFactoryALL}\\n        '${ForOtherFactoryTemp}',"
-    let im++
-  done
-  perl -0777 -i -pe "s|(.+sharecodes = \[)\n(.+\n){2}(.+\];)|\1${ForOtherFactoryALL}\n\3|" ${FileFactory}
-}
-
-## 额外的脚本：修改东东工厂是否自动注入电量
-function Change_AutoAddPower {
-  if [ "${AutoAddPower}" = "true" ] || [ "${AutoAddPower}" = "false" ]; then
-    echo -e "${FileFactory}：修改东东工厂是否自动注入电量为：${AutoAddPower}..."
-    perl -i -pe "s|autoAdd = .+;|autoAdd = ${AutoAddPower};|" ${FileFactory}
-  fi
-}
-
-## 额外的脚本：复制额外的js脚本对应的ash脚本并增加定时任务
-function Copy_ExtraAsh {
-  if [ -f ${FileJdSample} ]
-  then
-    VerSample=$(cat ${FileJdSample} | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
-    for js in ${JsList2}
-    do
-      [ ! -d "${LogDir}/${js}" ] && mkdir -p ${LogDir}/${js}
-
-      VerJdShell=$(cat ${ShellDir}/${js}.ash | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
-      if [ ! -f "${ShellDir}/${js}.ash" ] || [ -z "${VerJdShell}" ] || [[ "${VerSample}" != "${VerJdShell}" ]]; then
-        cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
-        echo
-      fi
-
-      [ ! -x "${ShellDir}/${js}.ash" ] && chmod +x "${ShellDir}/${js}.ash"
-
-      if [[ -z $(grep "${js}\.ash" ${ListCron}) ]]; then
-        cat ${ShellDir}/crontab.list.sample | grep "${js}\.ash" | perl -pe "s|/root/shell|${ShellDir}|" >> ${ListCron}
-        crontab ${ListCron}
-      fi
-    done
-  else
-    echo -e "${FileJdSample} 文件不存在，可能是shell脚本克隆不正常...\n未能添加额外的定时任务，请自行添加...\n"
   fi
 }
 
@@ -678,24 +628,8 @@ if [ ${GitPullExitStatus} -eq 0 ]; then
 fi
 
 ## 额外的js脚本相关程序
-if [ "${EnableExtraJs}" = "true" ]; then
-  cd ${ScriptsDir}
-  
-  ## 仅列出需要修改信息的名称
-  FileFactory=jd_factory.js
-
-  ## 清单
-  JsList2="jd_factory jd_paopao"
-
-  ## 来源
-  ScriptsURL2="https://github.com/799953468/Quantumult-X"
-  ScriptsURL2Raw="https://raw.fastgit.org/799953468/Quantumult-X/master/Scripts/JD/"
-  
-  Update_ExtraJs
-  Change_FactoryShareCodes
-  Change_AutoAddPower
-  Copy_ExtraAsh
-fi
+[ "${EnableExtraJs}" = "true" ] && echo -e "请将新的git_pull.sh.sample重新配置为git_pull，lxk0301大佬已添加东东工厂脚本，而泡泡大战又没啥用，所以不再提供额外的两个任务了...\n
+已经在定时任务中添加了额外脚本任务的用户请注意，请按照教程手动在crontab.list中删除jd_factory和jd_paopao两条定时任务，然后将crontab.list添加到系统定时任务中...\n"
 
 ## npm install
 if [ ${GitPullExitStatus} -eq 0 ]; then
