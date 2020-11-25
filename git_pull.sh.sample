@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-24
-## Version： v2.3.3
+## Modified： 2020-11-25
+## Version： v2.3.5
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -310,6 +310,19 @@ fi
 # NotifyDreamFactory=
 
 
+################################## 定义东东工厂是否静默运行（选填） ##################################
+## true 为静默不发送推送通知消息，false 为不静默发出通知，默认为 true
+NotifyJdFactory=
+
+
+################################## 定义东东工厂心仪的商品（选填） ##################################
+## 如果当前你所生产的商品不是你心仪的商品时，不投入电力
+## 只有在满足三个条件时，才投入电力：一是当前生产商品为你所心仪的商品，二是存储的电力满足生产商品所需的电力，三是心仪的商品有库存
+## 如果你看不懂上面的话，请去东东工厂游戏中查阅攻略
+## 心仪的商品请输入商品的全称，目前该参数默认值请看jd_jdfactory.js文件中 "const wantProduct" 这一行
+WantProduct=""
+
+
 ################################## 定义取关参数（选填） ##################################
 ## jd_unsubscribe这个任务是用来取关每天做任务关注的商品和店铺，默认在每次运行时取关20个商品和20个店铺
 ## 如果取关数量不够，可以根据情况增加，还可以设置 jdUnsubscribeStopGoods 和 jdUnsubscribeStopShop 
@@ -321,51 +334,6 @@ shopPageSize=
 jdUnsubscribeStopGoods=""
 ## 遇到此店铺不再取关此店铺以及它后面的店铺，请从头开始输入店铺名称，需要用一对双引号括起来
 jdUnsubscribeStopShop=""
-
-
-################################## 是否启用额外的脚本（选填） ##################################
-## 除了lxk0301大佬开发的js脚本之外，还有一些其他的作者也在开发脚本，启用请设置为true，禁用请设置为false
-## 目前增加了 https://github.com/799953468/Quantumult-X/ 的两个京东的脚本
-## 额外的脚本均直接下载Github的RAW文件，如果启用后你下不下来，建议禁用
-EnableExtraJs=
-
-
-################################## 定义东东工厂每个人自己的互助码（选填） ##################################
-## 这是额外的脚本中的参数，只有在 EnableExtraJs 设置为 true 时，才会生效
-## 东东工厂每个人自己的互助码，可以在运行一次东东工厂脚本（jd_factory）后从日志中查看
-## 约定：MyFactory后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyFactory1、MyFactory2
-## 约定：MyFactory后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MyFactoryA、MyFactoryB
-MyFactory1=""
-MyFactory2=""
-MyFactory3=""
-MyFactory4=""
-MyFactory5=""
-MyFactory6=""
-MyFactoryA=""
-MyFactoryB=""
-
-
-################################## 定义东东工厂要为哪些人助力（选填） ##################################
-## 1.这是额外的脚本中的参数，只有在 EnableExtraJs 设置为 true 时，才会生效
-## 2.想要为谁助力，添加上面定义的MyFactory系列变量名就可以
-## 3.js脚本要求每个互助码间需要使用 @ 隔开，为保证 shell 脚本能将 @ 正确传递给 js ，需要写作"\@"，包括双引号
-## 4.MyFactory系列变量中没有赋值的不能填写在下方，另外，也不能为自己助力
-## 5.举例：ForOtherFactory1=${MyFactory2}"\@"${MyFactoryA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
-## 6.UserSum定义了多少个，ForOtherFactory就只能且必须有多少个（从1开始计），超出的无效
-## 7.可以不赋值，如：ForOtherFactory5=""
-## 8.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
-ForOtherFactory1=
-ForOtherFactory2=
-ForOtherFactory3=
-ForOtherFactory4=
-ForOtherFactory5=
-ForOtherFactory6=
-
-
-################################## 定义东东工厂是否自动注入电量（选填） ##################################
-## 这是额外的脚本中的参数，只有在 EnableExtraJs 设置为 true 时，才会生效
-## jd_factory.js 中默认为 false，如需要自动注入，请修改为 true
-AutoAddPower=
 
 
 ################################## 调用 git_pull_function.sh（勿动） ##################################

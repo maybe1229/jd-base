@@ -2,14 +2,13 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-24
-## Version： v2.3.4
+## Modified： 2020-11-25
+## Version： v2.3.5
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
 
-
-################################## 定义文件路径（勿动） ##################################
+## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
 LogDir=${RootDir}/log
 ScriptsDir=${RootDir}/scripts
@@ -23,8 +22,7 @@ ListJsDrop=${LogDir}/js-drop.list
 ListCron=${RootDir}/crontab.list
 ListShellDir=$(ls ${ShellDir}/jd_*.sh)
 
-
-################################## 定义js脚本名称 ##################################
+## js脚本名称
 FileBeanSign=jd_bean_sign.js
 FileCookie=jdCookie.js
 FileNotify=sendNotify.js
@@ -43,10 +41,10 @@ FilePet=jd_pet.js
 File818=jd_818.js
 FileUnsubscribe=jd_unsubscribe.js
 FileDreamFactory=jd_dreamFactory.js
+FileJdFactory=jd_jdfactory.js
 FileMoneyTree=jd_moneyTree.js
 
-
-################################## 在日志中记录时间与路径 ##################################
+## 在日志中记录时间与路径
 echo -e "\n--------------------------------------------------------------\n"
 echo -n "系统时间："
 echo $(date "+%Y-%m-%d %H:%M:%S")
@@ -59,8 +57,7 @@ echo -e "\nSHELL脚本目录：${ShellDir}\n"
 echo -e "JS脚本目录：${ScriptsDir}\n"
 echo -e "--------------------------------------------------------------\n"
 
-
-################################## 检测jd_*.sh文件是否最新 ##################################
+## 检测jd_*.sh文件是否最新
 function Detect_VerJdShell {
   VerSample=$(cat ${FileJdSample} | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
   for file in ${ListShellDir}
@@ -73,8 +70,7 @@ function Detect_VerJdShell {
   done
 }
 
-
-################################## 判断是否输入用户数量 ##################################
+## 判断是否输入用户数量
 function Detect_UserSum {
   if [ -z "${UserSum}" ]; then
     echo -e "请输入有效的用户数量(UserSum)...\n"
@@ -82,8 +78,7 @@ function Detect_UserSum {
   fi
 }
 
-
-################################## git更新JS脚本 ##################################
+## git更新js脚本
 function Git_PullScripts {
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
   git fetch --all
@@ -92,8 +87,7 @@ function Git_PullScripts {
   echo
 }
 
-
-################################## 修改JS脚本中的Cookie ##################################
+## 修改js脚本中的Cookie
 function Change_Cookie {
   CookieALL=""
   echo -e "${FileCookie}: 替换Cookies...\n"
@@ -108,8 +102,7 @@ function Change_Cookie {
   perl -0777 -i -pe "s|let CookieJDs = \[\n(.+\n?){2}\]|let CookieJDs = \[${CookieALL}\n\]|" ${FileCookie}
 }
 
-
-################################## 修改通知TOKEN ##################################
+## 修改通知TOKEN
 function Change_Token {
   ## ServerChan
   if [ ${SCKEY} ]; then
@@ -152,8 +145,7 @@ function Change_Token {
   fi
 }
 
-
-################################## 修改每日签到的延迟时间 ##################################
+## 修改每日签到的延迟时间
 function Change_BeanSignStop {
   if [ ${BeanSignStop} ] && [ ${BeanSignStop} -gt 0 ]; then
     echo -e "${FileBeanSign}：设置每日签到每个接口延迟时间为 ${BeanSignStop} ms...\n"
@@ -161,8 +153,7 @@ function Change_BeanSignStop {
   fi
 }
 
-
-################################## 替换东东农场互助码 ##################################
+## 替换东东农场互助码
 function Change_FruitShareCodes {
   ForOtherFruitALL=""
   echo -e "${FileFruitShareCodes}: 替换东东农场互助码...\n"
@@ -177,8 +168,7 @@ function Change_FruitShareCodes {
   perl -0777 -i -pe "s|let FruitShareCodes = \[\n(.+\n?){2}\]|let FruitShareCodes = \[${ForOtherFruitALL}\n\]|" ${FileFruitShareCodes}
 }
 
-
-################################## 替换东东萌宠互助码 ##################################
+## 替换东东萌宠互助码
 function Change_PetShareCodes {
   ForOtherPetALL=""
   echo -e "${FilePetShareCodes}: 替换东东萌宠互助码...\n"
@@ -193,8 +183,7 @@ function Change_PetShareCodes {
   perl -0777 -i -pe "s|let PetShareCodes = \[\n(.+\n?){2}\]|let PetShareCodes = \[${ForOtherPetALL}\n\]|" ${FilePetShareCodes}
 }
 
-
-################################## 替换种豆得豆互助码 ##################################
+## 替换种豆得豆互助码
 function Change_PlantBeanShareCodes {
   ForOtherPlantBeanALL=""
   echo -e "${FilePlantBeanShareCodes}: 替换种豆得豆互助码...\n"
@@ -209,8 +198,7 @@ function Change_PlantBeanShareCodes {
   perl -0777 -i -pe "s|let PlantBeanShareCodes = \[\n(.+\n?){2}\]|let PlantBeanShareCodes = \[${ForOtherPlantBeanALL}\n\]|" ${FilePlantBeanShareCodes}
 }
 
-
-################################## 修改东东超市蓝币兑换数量 ##################################
+## 修改东东超市蓝币兑换数量或实物
 function Change_coinToBeans {
   expr ${coinToBeans} "+" 10 &>/dev/null
   if [ $? -eq 0 ]
@@ -230,8 +218,7 @@ function Change_coinToBeans {
   fi
 }
 
-
-################################## 修改东东超市蓝币成功兑换奖品是否静默运行 ##################################
+## 修改东东超市蓝币成功兑换奖品是否静默运行
 function Change_NotifyBlueCoin {
   if [ "${NotifyBlueCoin}" = "true" ]  || [ "${NotifyBlueCoin}" = "false" ]; then
     echo -e "${FileBlueCoin}：设置东东超市成功兑换蓝币是否静默运行为 ${NotifyBlueCoin}...\n"
@@ -239,8 +226,7 @@ function Change_NotifyBlueCoin {
   fi
 }
 
-
-################################## 修改东东超市是否自动升级商品和货架 ##################################
+## 修改东东超市是否自动升级商品和货架
 function Change_superMarketUpgrade {
   if [ "${superMarketUpgrade}" = "false" ]  || [ "${superMarketUpgrade}" = "true" ]; then
     echo -e "${FileSuperMarket}：设置东东超市是否自动升级商品和货架为 ${superMarketUpgrade}...\n"
@@ -248,8 +234,7 @@ function Change_superMarketUpgrade {
   fi
 }
 
-
-################################## 修改东东超市是否自动更换商圈 ##################################
+## 修改东东超市是否自动更换商圈
 function Change_businessCircleJump {
   if [ "${businessCircleJump}" = "false" ] || [ "${businessCircleJump}" = "true" ]; then
     echo -e "${FileSuperMarket}：设置东东超市在小于对方300热力值时是否自动更换商圈为 ${businessCircleJump}\n"
@@ -257,8 +242,7 @@ function Change_businessCircleJump {
   fi
 }
 
-
-################################## 修改东东超市是否自动使用金币去抽奖 ##################################
+## 修改东东超市是否自动使用金币去抽奖
 function Change_drawLotteryFlag {
   if [ "${drawLotteryFlag}" = "true" ] || [ "${drawLotteryFlag}" = "false" ]; then
     echo -e "${FileSuperMarket}：设置东东超市是否自动使用金币去抽奖为 ${drawLotteryFlag}...\n"
@@ -266,8 +250,7 @@ function Change_drawLotteryFlag {
   fi
 }
 
-
-################################## 修改东东农场是否静默运行 ##################################
+## 修改东东农场是否静默运行
 function Change_NotifyFruit {
   if [ "${NotifyFruit}" = "true" ] || [ "${NotifyFruit}" = "false" ]; then
     echo -e "${FileFruit}：设置东东农场是否静默运行为 ${NotifyFruit}...\n"
@@ -275,8 +258,7 @@ function Change_NotifyFruit {
   fi
 }
 
-
-################################## 修改东东农场是否使用水滴换豆卡 ##################################
+## 修改东东农场是否使用水滴换豆卡
 function Change_jdFruitBeanCard {
   if [ "${jdFruitBeanCard}" = "true" ] || [ "${jdFruitBeanCard}" = "false" ]; then
     echo -e "${FileFruit}：设置东东农场在出现限时活动时是否使用水滴换豆卡为 ${jdFruitBeanCard}...\n"
@@ -284,8 +266,7 @@ function Change_jdFruitBeanCard {
   fi
 }
 
-
-################################## 修改宠汪汪喂食克数 ##################################
+## 修改宠汪汪喂食克数
 function Change_joyFeedCount {
   case ${joyFeedCount} in
     [1248]0)
@@ -296,8 +277,7 @@ function Change_joyFeedCount {
   esac
 }
 
-
-################################## 修改宠汪汪兑换京豆数量 ##################################
+## 修改宠汪汪兑换京豆数量
 function Change_joyRewardName {
   case ${joyRewardName} in
     0)
@@ -311,8 +291,7 @@ function Change_joyRewardName {
   esac
 }
 
-
-################################## 修改宠汪汪兑换京豆是否静默运行 ##################################
+## 修改宠汪汪兑换京豆是否静默运行
 function Change_NotifyJoyReward {
   if [ "${NotifyJoyReward}" = "true" ] || [ "${NotifyJoyReward}" = "false" ]; then
     echo -e "${FileJoyReward}：设置宠汪汪兑换京豆是否静默运行为 ${NotifyJoyReward}...\n"
@@ -320,8 +299,7 @@ function Change_NotifyJoyReward {
   fi
 }
 
-
-################################## 修改宠汪汪偷取好友积分与狗粮是否静默运行 ##################################
+## 修改宠汪汪偷取好友积分与狗粮是否静默运行
 function Change_NotifyJoySteal {
   if [ "${NotifyJoySteal}" = "true" ] || [ "${NotifyJoySteal}" = "false" ]; then
     echo -e "${FileJoySteal}：设置宠汪汪成功偷取好友积分与狗粮是否静默运行为 ${NotifyJoySteal}...\n"
@@ -329,8 +307,7 @@ function Change_NotifyJoySteal {
   fi
 }
 
-
-################################## 修改宠汪汪是否静默运行 ##################################
+## 修改宠汪汪是否静默运行
 function Change_NotifyJoy {
   if [ "${NotifyJoy}" = "false" ] || [ "${NotifyJoy}" = "true" ]; then
     echo -e "${FileJoy}：设置宠汪汪是否静默运行为 ${NotifyJoy}...\n"
@@ -338,8 +315,7 @@ function Change_NotifyJoy {
   fi
 }
 
-
-################################## 修改宠汪汪是否自动报名宠物赛跑 ##################################
+## 修改宠汪汪是否自动报名宠物赛跑
 function Change_joyRunFlag {
   if [ "${joyRunFlag}" = "false" ] || [ "${joyRunFlag}" = "true" ]; then
     echo -e "${FileJoy}：设置宠汪汪是否自动报名宠物赛跑为 ${joyRunFlag}...\n"
@@ -347,8 +323,7 @@ function Change_joyRunFlag {
   fi
 }
 
-
-################################## 修改宠汪汪是否自动给好友的汪汪喂食 ##################################
+## 修改宠汪汪是否自动给好友的汪汪喂食
 function Change_jdJoyHelpFeed {
   if [ "${jdJoyHelpFeed}" = "true" ] || [ "${jdJoyHelpFeed}" = "false" ]; then
     echo -e "${FileJoySteal}：设置宠汪汪是否自动给好友的汪汪喂食为 ${jdJoyHelpFeed}...\n"
@@ -356,8 +331,7 @@ function Change_jdJoyHelpFeed {
   fi
 }
 
-
-################################## 修改宠汪汪是否自动偷好友积分与狗粮 ##################################
+## 修改宠汪汪是否自动偷好友积分与狗粮
 function Change_jdJoyStealCoin {
   if [ "${jdJoyStealCoin}" = "false" ] || [ "${jdJoyStealCoin}" = "true" ]; then
     echo -e "${FileJoySteal}：设置宠汪汪是否自动偷好友积分与狗粮为 ${jdJoyStealCoin}...\n"
@@ -365,8 +339,7 @@ function Change_jdJoyStealCoin {
   fi
 }
 
-
-################################## 修改摇钱树是否静默运行 ##################################
+## 修改摇钱树是否静默运行
 function Change_NotifyMoneyTree {
   if [ "${NotifyMoneyTree}" = "false" ] || [ "${NotifyMoneyTree}" = "true" ]; then
     echo -e "${FileMoneyTree}：设置摇钱树是否静默运行为 ${NotifyMoneyTree}...\n"
@@ -374,8 +347,7 @@ function Change_NotifyMoneyTree {
   fi
 }
 
-
-################################## 修改摇钱树是否是否自动将金果卖出变成金币 ##################################
+## 修改摇钱树是否自动将金果卖出变成金币
 function Change_MoneyTreeAutoSell {
   if [ "${MoneyTreeAutoSell}" = "false" ]; then
     echo -e "${FileMoneyTree}：设置摇钱树是否自动将金果卖出变成金币为 ${MoneyTreeAutoSell}...\n"
@@ -383,8 +355,7 @@ function Change_MoneyTreeAutoSell {
   fi
 }
 
-
-################################## 修改东东萌宠是否静默运行 ##################################
+## 修改东东萌宠是否静默运行
 function Change_NotifyPet {
   if [ "${NotifyPet}" = "true" ] || [ "${NotifyPet}" = "false" ]; then
     echo -e "${FilePet}：设置东东萌宠是否静默运行为 ${NotifyPet}...\n"
@@ -392,8 +363,7 @@ function Change_NotifyPet {
   fi
 }
 
-
-################################## 修改京喜工厂是否静默运行 ##################################
+## 修改京喜工厂是否静默运行
 function Change_NotifyDreamFactory {
   if [ "${NotifyDreamFactory}" = "false" ] || [ "${NotifyDreamFactory}" = "true" ]; then
     echo -e "${FileDreamFactory}：设置京喜工厂是否静默运行为 ${NotifyDreamFactory}...\n"
@@ -401,8 +371,23 @@ function Change_NotifyDreamFactory {
   fi
 }
 
+## 修改东东工厂是否静默运行
+function Change_NotifyJdFactory {
+  if [ "${NotifyJdFactory}" = "false" ] || [ "${NotifyJdFactory}" = "true" ]; then
+    echo -e "${FileJdFactory}：设置东东工厂是否静默运行为 ${NotifyJdFactory}...\n"
+    perl -i -pe "s|let jdNotify = .+;|let jdNotify = ${NotifyJdFactory};|" ${FileJdFactory}
+  fi
+}
 
-################################## 修改取关参数 ##################################
+## 修改东东工厂心仪的商品
+function Change_WantProduct {
+  if [ -n "${WantProduct}" ]; then
+    echo -e "${FileJdFactory}：设置东东工厂心仪商品为 \"${WantProduct}\"...\n"
+    perl -i -pe "s|(const wantProduct = ).+;|\1\'${WantProduct}\';|" ${FileJdFactory}
+  fi
+}
+
+## 修改取关参数
 function Change_Unsubscribe {
   if [ ${goodPageSize} ] && [ ${goodPageSize} -gt 0 ]; then
     echo -e "${FileUnsubscribe}：设置商品取关数量为 ${goodPageSize}...\n"
@@ -422,8 +407,7 @@ function Change_Unsubscribe {
   fi
 }
 
-
-################################## 修改手机狂欢城是否发送上车提醒 ##################################
+## 修改手机狂欢城是否发送上车提醒
 function Change_Notify818 {
   if [ "${Notify818}" = "true" ] || [ "${Notify818}" = "false" ]; then
     echo -e "${File818}：设置手机狂欢城是否发送上车提醒为 ${Notify818}...\n"
@@ -431,8 +415,7 @@ function Change_Notify818 {
   fi
 }
 
-
-################################## 修改lxk0301大佬js文件的函数汇总 ##################################
+## 修改lxk0301大佬js文件的函数汇总
 function Change_ALL {
   Change_Cookie
   Change_Token
@@ -459,12 +442,13 @@ function Change_ALL {
   Change_MoneyTreeAutoSell
   Change_NotifyPet
   Change_NotifyDreamFactory
+  Change_NotifyJdFactory
+  Change_WantProduct
   Change_Unsubscribe
   # Change_Notify818
 }
 
-
-################################## 检测定时任务是否有变化 ##################################
+## 检测定时任务是否有变化
 ## 此函数会在Log文件夹下生成四个文件，分别为：
 ## shell.list   shell文件夹下用来跑js文件的以“jd_”开头的所有 .sh 文件清单（去掉后缀.sh）
 ## js.list      scripts/docker/crontab_list.sh文件中用来运行js脚本的清单（去掉后缀.js，非运行脚本的不会包括在内）
@@ -477,8 +461,7 @@ function Diff_Cron {
   grep -v -f ${ListJs} ${ListShell} > ${ListJsDrop}
 }
 
-
-################################## 设置环境变量：每日签到的通知形式 ##################################
+## 设置环境变量：每日签到的通知形式
 ## 要在检测并增删定时任务以后再运行
 function Set_NotifyBeanSign {
   case ${NotifyBeanSign} in
@@ -509,8 +492,7 @@ function Set_NotifyBeanSign {
   esac
 }
 
-
-################################## 设置环境变量：User-Agent ##################################
+## 设置环境变量：User-Agent
 ## 要在检测并增删定时任务以后再运行
 function Set_UserAgent {
   if [ -n "${UserAgent}" ]
@@ -528,85 +510,7 @@ function Set_UserAgent {
   fi
 }
 
-
-################################## wget更新额外的js脚本 ##################################
-## 额外的脚本
-function Update_ExtraJs {
-  echo -e "--------------------------------------------------------------\n"
-  echo -e "开始更新额外的js脚本：${JsList2}\n"
-  echo -e "来源：${ScriptsURL2}\n"
-  for js in ${JsList2}
-  do
-    [ -f "${ScriptsDir}/${js}.js.new" ] && rm -f "${ScriptsDir}/${js}.js.new"
-    wget -q --no-check-certificate ${ScriptsURL2Raw}${js}.js -O ${ScriptsDir}/${js}.js.new
-    if [ -s "${ScriptsDir}/${js}.js.new" ]
-    then
-      mv -f ${ScriptsDir}/${js}.js.new ${ScriptsDir}/${js}.js
-      echo -e "${js}.js：更新成功...\n"
-    else
-      echo -e "${js}.js：更新失败，请检查网络是否可以访问Github的RAW文件，如无法访问，建议禁用额外的js脚本功能...\n"
-    fi
-  done
-}
-
-
-################################## 替换东东工厂互助码 ##################################
-## 额外的脚本
-function Change_FactoryShareCodes {
-  ForOtherFactoryALL=""
-  echo -e "${FileFactory}: 替换东东工厂互助码...\n"
-  im=1
-  while [ ${im} -le ${UserSum} ]
-  do
-    Temp5=ForOtherFactory${im}
-    eval ForOtherFactoryTemp=$(echo \$${Temp5})
-    ForOtherFactoryALL="${ForOtherFactoryALL}\\n        '${ForOtherFactoryTemp}',"
-    let im++
-  done
-  perl -0777 -i -pe "s|(.+sharecodes = \[)\n(.+\n){2}(.+\];)|\1${ForOtherFactoryALL}\n\3|" ${FileFactory}
-}
-
-
-################################## 修改东东工厂是否自动注入电量 ##################################
-## 额外的脚本
-function Change_AutoAddPower {
-  if [ "${AutoAddPower}" = "true" ] || [ "${AutoAddPower}" = "false" ]; then
-    echo -e "${FileFactory}：修改东东工厂是否自动注入电量为：${AutoAddPower}..."
-    perl -i -pe "s|autoAdd = .+;|autoAdd = ${AutoAddPower};|" ${FileFactory}
-  fi
-}
-
-
-################################## 复制额外的js脚本对应的ash脚本并增加定时任务 ##################################
-## 额外的脚本
-function Copy_ExtraAsh {
-  if [ -f ${FileJdSample} ]
-  then
-    VerSample=$(cat ${FileJdSample} | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
-    for js in ${JsList2}
-    do
-      [ ! -d "${LogDir}/${js}" ] && mkdir -p ${LogDir}/${js}
-
-      VerJdShell=$(cat ${ShellDir}/${js}.ash | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
-      if [ ! -f "${ShellDir}/${js}.ash" ] || [ -z "${VerJdShell}" ] || [[ "${VerSample}" != "${VerJdShell}" ]]; then
-        cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
-        echo
-      fi
-
-      [ ! -x "${ShellDir}/${js}.ash" ] && chmod +x "${ShellDir}/${js}.ash"
-
-      if [[ -z $(grep "${js}\.ash" ${ListCron}) ]]; then
-        cat ${ShellDir}/crontab.list.sample | grep "${js}\.ash" | perl -pe "s|/root/shell|${ShellDir}|" >> ${ListCron}
-        crontab ${ListCron}
-      fi
-    done
-  else
-    echo -e "${FileJdSample} 文件不存在，可能是shell脚本克隆不正常...\n未能添加额外的定时任务，请自行添加...\n"
-  fi
-}
-
-
-################################## git更新shell脚本 ##################################
+## git更新shell脚本
 function Git_PullShell {
   echo -e "更新shell脚本，原地址：${ShellURL}\n"
   git fetch --all
@@ -620,8 +524,7 @@ function Git_PullShell {
   fi
 }
 
-
-################################## npm install 子程序 ##################################
+## npm install 子程序，判断是否为安卓
 function NpmInstallSub {
   if [ -n "${isTermux}" ]
   then
@@ -631,8 +534,7 @@ function NpmInstallSub {
   fi
 }
 
-
-################################## 调用各函数来修改为设定值 ##################################
+## 调用各函数来修改为设定值
 ## 仅包括修改 lxk0301 大佬的 js 文件的相关函数，不包括设置临时环境变量
 cd ${ScriptsDir}
 Detect_VerJdShell
@@ -653,26 +555,22 @@ else
   Change_ALL
 fi
 
-
-################################## 输出是否有新的定时任务 ##################################
+## 输出是否有新的定时任务
 if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsAdd} ]; then
   echo -e "检测到有新的定时任务：\n"
   cat ${ListJsAdd}
   echo
 fi
 
-
-################################## 输出是否有失效的定时任务 ##################################
+## 输出是否有失效的定时任务
 if [ ${GitPullExitStatus} -eq 0 ] && [ -s ${ListJsDrop} ]; then
   echo -e "检测到有失效的定时任务：\n"
   cat ${ListJsDrop}
   echo
 fi
-  
 
-################################## 自动删除失效的脚本与定时任务 ##################################
+## 自动删除失效的脚本与定时任务，仅在 AutoDelCron 设置为 true 时生效
 ## 如果检测到某个定时任务在 scripts/docker/crontab_list.sh 中已删除，那么在本地也删除对应的shell脚本与定时任务
-## 此功能仅在 AutoDelCron 设置为 true 时生效
 if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
   echo -e "开始尝试自动删除定时任务如下：\n"
   cat ${ListJsDrop}
@@ -688,10 +586,8 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
   echo -e "\n--------------------------------------------------------------\n"
 fi
 
-
-################################## 自动增加新的定时任务 ##################################
+## 自动增加新的定时任务，仅在 AutoAddCron 设置为 true 时生效
 ## 如果检测到 scripts/docker/crontab_list.sh 中增加新的定时任务，那么在本地也增加
-## 此功能仅在 AutoAddCron 设置为 true 时生效
 ## 本功能生效时，会自动从 scripts/docker/crontab_list.sh 文件新增加的任务中读取时间，该时间为北京时间
 if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ] && [ -s ${ListCron} ] && [ -d ${ScriptsDir}/node_modules ]; then
   echo -e "开始尝试自动添加定时任务如下：\n"
@@ -717,45 +613,25 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
       crontab -l
       echo "\n--------------------------------------------------------------\n"
     else
-      echo -e "未能添加新的定时任务，请自行添加...\n"
+      echo -e "添加新的定时任务出错，请手动添加...\n"
     fi
   else
     echo -e "${FileJdSample} 文件不存在，可能是shell脚本克隆不正常...\n未能成功添加新的定时任务，请自行添加...\n"
   fi
 fi
 
-
-################################## 设置临时环境变量 ##################################
-## 设置临时环境变量要在检测并增删定时任务以后运行
+## 设置临时环境变量，要在检测并增删定时任务以后运行
 ## 仅在运行${ShellDir}下的jd_xxx.sh时生效，运行${ScriptsDir}下的jd_xxx.js无效
 if [ ${GitPullExitStatus} -eq 0 ]; then
   Set_NotifyBeanSign
   Set_UserAgent
 fi
 
+## 额外的js脚本相关程序
+[ "${EnableExtraJs}" = "true" ] && echo -e "请将新的git_pull.sh.sample重新配置为git_pull，lxk0301大佬已添加东东工厂脚本，而泡泡大战又没啥用，所以不再提供额外的两个任务了...\n
+已经在定时任务中添加了额外脚本任务的用户请注意，请按照教程手动在crontab.list中删除jd_factory和jd_paopao两条定时任务，然后将crontab.list添加到系统定时任务中...\n"
 
-################################## 额外的js脚本相关程序 ##################################
-if [ "${EnableExtraJs}" = "true" ]; then
-  cd ${ScriptsDir}
-  
-  ## 仅列出需要修改信息的名称
-  FileFactory=jd_factory.js
-
-  ## 清单
-  JsList2="jd_factory jd_paopao"
-
-  ## 来源
-  ScriptsURL2="https://github.com/799953468/Quantumult-X"
-  ScriptsURL2Raw="https://raw.fastgit.org/799953468/Quantumult-X/master/Scripts/JD/"
-  
-  Update_ExtraJs
-  Change_FactoryShareCodes
-  Change_AutoAddPower
-  Copy_ExtraAsh
-fi
-
-
-################################## npm install ##################################
+## npm install
 if [ ${GitPullExitStatus} -eq 0 ]; then
   cd ${ScriptsDir}
   isTermux=$(echo ${ANDROID_RUNTIME_ROOT})
@@ -772,15 +648,14 @@ if [ ${GitPullExitStatus} -eq 0 ]; then
     echo -e "运行npm install...\n"
     NpmInstallSub
     if [ $? -ne 0 ]; then
-      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n请进入 ${ScriptsDir} 目录后手动运行 npm install...\n"
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir}/node_modules...\n\n请进入 ${ScriptsDir} 目录后手动运行 npm install...\n"
       rm -rf ${ScriptsDir}/node_modules
       exit 1
     fi
   fi
 fi
 
-
-################################## 更新shell脚本 ##################################
+## 更新shell脚本
 if [ $? -eq 0 ]; then
   cd ${ShellDir}
   echo -e "--------------------------------------------------------------\n"
