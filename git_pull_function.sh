@@ -663,7 +663,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
       crontab -l
       echo "\n--------------------------------------------------------------\n"
     else
-      echo -e "未能添加新的定时任务，请自行添加...\n"
+      echo -e "添加新的定时任务出错，请手动添加...\n"
     fi
   else
     echo -e "${FileJdSample} 文件不存在，可能是shell脚本克隆不正常...\n未能成功添加新的定时任务，请自行添加...\n"
