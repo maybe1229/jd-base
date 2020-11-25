@@ -413,11 +413,11 @@ function Change_Unsubscribe {
     perl -i -pe "s|let shopPageSize = .+;|let shopPageSize = ${shopPageSize};|" ${FileUnsubscribe}
   fi
   if [ ${jdUnsubscribeStopGoods} ]; then
-    echo -e "设置禁止取关商品的截止关键字为 ${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品...\n"
+    echo -e "${FileUnsubscribe}：设置禁止取关商品的截止关键字为 ${jdUnsubscribeStopGoods}，遇到此商品不再取关此商品以及它后面的商品...\n"
     perl -i -pe "s|let stopGoods = .+;|let stopGoods = \'${jdUnsubscribeStopGoods}\';|" ${FileUnsubscribe}
   fi
   if [ ${jdUnsubscribeStopShop} ]; then
-    echo -e "设置禁止取关店铺的截止关键字为 ${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺...\n"
+    echo -e "${FileUnsubscribe}：设置禁止取关店铺的截止关键字为 ${jdUnsubscribeStopShop}，遇到此店铺不再取关此店铺以及它后面的店铺...\n"
     perl -i -pe "s|let stopShop = .+;|let stopShop = \'${jdUnsubscribeStopShop}\';|" ${FileUnsubscribe}
   fi
 }
@@ -470,7 +470,7 @@ function Change_ALL {
 ## js.list      scripts/docker/crontab_list.sh文件中用来运行js脚本的清单（去掉后缀.js，非运行脚本的不会包括在内）
 ## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
-function Cron_Different {
+function Diff_Cron {
   ls ${ShellDir} | grep -E "jd_.+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
   cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" > ${ListJs}
   grep -v -f ${ListShell} ${ListJs} > ${ListJsAdd}
@@ -532,7 +532,7 @@ function Set_UserAgent {
 ################################## wget更新额外的js脚本 ##################################
 ## 额外的脚本
 function Update_ExtraJs {
-  echo -e "---------------------------------------------------------\n"
+  echo -e "--------------------------------------------------------------\n"
   echo -e "开始更新额外的js脚本：${JsList2}\n"
   echo -e "来源：${ScriptsURL2}\n"
   for js in ${JsList2}
@@ -590,6 +590,7 @@ function Copy_ExtraAsh {
       VerJdShell=$(cat ${ShellDir}/${js}.ash | grep -i "Version" | perl -pe "s|.+v((\d+\.?){3})|\1|")
       if [ ! -f "${ShellDir}/${js}.ash" ] || [ -z "${VerJdShell}" ] || [[ "${VerSample}" != "${VerJdShell}" ]]; then
         cp -fv "${FileJdSample}" "${ShellDir}/${js}.ash"
+        echo
       fi
 
       [ ! -x "${ShellDir}/${js}.ash" ] && chmod +x "${ShellDir}/${js}.ash"
@@ -646,7 +647,7 @@ if [ ${GitPullExitStatus} -eq 0 ]
 then
   echo -e "js脚本更新完成，开始替换信息，并检测定时任务变化情况...\n"
   Change_ALL
-  Cron_Different
+  Diff_Cron
 else
   echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh...\n为保证js脚本在更新失败时能够继续运行，仍然替换信息，但不再检测定时任务是否有变化...\n"
   Change_ALL
@@ -682,9 +683,9 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${Lis
     rm -f "${ShellDir}/${Cron}.sh"
   done
   crontab ${ListCron}
-  echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单如下：\n"
+  echo -e "成功删除失效的脚本与定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
   crontab -l
-  echo
+  echo -e "\n--------------------------------------------------------------\n"
 fi
 
 
@@ -709,11 +710,12 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
       do
         cp -fv "${FileJdSample}" "${ShellDir}/${Cron}.sh"
         [ ! -x "${ShellDir}/${Cron}.sh" ] && chmod +x "${ShellDir}/${Cron}.sh"
+        echo
       done
       crontab ${ListCron}
-      echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n"
+      echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
       crontab -l
-      echo
+      echo "\n--------------------------------------------------------------\n"
     else
       echo -e "未能添加新的定时任务，请自行添加...\n"
     fi
