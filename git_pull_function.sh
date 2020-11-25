@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-25
-## Version： v2.3.5
+## Modified： 2020-11-26
+## Version： v2.3.6
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -149,7 +149,7 @@ function Change_Token {
 function Change_BeanSignStop {
   if [ ${BeanSignStop} ] && [ ${BeanSignStop} -gt 0 ]; then
     echo -e "${FileBeanSign}：设置每日签到每个接口延迟时间为 ${BeanSignStop} ms...\n"
-    perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\n\s{2,}(.+, ).+\);\n\s*\}|\1\"var stop = ${BeanSignStop}\"\);|" ${FileBeanSign}
+    perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\s+(\S.+, ).+(\);)\s+\}|\1\"var stop = ${BeanSignStop}\"\2|" ${FileBeanSign}
   fi
 }
 
