@@ -22,6 +22,8 @@
 
 - 2020-11-25：1.删除额外的脚本功能；2.lxk0301大佬已经增加东东工厂脚本，跟随上游，添加两个控制参数：定义东东工厂是否静默运行、定义东东工厂心仪的商品。需要按照新的`git_pull.sh.sample`重新配置为`git_pull.sh`方可使用新功能。首页搜索“边玩边赚”，进去找东东工厂查阅具体玩法。
 
+- 2020-11-26：增加京喜工厂、东东工厂助力码相关功能，其中京喜工厂功能暂时未启用，只是提供了你填的地方。需要按照新的`git_pull.sh.sample`重新配置为`git_pull.sh`方可使用新功能，或者将本次增加的内容增加到你已有的git_pull.sh中也可以使用。
+
 ## Star趋势
 
 [![Stargazers over time](https://starchart.cc/EvineDeng/jd-base.svg)](https://starchart.cc/EvineDeng/jd-base)
