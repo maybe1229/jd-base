@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-25
-## Version： v2.3.5
+## Modified： 2020-11-26
+## Version： v2.3.6
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -30,6 +30,8 @@ FileFruitShareCodes=jdFruitShareCodes.js
 FilePetShareCodes=jdPetShareCodes.js
 FilePlantBeanShareCodes=jdPlantBeanShareCodes.js
 FileSuperMarketShareCodes=jdSuperMarketShareCodes.js
+FileJdFactoryShareCodes=jdFactoryShareCodes.js
+FileDreamFactoryShareCodes=jdDreamFactoryShareCodes.js
 FileJoy=jd_joy.js
 FileJoyFeed=jd_joy_feedPets.js
 FileJoyReward=jd_joy_reward.js
@@ -91,15 +93,15 @@ function Git_PullScripts {
 function Change_Cookie {
   CookieALL=""
   echo -e "${FileCookie}: 替换Cookies...\n"
-  ii=1
-  while [ ${ii} -le ${UserSum} ]
+  i=1
+  while [ ${i} -le ${UserSum} ]
   do
-    Temp1=Cookie${ii}
-    eval CookieTemp=$(echo \$${Temp1})
+    TmpCK=Cookie${i}
+    eval CookieTemp=$(echo \$${TmpCK})
     CookieALL="${CookieALL}\\n  '${CookieTemp}',"
-    let ii++
+    let i++
   done
-  perl -0777 -i -pe "s|let CookieJDs = \[\n(.+\n?){2}\]|let CookieJDs = \[${CookieALL}\n\]|" ${FileCookie}
+  perl -0777 -i -pe "s|(let CookieJDs = )\[\n(.+\n?){2}\]|\1\[${CookieALL}\n\]|" ${FileCookie}
 }
 
 ## 修改通知TOKEN
@@ -149,7 +151,7 @@ function Change_Token {
 function Change_BeanSignStop {
   if [ ${BeanSignStop} ] && [ ${BeanSignStop} -gt 0 ]; then
     echo -e "${FileBeanSign}：设置每日签到每个接口延迟时间为 ${BeanSignStop} ms...\n"
-    perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\n\s{2,}(.+, ).+\);\n\s*\}|\1\"var stop = ${BeanSignStop}\"\);|" ${FileBeanSign}
+    perl -0777 -i -pe "s|if \(process\.env\.JD_BEAN_STOP.+\{\s+(\S.+, ).+(\);)\s+\}|\1\"var stop = ${BeanSignStop}\"\2|" ${FileBeanSign}
   fi
 }
 
@@ -157,45 +159,75 @@ function Change_BeanSignStop {
 function Change_FruitShareCodes {
   ForOtherFruitALL=""
   echo -e "${FileFruitShareCodes}: 替换东东农场互助码...\n"
-  ij=1
-  while [ ${ij} -le ${UserSum} ]
+  i=1
+  while [ ${i} -le ${UserSum} ]
   do
-    Temp2=ForOtherFruit${ij}
-    eval ForOtherFruitTemp=$(echo \$${Temp2})
+    TmpFR=ForOtherFruit${i}
+    eval ForOtherFruitTemp=$(echo \$${TmpFR})
     ForOtherFruitALL="${ForOtherFruitALL}\\n  '${ForOtherFruitTemp}',"
-    let ij++
+    let i++
   done
-  perl -0777 -i -pe "s|let FruitShareCodes = \[\n(.+\n?){2}\]|let FruitShareCodes = \[${ForOtherFruitALL}\n\]|" ${FileFruitShareCodes}
+  perl -0777 -i -pe "s|(let FruitShareCodes = )\[\n(.+\n?){2}\]|\1\[${ForOtherFruitALL}\n\]|" ${FileFruitShareCodes}
 }
 
 ## 替换东东萌宠互助码
 function Change_PetShareCodes {
   ForOtherPetALL=""
   echo -e "${FilePetShareCodes}: 替换东东萌宠互助码...\n"
-  ik=1
-  while [ ${ik} -le ${UserSum} ]
+  i=1
+  while [ ${i} -le ${UserSum} ]
   do
-    Temp3=ForOtherPet${ik}
-    eval ForOtherPetTemp=$(echo \$${Temp3})
+    TmpPT=ForOtherPet${i}
+    eval ForOtherPetTemp=$(echo \$${TmpPT})
     ForOtherPetALL="${ForOtherPetALL}\\n  '${ForOtherPetTemp}',"
-    let ik++
+    let i++
   done
-  perl -0777 -i -pe "s|let PetShareCodes = \[\n(.+\n?){2}\]|let PetShareCodes = \[${ForOtherPetALL}\n\]|" ${FilePetShareCodes}
+  perl -0777 -i -pe "s|(let PetShareCodes = )\[\n(.+\n?){2}\]|\1\[${ForOtherPetALL}\n\]|" ${FilePetShareCodes}
 }
 
 ## 替换种豆得豆互助码
 function Change_PlantBeanShareCodes {
   ForOtherPlantBeanALL=""
   echo -e "${FilePlantBeanShareCodes}: 替换种豆得豆互助码...\n"
-  il=1
-  while [ ${il} -le ${UserSum} ]
+  i=1
+  while [ ${i} -le ${UserSum} ]
   do
-    Temp4=ForOtherPlantBean${il}
-    eval ForOtherPlantBeanTemp=$(echo \$${Temp4})
+    TmpPB=ForOtherPlantBean${i}
+    eval ForOtherPlantBeanTemp=$(echo \$${TmpPB})
     ForOtherPlantBeanALL="${ForOtherPlantBeanALL}\\n  '${ForOtherPlantBeanTemp}',"
-    let il++
+    let i++
   done
-  perl -0777 -i -pe "s|let PlantBeanShareCodes = \[\n(.+\n?){2}\]|let PlantBeanShareCodes = \[${ForOtherPlantBeanALL}\n\]|" ${FilePlantBeanShareCodes}
+  perl -0777 -i -pe "s|(let PlantBeanShareCodes = )\[\n(.+\n?){2}\]|\1\[${ForOtherPlantBeanALL}\n\]|" ${FilePlantBeanShareCodes}
+}
+
+## 替换京喜工厂互助码
+function Change_DreamFactoryShareCodes {
+  ForOtherDreamFactoryALL=""
+  echo -e "${FileDreamFactoryShareCodes}: 替换京喜工厂互助码...\n"
+  i=1
+  while [ ${i} -le ${UserSum} ]
+  do
+    TmpDF=ForOtherDreamFactory${i}
+    eval ForOtherDreamFactoryTemp=$(echo \$${TmpDF})
+    ForOtherDreamFactoryALL="${ForOtherDreamFactoryALL}\\n  '${ForOtherDreamFactoryTemp}',"
+    let i++
+  done
+  perl -0777 -i -pe "s|(let shareCodes = )\[\n(.+\n?){2}\]|\1\[${ForOtherDreamFactoryALL}\n\]|" ${FileDreamFactoryShareCodes}
+}
+
+## 替换东东工厂互助码
+function Change_JdFactoryShareCodes {
+  ForOtherJdFactoryALL=""
+  echo -e "${FileJdFactoryShareCodes}: 替换东东工厂互助码...\n"
+  i=1
+  while [ ${i} -le ${UserSum} ]
+  do
+    TmpJF=ForOtherJdFactory${i}
+    eval ForOtherJdFactoryTemp=$(echo \$${TmpJF})
+    ForOtherJdFactoryALL="${ForOtherJdFactoryALL}\\n  '${ForOtherJdFactoryTemp}',"
+    let i++
+  done
+  perl -0777 -i -pe "s|(let shareCodes = )\[\n(.+\n?){2}\]|\1\[${ForOtherJdFactoryALL}\n\]|" ${FileJdFactoryShareCodes}
 }
 
 ## 修改东东超市蓝币兑换数量或实物
@@ -423,6 +455,8 @@ function Change_ALL {
   Change_FruitShareCodes
   Change_PetShareCodes
   Change_PlantBeanShareCodes
+  # Change_DreamFactoryShareCodes
+  Change_JdFactoryShareCodes
   Change_coinToBeans
   Change_NotifyBlueCoin
   Change_superMarketUpgrade
