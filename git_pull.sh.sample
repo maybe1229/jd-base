@@ -10,8 +10,8 @@ export LC_ALL=C
 
 
 ################################## 定义用户数量（必填） ##################################
-## 请填入总共有多少个京东用户的账号，这里定义了多少个，在下面定义的Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory数量就应当有多少个。
-## 比如UserSum为4，那么Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory都只有编号1-4的变量生效
+## 请填入总共有多少个京东用户的账号，这里定义了多少个，在下面定义的Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory、ForOtherJdFactory数量就应当有多少个。
+## 比如UserSum为4，那么Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory、ForOtherJdFactory都只有编号1-4的变量生效
 UserSum=
 
 
