@@ -383,7 +383,7 @@ function Change_NotifyJdFactory {
 function Change_WantProduct {
   if [ -n "${WantProduct}" ]; then
     echo -e "${FileJdFactory}：设置东东工厂心仪商品为 \"${WantProduct}\"...\n"
-    perl -i -pe "s|(const wantProduct = ).+;|\1\'${WantProduct}\';|" ${FileJdFactory}
+    perl -i -pe "s|(let wantProduct = ).+;|\1\'${WantProduct}\';|" ${FileJdFactory}
   fi
 }
 
