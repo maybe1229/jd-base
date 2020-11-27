@@ -33,4 +33,5 @@
 16 0 * * * /root/shell/jd_small_home.sh
 35 */3 * * * /root/shell/jd_speed.sh
 10 1-23/5 * * * /root/shell/jd_superMarket.sh
+25 9 * * * /root/shell/jd_syj.sh
 45 23 * * * /root/shell/jd_unsubscribe.sh
