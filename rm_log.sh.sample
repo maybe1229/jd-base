@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-23
-## Version： v2.3.0
+## Modified： 2020-11-28
+## Version： v2.3.6
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -11,8 +11,7 @@ export LC_ALL=C
 
 ################################## 定义自动删除多少天以前的日志 ##################################
 ## 如果需要，请修改你想在运行此脚本时，删除多少天以前的日志。单位：天
-HowManyDays=30
-
+HowManyDays=7
 
 
 ################################## 以下勿动 ##################################
@@ -21,12 +20,11 @@ RootDir=$(cd $(dirname $0); cd ..; pwd)
 LogDir=${RootDir}/log
 LogFileList=$(ls -l ${LogDir}/jd_*/*.log | awk '{print $9}')
 
-
-for i in ${LogFileList}
+for log in ${LogFileList}
 do
-  LogDate=$(echo $i | awk -F "/" '{print $NF}' | cut -c1-10)   #文件名比文件属性获得的日期要可靠
+  LogDate=$(echo ${log} | awk -F "/" '{print $NF}' | cut -c1-10)   #文件名比文件属性获得的日期要可靠
   DiffTime=$(($(date +%s) - $(date +%s -d "${LogDate}")))
   if [ ${DiffTime} -gt $((${HowManyDays} * 86400)) ]; then
-    rm -vf $i
+    rm -f ${log}
   fi
 done
