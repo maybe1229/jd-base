@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-23
-## Version： v2.3.0
+## Modified： 2020-11-28
+## Version： v2.3.6
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -11,28 +11,12 @@ export LC_ALL=C
 # export JD_BEAN_SIGN_NOTIFY_SIMPLE=
 # export JD_USER_AGENT=
 
-ShellDir=$(cd $(dirname $0); pwd)
 RootDir=$(cd $(dirname $0); cd ..; pwd)
 ScriptsDir=${RootDir}/scripts
 LogDir=${RootDir}/log
-FileCurrentBashName=$(basename $0)
-FileRun=$(echo $FileCurrentBashName | perl -pe "s|\..*sh||")
+FileName=$(echo $(basename $0) | perl -pe "s|\..*sh||")
+LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+LogFile="${LogDir}/${FileName}/${LogTime}.log"
 
-## 无论是UTC时间还是北京时间，日志文件名均记录为北京时间
-if [ "$TZ" = "UTC" ]
-then
-  LogTime=$(date -d "8 hour" "+%Y-%m-%d-%H-%M-%S")
-else
-  LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
-fi
-
-LogFile="${LogDir}/${FileRun}/${LogTime}.log"
-
-if [ ! -d ${LogDir}/${FileRun} ]; then
-  mkdir -p ${LogDir}/${FileRun}
-fi
-
-touch ${LogFile}
-
-cd ${ScriptsDir}
-node ${FileRun}.js > ${LogFile}
+[ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
+cd ${ScriptsDir} && node ${FileName}.js > ${LogFile}

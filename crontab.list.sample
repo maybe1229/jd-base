@@ -1,12 +1,11 @@
 ## 物理机安装请自行修改一下脚本路径，同时请务必将你原本的定时任务加进crontab.list
-## 以下时间均为北京时间，如环境为UTC时间，请自行将任务时间提前8小时
-## 所有时间建议自行调整为想要的时间
+## 以下时间均为北京时间，建议根据所需调整
 
 # 更新lxk0301大佬的js脚本和EvineDeng的shell脚本，并替换相关参数，该日志需要手动清除，错误记录在crond日志中
 55 5-23 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
 
 # 删除旧的运行京东js脚本的日志，未复制一份rm_log.sh时不生效，不记录日志，错误记录在crond日志中
-50 3 1,15 * * /root/shell/rm_log.sh
+58 13 * * 6 /root/shell/rm_log.sh
 
 # 运行lxk0301大佬的js脚本，错误记录在crond日志中
 0 9 * * * /root/shell/jd_bean_change.sh
