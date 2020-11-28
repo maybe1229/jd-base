@@ -455,7 +455,7 @@ function Change_ALL {
   Change_FruitShareCodes
   Change_PetShareCodes
   Change_PlantBeanShareCodes
-  # Change_DreamFactoryShareCodes
+  Change_DreamFactoryShareCodes
   Change_JdFactoryShareCodes
   Change_coinToBeans
   Change_NotifyBlueCoin
