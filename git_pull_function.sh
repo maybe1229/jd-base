@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-26
-## Version： v2.3.6
+## Modified： 2020-11-29
+## Version： v2.3.7
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -645,7 +645,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
       crontab ${ListCron}
       echo -e "成功添加新的定时任务，当前的定时任务清单如下：\n\n--------------------------------------------------------------\n"
       crontab -l
-      echo "\n--------------------------------------------------------------\n"
+      echo -e "\n--------------------------------------------------------------\n"
     else
       echo -e "添加新的定时任务出错，请手动添加...\n"
     fi
