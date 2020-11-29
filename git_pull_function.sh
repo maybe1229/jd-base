@@ -531,7 +531,7 @@ function Set_NotifyBeanSign {
 function Set_UserAgent {
   if [ -n "${UserAgent}" ]
   then
-    echo -e "设置User-Agent为 ${UserAgent}\n\n仅在运行 shell 脚本时有效，直接运行 js 脚本无效...\n"
+    echo -e "设置User-Agent为 \"${UserAgent}\"\n\n仅在运行 shell 脚本时有效，直接运行 js 脚本无效...\n"
     for file in ${ListShellDir}
     do
       perl -i -pe "s<.*(export JD_USER_AGENT=).*$><\1\"${UserAgent}\">" ${file}
