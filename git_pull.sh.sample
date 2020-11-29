@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-26
-## Version： v2.3.6
+## Modified： 2020-11-29
+## Version： v2.3.7
 
 export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
@@ -18,8 +18,8 @@ UserSum=
 ################################## 定义Cookie（必填） ##################################
 ## 请依次填入每个用户的Cookie，Cookie的具体形式：pt_key=xxxxxxxxxx;pt_pin=xxxx;
 ## 获取Cookie的具体教程：https://github.com/lxk0301/jd_scripts/wiki/GetCookies
-## UserSum定义了多少个，Cookie就必须输入多少个，按数字顺序1、2、3、4...依次编号下去。
-## 不允许有汉字，如果ID有汉字，请在PC浏览器上获取Cookie，会自动将汉字转换为URL编码。
+## UserSum定义了多少个，Cookie就必须输入多少个，按数字顺序1、2、3、4...依次编号下去
+## 不允许有汉字，如果ID有汉字，请在PC浏览器上获取Cookie，会自动将汉字转换为URL编码
 ## 要运行一次本脚本，才会替换为你自己提供的Cookie
 Cookie1=""
 Cookie2=""
@@ -45,7 +45,7 @@ AutoAddCron="true"
 ################################## 定义User-Agent（选填） ##################################
 ## 自定义lxk0301大佬仓库里京东系列js脚本的UserAgent，不懂不知不会UserAgent的请不要随意填写内容，随意填写了出错概不负责
 ## 相关讨论详见https://github.com/lxk0301/jd_scripts/issues/127
-## 因为这个参数涉及到几乎所有的js文件共计大约30多处地方，如果直接修改js文件那工作量也太大了，所以也是采用临时环境变量的方式
+## 因为这个参数涉及到几乎所有的js文件共计大约30多处地方，如果直接修改js文件那工作量也太大了，所以采用临时环境变量的方式
 ## 使用临时变量的结果就是只有运行 shell 脚本，这个参数才会生效，如果直接在 scripts 文件夹下运行 node jd_xxx.js 就无效
 ## 修改以下参数后，要运行一次git_pull.sh，才会生效
 ## 针对Docker用户：如果在创建容器时添加了 JD_USER_AGENT 的环境变量，这里可以无需定义，如果重复定义，那么在运行shell脚本时下面的内容会覆盖容器的环境变量
@@ -61,7 +61,7 @@ SCKEY=""
 BARK_PUSH=""
 BARK_SOUND=""
 
-## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程（看TG_BOT_TOKEN和TG_USER_ID的说明）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
+## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/jd_scripts/blob/master/backUp/TG_PUSH.md
 TG_BOT_TOKEN=""
 TG_USER_ID=""
 
@@ -360,7 +360,7 @@ fi
 ################################## 定义京喜工厂是否静默运行（选填） ##################################
 ## true 为静默不发送推送通知消息，false 为不静默发出通知，默认为true
 ## jd_dreamFactory.js这个脚本每小时都要运行，次次发通知就过于频繁了，改成一天只通知一次
-## 如果按照我提供的最新的cronta.list，也就是每小时的第20分运行jd_dreamFactory.sh，白天每小时的第55分运行git_pull.sh
+## 如果按照我提供的最新的crontab.list，也就是每小时的第20分运行jd_dreamFactory.sh，白天每小时的第55分运行git_pull.sh
 ## 那么下面命令的含义就是，在13:55将 jd_dreamFactory.js 是否静默运行置为 false，即不静默、发通知，然后在14:20运行jd_dreamFactory.sh时，那么就将发出通知
 ## 除此之外，其他时间，jd_dreamFactory.js中这个参数均保持默认值为 true，即静默不发通知
 ## 如果你不需要一天只发一次，而是全部静默，那么将下面第一行注释掉，将下面第二行解除注释即可
@@ -379,7 +379,7 @@ NotifyJdFactory=
 ## 如果当前你所生产的商品不是你心仪的商品时，不投入电力
 ## 只有在满足三个条件时，才投入电力：一是当前生产商品为你所心仪的商品，二是存储的电力满足生产商品所需的电力，三是心仪的商品有库存
 ## 如果你看不懂上面的话，请去东东工厂游戏中查阅攻略
-## 心仪的商品请输入商品的全称，目前该参数默认值请看jd_jdfactory.js文件中 "const wantProduct" 这一行
+## 心仪的商品请输入商品的全称，目前该参数默认值请看jd_jdfactory.js文件中 "let wantProduct" 这一行
 WantProduct=""
 
 
