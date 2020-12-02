@@ -2,11 +2,11 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-24
-## Version： v2.3.3
+## Modified： 2020-11-27
+## Version： v2.3.6
 
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin:/data/data/com.termux/files/usr/bin/applets"
+export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
 export LC_ALL=C
 
 RootDir=$(cd $(dirname $0); pwd)
@@ -37,7 +37,7 @@ function Detect_Cron {
     if [ ! -d ${ScriptsDir} ]
     then
       echo -e "\n${ScriptsDir} 目录不存在，开始克隆...\n"
-      git clone https://github.com/lxk0301/jd_scripts ${ScriptsDir}
+      git clone -b master https://github.com/lxk0301/jd_scripts ${ScriptsDir}
     else
       echo -e "\n${ScriptsDir} 目录已存在，跳过克隆...\n"
     fi
@@ -45,7 +45,7 @@ function Detect_Cron {
     if [ ! -d ${ShellDir} ]
     then
       echo -e "\n${ShellDir} 目录不存在，开始克隆...\n"
-      git clone https://github.com/EvineDeng/jd-base ${ShellDir}
+      git clone -b main https://github.com/EvineDeng/jd-base ${ShellDir}
     else
       echo -e "\n${ShellDir} 目录已存在，跳过克隆...\n"
     fi

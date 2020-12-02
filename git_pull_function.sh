@@ -242,6 +242,7 @@ function Change_coinToBeans {
         ;;
       0)
         echo -e "${FileBlueCoin}: 设置东东超市不自动兑换蓝币...\n"
+        perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
         ;;
     esac
   else
