@@ -1,13 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-11-29
-## Version： v2.3.7
-
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin"
-export LC_ALL=C
-
+## Modified： 2020-12-03
+## Version： v2.3.8
 
 ################################## 定义用户数量（必填） ##################################
 ## 请填入总共有多少个京东用户的账号，这里定义了多少个，在下面定义的Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory、ForOtherJdFactory数量就应当有多少个。
@@ -79,7 +75,6 @@ IGOT_PUSH_KEY=""
 ## 1.关闭通知，那么请在下方填入0
 ## 2.简洁通知，那么请在下方填入1，其效果见：https://github.com/lxk0301/jd_scripts/blob/master/icon/bean_sign_simple.jpg
 ## 3.原始通知，那么请在下方填入2，如果不填也默认为2，内容比较长，这也是默认通知方式
-## 注意：如果要使用BARK，那么只能填0或1，如果填2或者不填都会超过允许长度然后报错
 ## 说明：因为此参数要修改js脚本的话工作量有点大，我就不改js文件了，而是使用临时环境变量
 ## 如果为Docker用户，直接在容器创建时按lxk0301仓库中的环境变量添加了对应变量时，这里填不填无所谓，直接按你设置的环境变量起作用，这里填了就覆盖你创建容器时对应的环境变量
 ## 如果是物理机或手机，使用临时环境变量的结果就是，此参数只有在运行 shell 脚本 jd_bean_sign.sh 时才有效
@@ -354,7 +349,7 @@ fi
 ################################## 定义手机狂欢城是否发送上车提醒（选填） ##################################
 ## 情况请见jd_818的日志，默认为false，不发送上车提醒，如想要收到提醒，请修改为 true
 ## 暂时没有手机狂欢城活动
-# Notify818=""
+Notify818=""
 
 
 ################################## 定义京喜工厂是否静默运行（选填） ##################################
@@ -379,7 +374,7 @@ NotifyJdFactory=
 ## 如果当前你所生产的商品不是你心仪的商品时，不投入电力
 ## 只有在满足三个条件时，才投入电力：一是当前生产商品为你所心仪的商品，二是存储的电力满足生产商品所需的电力，三是心仪的商品有库存
 ## 如果你看不懂上面的话，请去东东工厂游戏中查阅攻略
-## 心仪的商品请输入商品的全称，目前该参数默认值请看jd_jdfactory.js文件中 "let wantProduct" 这一行
+## 心仪的商品请输入商品的全称或能唯一识别出该商品的关键字，目前该参数默认值请看jd_jdfactory.js文件中 "let wantProduct" 这一行
 WantProduct=""
 
 
