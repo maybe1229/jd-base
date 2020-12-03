@@ -82,7 +82,6 @@ function Git_PullScripts {
   echo -e "更新JS脚本，原地址：${ScriptsURL}\n"
   git fetch --all
   git reset --hard origin/master
-  git pull
   echo
 }
 
@@ -547,7 +546,6 @@ function Git_PullShell {
   echo -e "更新shell脚本，原地址：${ShellURL}\n"
   git fetch --all
   git reset --hard origin/main
-  git pull
   if [ $? -eq 0 ]
   then
     echo -e "\nshell脚本更新完成...\n"
