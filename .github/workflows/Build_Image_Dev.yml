@@ -1,7 +1,8 @@
 name: "jd-base Docker Image Buildx Dev"
 on:
-  watch:
-    types: [started]
+  push:
+    branches:
+      - build
 jobs:
   build:
     runs-on: ubuntu-latest
