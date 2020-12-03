@@ -1,6 +1,11 @@
-## 物理机安装请自行修改一下脚本路径，同时请务必将你原本的定时任务加进crontab.list
-## 以下时间均为北京时间，建议根据所需调整
+## 重要：针对物理机（Docker不受影响），请先在命令行中使用 echo $PATH 命令查看你的系统PATH是不是和下面一样，如果不一样，请使用你的PATH代替下一行中PATH的值
+## 如果你安装了多个nodejs，或者nodejs的路径不在系统PATH中，也请将你想用的nodejs版本的路径加在PATH最前面
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+## 物理机请务必将你原本的定时任务加在本行之下（命令行中输入crontab -l可查看）：
+
+
+## 物理机安装请自行修改一下脚本路径，以下时间均为北京时间，建议根据所需调整
 # 更新lxk0301大佬的js脚本和EvineDeng的shell脚本，并替换相关参数，该日志需要手动清除，错误记录在crond日志中
 55 5-23 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
 
