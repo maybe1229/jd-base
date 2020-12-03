@@ -1,21 +1,21 @@
 name: "jd-base Docker Image Buildx Dev"
 on:
-  release:
-    types: [published]
+  watch:
+    types: [started]
 jobs:
   build:
-      runs-on: ubuntu-latest
-      name: Build jd-base Docker Image Dev
-      steps:
-          - name: Checkout master
-            uses: actions/checkout@master
-          - name: Build and publish image
-            uses: ilteoood/docker_buildx@master
-            with:
-              publish: true
-              imageName: evinedeng/jd-base
-              dockerFile: Docker/Dockerfile-Dev
-              platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
-              tag: node14,node14.15,node14.15.1
-              dockerHubUser: ${{ secrets.DOCKER_USERNAME }}
-              dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }}
+    runs-on: ubuntu-latest
+    name: Build jd-base Docker Image Dev
+    steps:
+      - name: Checkout master
+        uses: actions/checkout@master
+      - name: Build and publish image
+        uses: ilteoood/docker_buildx@master
+        with:
+          publish: true
+          imageName: evinedeng/jd-base
+          dockerFile: Docker/Dockerfile-Dev
+          platform: linux/amd64,linux/arm64,linux/ppc64le,linux/s390x,linux/arm/v7,linux/arm/v6
+          tag: unstable
+          dockerHubUser: ${{ secrets.DOCKER_USERNAME }}
+          dockerHubPassword: ${{ secrets.DOCKER_PASSWORD }}
