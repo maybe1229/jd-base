@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-03
-## Version： v2.3.8
+## Modified： 2020-12-09
+## Version： v2.3.9
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -443,6 +443,20 @@ function Change_Notify818 {
   fi
 }
 
+## 修改部分临时活动的invitecode为我的
+function Change_InviteCode {
+  CodeAppleLive="'P04z54XCjVUm4aW5kBOUT6t\@P04z54XCjVUm4aW5uC5orRwbaXYMpUN3WFRKoquoGk7ljKxHA', 'P04z54XCjVUm4aW5m9cZ2b-2SkZxlVMdcT2Lno\@P04z54XCjVUm4aW5jcPD2X81XRPk7Ui'"
+  CodeDigitalFloor="'c81e945a-b64d-4894-b092-5167007a7d65\@9d3f02c7-2474-4a92-b699-dfb17f43b7af', '959f4b91-691d-473b-9dcd-027be9970291\@968e206e-4ad2-4d2a-acbb-c13116372e4e'"
+  CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn'"
+  CodeJxStory="'8-6uWQDhaitdIDW_Y9pNkQ==\@DkjrA3ti56wPZKzsqnCT2Afqx3r9ndXLZqv_-r-Ld-TWQtWvNh77oHBp7GW1Zz5B', 'HJ4US487sFZRE9Iwwu2myKaStSy8lNthGaQtwNMWHiY=\@Bm1WplBHuH-Q_cbe-lwJAWCN3JS67lbO9ciHxwnI0cI='"
+  CodeSplit="'P04z54XCjVUnIaW5kBOUT6t\@P04z54XCjVUnIaW5uC5orRwbaXYMvjcO15IK-NtHcwA6QoVDg', 'P04z54XCjVUnIaW5m9cZ2b-2SkZxjEm1c0FVfo\@P04z54XCjVUnIaW5jcPD2X81XRPk6L4'"
+  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeAppleLive}\2|" jd_apple_live.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeDigitalFloor}\2|" jd_digital_floor.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeHealth}\2|" jd_health.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeJxStory}\2|" jd_jxstory.js
+  perl -i -pe "s|(\$\.newShareCodes = \[).*(\];)|\1${CodeSplit}\2|" jd_split.js
+}
+
 ## 修改lxk0301大佬js文件的函数汇总
 function Change_ALL {
   Change_Cookie
@@ -476,6 +490,7 @@ function Change_ALL {
   Change_WantProduct
   Change_Unsubscribe
   # Change_Notify818
+  Change_InviteCode
 }
 
 ## 检测定时任务是否有变化
