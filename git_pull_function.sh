@@ -445,16 +445,18 @@ function Change_Notify818 {
 
 ## 修改部分临时活动的invitecode为我的
 function Change_InviteCode {
-  CodeAppleLive="'P04z54XCjVUm4aW5kBOUT6t\@P04z54XCjVUm4aW5uC5orRwbaXYMpUN3WFRKoquoGk7ljKxHA', 'P04z54XCjVUm4aW5m9cZ2b-2SkZxlVMdcT2Lno\@P04z54XCjVUm4aW5jcPD2X81XRPk7Ui'"
-  CodeDigitalFloor="'c81e945a-b64d-4894-b092-5167007a7d65\@9d3f02c7-2474-4a92-b699-dfb17f43b7af', '959f4b91-691d-473b-9dcd-027be9970291\@968e206e-4ad2-4d2a-acbb-c13116372e4e'"
-  CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn'"
-  CodeJxStory="'8-6uWQDhaitdIDW_Y9pNkQ==\@DkjrA3ti56wPZKzsqnCT2Afqx3r9ndXLZqv_-r-Ld-TWQtWvNh77oHBp7GW1Zz5B', 'HJ4US487sFZRE9Iwwu2myKaStSy8lNthGaQtwNMWHiY=\@Bm1WplBHuH-Q_cbe-lwJAWCN3JS67lbO9ciHxwnI0cI='"
-  CodeSplit="'P04z54XCjVUnIaW5kBOUT6t\@P04z54XCjVUnIaW5uC5orRwbaXYMvjcO15IK-NtHcwA6QoVDg', 'P04z54XCjVUnIaW5m9cZ2b-2SkZxjEm1c0FVfo\@P04z54XCjVUnIaW5jcPD2X81XRPk6L4'"
-  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeAppleLive}\2|" jd_apple_live.js
-  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeDigitalFloor}\2|" jd_digital_floor.js
-  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeHealth}\2|" jd_health.js
-  perl -i -pe "s|(const inviteCodes = \[).*(\];)|\1${CodeJxStory}\2|" jd_jxstory.js
-  perl -i -pe "s|(\$\.newShareCodes = \[).*(\];)|\1${CodeSplit}\2|" jd_split.js
+  CodeAppleLive="'P04z54XCjVUm4aW5kBOUT6t\@P04z54XCjVUm4aW5uC5orRwbaXYMpUN3WFRKoquoGk7ljKxHA', 'P04z54XCjVUm4aW5m9cZ2b-2SkZxlVMdcT2Lno\@P04z54XCjVUm4aW5jcPD2X81XRPk7Ui', 'P04z54XCjVUm4aW5m9cZ2asjngclPsc9sdAw00\@P04z54XCjVUm4aW5uOanrVTc6XTCTKXc9_--5ggjQ'"
+  CodeDigitalFloor="'c81e945a-b64d-4894-b092-5167007a7d65\@9d3f02c7-2474-4a92-b699-dfb17f43b7af', '959f4b91-691d-473b-9dcd-027be9970291\@968e206e-4ad2-4d2a-acbb-c13116372e4e', '910a9013-fd88-4e08-b135-5ac8e112d9a5\@85e290bc-f3f0-4421-9dc8-e20b3b20484a'"
+  CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
+  CodeJxStory="'8-6uWQDhaitdIDW_Y9pNkQ==\@DkjrA3ti56wPZKzsqnCT2Afqx3r9ndXLZqv_-r-Ld-TWQtWvNh77oHBp7GW1Zz5B', 'HJ4US487sFZRE9Iwwu2myKaStSy8lNthGaQtwNMWHiY=\@Bm1WplBHuH-Q_cbe-lwJAWCN3JS67lbO9ciHxwnI0cI=', '6K3P3a0xUkppwPO-p6xivXQKHlEpStisIlV8Tcs0XQg=\@cOicVSdFoHzVNqjNOrqCaQJOfu1cAuaFqpQ_wpejTOw='"
+  CodeSplit="'P04z54XCjVUnIaW5kBOUT6t\@P04z54XCjVUnIaW5uC5orRwbaXYMvjcO15IK-NtHcwA6QoVDg', 'P04z54XCjVUnIaW5m9cZ2b-2SkZxjEm1c0FVfo\@P04z54XCjVUnIaW5jcPD2X81XRPk6L4', 'P04z54XCjVUnIaW5m9cZ2asjngclDeNytcT0uw\@P04z54XCjVUnIaW5uOanrVTc6XTCZnEpi44OjNSww'"
+  CodePubg="'43aa8c6c-6a23-4269-ab09-e9563065f7e9\@d5d8779f-aeb6-40f1-856b-fed754478b23\@706890eb-bfbe-44bf-ad61-38a93ee9d5f2\@be323ca8-ec4a-44bd-9aeb-14e245722fcc', 'b9fe2811-58fb-4158-94a0-72cfdd707bea\@5d028d20-2f19-488a-8229-cdeb4e0a0752'"
+  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeAppleLive}\2|" jd_apple_live.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeDigitalFloor}\2|" jd_digital_floor.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" jd_health.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeJxStory}\2|" jd_jxstory.js
+  perl -i -pe "s|(\$\.newShareCodes = \[).*(\];?)|\1${CodeSplit}\2|" jd_split.js
+  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodePubg}\2|" jd_pubg.js
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
