@@ -669,6 +669,7 @@ fi
 ## 设置临时环境变量，要在检测并增删定时任务以后运行
 ## 仅在运行${ShellDir}下的jd_xxx.sh时生效，运行${ScriptsDir}下的jd_xxx.js无效
 if [ ${GitPullExitStatus} -eq 0 ]; then
+  ListShellDir=$(ls ${ShellDir}/jd_*.sh)
   Set_NotifyBeanSign
   Set_UserAgent
 fi
