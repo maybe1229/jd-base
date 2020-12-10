@@ -504,8 +504,8 @@ function Change_ALL {
 function Diff_Cron {
   ls ${ShellDir} | grep -E "^jd_.+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
   cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" | sort > ${ListJs}
-  grep -v -w -f ${ListShell} ${ListJs} > ${ListJsAdd}
-  grep -v -w -f ${ListJs} ${ListShell} > ${ListJsDrop}
+  grep -vwf ${ListShell} ${ListJs} > ${ListJsAdd}
+  grep -vwf ${ListJs} ${ListShell} > ${ListJsDrop}
 }
 
 ## 设置环境变量：每日签到的通知形式
