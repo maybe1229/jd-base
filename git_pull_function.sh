@@ -446,11 +446,11 @@ function Change_Notify818 {
 ## 修改部分临时活动的invitecode为我的
 function Change_InviteCode {
   CodeAppleLive="'P04z54XCjVUm4aW5kBOUT6t\@P04z54XCjVUm4aW5uC5orRwbaXYMpUN3WFRKoquoGk7ljKxHA', 'P04z54XCjVUm4aW5m9cZ2b-2SkZxlVMdcT2Lno\@P04z54XCjVUm4aW5jcPD2X81XRPk7Ui', 'P04z54XCjVUm4aW5m9cZ2asjngclPsc9sdAw00\@P04z54XCjVUm4aW5uOanrVTc6XTCTKXc9_--5ggjQ'"
-  CodeDigitalFloor="'c81e945a-b64d-4894-b092-5167007a7d65\@9d3f02c7-2474-4a92-b699-dfb17f43b7af', '959f4b91-691d-473b-9dcd-027be9970291\@968e206e-4ad2-4d2a-acbb-c13116372e4e', '910a9013-fd88-4e08-b135-5ac8e112d9a5\@85e290bc-f3f0-4421-9dc8-e20b3b20484a'"
+  CodeDigitalFloor="'b681768e-9b92-46fd-a834-bf7a8608a003\@27d7598c-70d5-4a9b-bcb5-5fd06c5163b9', 'ebeacf80-c4e6-4707-9d7a-7b7fd760b99c\@6995237d-279e-4b23-9baa-74ad255a809f', '2a1accee-91c8-41f4-9382-c2fb9555de82\@1446882c-a393-4b31-9193-57dee198c28f'"
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
   CodeJxStory="'8-6uWQDhaitdIDW_Y9pNkQ==\@DkjrA3ti56wPZKzsqnCT2Afqx3r9ndXLZqv_-r-Ld-TWQtWvNh77oHBp7GW1Zz5B', 'HJ4US487sFZRE9Iwwu2myKaStSy8lNthGaQtwNMWHiY=\@Bm1WplBHuH-Q_cbe-lwJAWCN3JS67lbO9ciHxwnI0cI=', '6K3P3a0xUkppwPO-p6xivXQKHlEpStisIlV8Tcs0XQg=\@cOicVSdFoHzVNqjNOrqCaQJOfu1cAuaFqpQ_wpejTOw='"
   CodeSplit="'P04z54XCjVUnIaW5kBOUT6t\@P04z54XCjVUnIaW5uC5orRwbaXYMvjcO15IK-NtHcwA6QoVDg', 'P04z54XCjVUnIaW5m9cZ2b-2SkZxjEm1c0FVfo\@P04z54XCjVUnIaW5jcPD2X81XRPk6L4', 'P04z54XCjVUnIaW5m9cZ2asjngclDeNytcT0uw\@P04z54XCjVUnIaW5uOanrVTc6XTCZnEpi44OjNSww'"
-  CodePubg="'43aa8c6c-6a23-4269-ab09-e9563065f7e9\@d5d8779f-aeb6-40f1-856b-fed754478b23\@706890eb-bfbe-44bf-ad61-38a93ee9d5f2\@be323ca8-ec4a-44bd-9aeb-14e245722fcc', 'b9fe2811-58fb-4158-94a0-72cfdd707bea\@5d028d20-2f19-488a-8229-cdeb4e0a0752'"
+  CodePubg="'36909593-18c7-4805-b552-40f438dfc65d\@22a77d46-99df-4323-b6db-f2b331662691\@f7a9da39-ba7d-4cd6-8d45-8bf664689c28\@2bd36830-b0a5-4877-bf06-8e57e8aec135', '60d90d25-c30f-4b88-ba6b-0d4fc1552a42\@8e8c3374-8874-4912-af96-2641794a7643'"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeAppleLive}\2|" jd_apple_live.js
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeDigitalFloor}\2|" jd_digital_floor.js
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" jd_health.js
