@@ -502,8 +502,8 @@ function Change_ALL {
 ## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
-  ls ${ShellDir} | grep -E "jd_.+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
-  cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" > ${ListJs}
+  ls ${ShellDir} | grep -E "^jd_.+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
+  cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" | sort > ${ListJs}
   grep -v -f ${ListShell} ${ListJs} > ${ListJsAdd}
   grep -v -f ${ListJs} ${ListShell} > ${ListJsDrop}
 }
