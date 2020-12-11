@@ -449,7 +449,7 @@ function Change_InviteCode {
   CodeDigitalFloor="'958dea73-b84a-4806-91f5-fe2119003df4\@9256bfce-331c-4ed3-8f92-8af929f02ff4', '7182e733-cb3f-4bc5-b572-026ce89294c8\@daeb01e1-1595-46e3-92e7-f62cd9f7f29a', 'c598a953-064f-477a-9e04-15b064dffd58\@9811493a-19ab-4694-a34f-f451dc660fdf'"
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
   CodeJxStory="'8-6uWQDhaitdIDW_Y9pNkQ==\@DkjrA3ti56wPZKzsqnCT2Afqx3r9ndXLZqv_-r-Ld-TWQtWvNh77oHBp7GW1Zz5B', 'HJ4US487sFZRE9Iwwu2myKaStSy8lNthGaQtwNMWHiY=\@Bm1WplBHuH-Q_cbe-lwJAWCN3JS67lbO9ciHxwnI0cI=', '6K3P3a0xUkppwPO-p6xivXQKHlEpStisIlV8Tcs0XQg=\@cOicVSdFoHzVNqjNOrqCaQJOfu1cAuaFqpQ_wpejTOw='"
-  CodeSplit="'P04z54XCjVUnIaW5kBOUT6t\@P04z54XCjVUnIaW5uC5orRwbaXYMvjcO15IK-NtHcwA6QoVDg', 'P04z54XCjVUnIaW5m9cZ2b-2SkZxjEm1c0FVfo\@P04z54XCjVUnIaW5jcPD2X81XRPk6L4', 'P04z54XCjVUnIaW5m9cZ2asjngclDeNytcT0uw\@P04z54XCjVUnIaW5uOanrVTc6XTCZnEpi44OjNSww'"
+  CodeSplit="'P04z54XCjVUnIaW5kBOUT6t', 'P04z54XCjVUnIaW5uC5orRwbaXYMvjcO15IK-NtHcwA6QoVDg', 'P04z54XCjVUnIaW5m9cZ2b-2SkZxjEm1c0FVfo', 'P04z54XCjVUnIaW5jcPD2X81XRPk6L4', 'P04z54XCjVUnIaW5m9cZ2asjngclDeNytcT0uw', 'P04z54XCjVUnIaW5uOanrVTc6XTCZnEpi44OjNSww'"
   CodePubg="'26c50320-ef9c-4c4a-86f4-cb3d273b92af\@1c717f88-2c59-4948-9292-67b16e445606\@270920e5-0086-47b0-9153-f961bda0887c\@0419c6ed-3e38-4a8e-b10e-5f43ca19c245', 'dbf0da0c-41f2-43ff-a64d-587006041f99\@197d2e4d-c922-43fa-9433-af9799b2303e'"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeAppleLive}\2|" jd_apple_live.js
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeDigitalFloor}\2|" jd_digital_floor.js
