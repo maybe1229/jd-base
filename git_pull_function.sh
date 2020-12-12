@@ -17,7 +17,7 @@ ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 ListCron=${RootDir}/crontab.list
-ListShellDir=$(ls ${ShellDir}/*.* | grep "/j[dr]_")
+ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_.+\.sh")
 
 ## js脚本名称
 FileBeanSign=jd_bean_sign.js
