@@ -2,7 +2,7 @@
 set -e
 
 [ ! -d /root/log ] && mkdir -p /root/log
-crond -L /root/log/crond.log
+crond -L /root/log/crond.log | ts
 
 if [ ! -f /root/first_run.sh ] || [[ "$(cat /root/first_run.sh)" != "$(cat /first_run.sh)" ]]; then
   cp -f /first_run.sh /root/first_run.sh
