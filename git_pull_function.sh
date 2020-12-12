@@ -17,7 +17,7 @@ ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 ListCron=${RootDir}/crontab.list
-ListShellDir=$(ls ${ShellDir}/jd_*.sh)
+ListShellDir=$(ls ${ShellDir}/*.* | grep "/j[dr]_")
 
 ## js脚本名称
 FileBeanSign=jd_bean_sign.js
@@ -136,7 +136,7 @@ function Change_Token {
     echo -e "${FileNotify}: 替换iGot推送KEY...\n"
     perl -i -pe "s|let IGOT_PUSH_KEY = '';|let IGOT_PUSH_KEY = '${IGOT_PUSH_KEY}';|" ${FileNotify}
   fi
-  
+
   ## 未输入任何通知渠道
   if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ] && [ -z "${IGOT_PUSH_KEY}" ]; then
     echo -e "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志...\n"
@@ -231,7 +231,7 @@ function Change_coinToBeans {
   expr ${coinToBeans} "+" 10 &>/dev/null
   if [ $? -eq 0 ]
   then
-    case ${coinToBeans} in 
+    case ${coinToBeans} in
       [1-9] | 1[0-9] | 20 | 1000)
         echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换 ${coinToBeans} 个京豆...\n"
         ;;
@@ -502,8 +502,8 @@ function Change_ALL {
 ## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
-  ls ${ShellDir} | grep -E "^jd_.+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
-  cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "jd_.+\.js" | perl -pe "s|.+(jd_.+)\.js.+|\1|" | sort > ${ListJs}
+  ls ${ShellDir} | grep -E "^j[dr]_.+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
+  cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "j[dr]_.+\.js" | perl -pe "s|.+(j[dr]_.+)\.js.+|\1|" | sort > ${ListJs}
   grep -vwf ${ListShell} ${ListJs} > ${ListJsAdd}
   grep -vwf ${ListJs} ${ListShell} > ${ListJsDrop}
 }
@@ -644,7 +644,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   then
     for Cron in ${JsAdd}
     do
-      grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node /scripts(/jd_.+)\.js.+|\1${ShellDir}\2\.sh|"  >> ${ListCron}
+      grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node /scripts(/j[dr]_.+)\.js.+|\1${ShellDir}\2\.sh|"  >> ${ListCron}
     done
     if [ $? -eq 0 ]
     then
