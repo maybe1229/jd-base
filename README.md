@@ -20,7 +20,7 @@
 
 2020-12-09：将部分临时活动InviteCode修改为我的互助码，已得到lxk0301大佬同意。
 
-2020-12-13：rm_log.sh增加删除指定时间以前的git_pull.sh和crond运行日志的功能。
+2020-12-13：rm_log.sh增加删除指定时间以前的git_pull.sh和crond运行日志的功能，MacOS用户请测试功能是否正常。
 
 ## Star趋势
 
