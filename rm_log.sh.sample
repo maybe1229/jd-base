@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-08
-## Version： v2.3.9
+## Modified： 2020-12-13
+## Version： v2.3.10
 
 ################################## 定义自动删除多少天以前的日志 ##################################
 ## 如果需要，请修改你想在运行此脚本时，删除多少天以前的日志。单位：天
@@ -13,8 +13,9 @@ HowManyDays=7
 ################################## 以下勿动 ##################################
 RootDir=$(cd $(dirname $0); cd ..; pwd)
 LogDir=${RootDir}/log
-LogFileList=$(ls -l ${LogDir}/jd_*/*.log | awk '{print $9}')
 
+# 删除运行js脚本的日志
+LogFileList=$(ls -l ${LogDir}/jd_*/*.log | awk '{print $9}')
 for log in ${LogFileList}
 do
   LogDate=$(echo ${log} | awk -F "/" '{print $NF}' | cut -c1-10)   #文件名比文件属性获得的日期要可靠
@@ -26,3 +27,13 @@ do
   fi
   [ ${DiffTime} -gt $((${HowManyDays} * 86400)) ] && rm -f ${log}
 done
+
+# 删除git_pull.sh的运行日志
+DateDelLog=$(date "+%Y-%m-%d" -d "${HowManyDays} days ago")
+LineEndGitPull=$[$(cat ${LogDir}/git_pull.log | grep -n "系统时间：${DateDelLog}" | head -1 | awk -F ":" '{print $1}') - 3]
+perl -i -ne "{print unless 1 .. ${LineEndGitPull} }" ${LogDir}/git_pull.log
+
+# 删除crond的运行日志
+KeepSum=$[${HowManyDays} * 24]
+LineEndCrond=$[$(cat ${LogDir}/crond.log | grep -n "git_pull.sh" | tail -n ${KeepSum} | head -1 | awk -F ":" '{print $1}') - 1]
+perl -i -ne "{print unless 1 .. ${LineEndCrond} }" ${LogDir}/crond.log
