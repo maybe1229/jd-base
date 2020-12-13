@@ -31,7 +31,7 @@ done
 # 删除git_pull.sh的运行日志
 if [[ $(uname -s) == Darwin ]]
 then
-  DateDelLog=$(date -j -v-${HowManyDays}d "+%Y-%m-%d")
+  DateDelLog=$(date -v-${HowManyDays}d "+%Y-%m-%d")
 else
   DateDelLog=$(date "+%Y-%m-%d" -d "${HowManyDays} days ago")
 fi
