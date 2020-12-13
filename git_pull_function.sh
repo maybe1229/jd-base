@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-09
-## Version： v2.3.9
+## Modified： 2020-12-13
+## Version： v2.3.10
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -446,17 +446,9 @@ function Change_Notify818 {
 ## 修改部分临时活动的invitecode为我的
 function Change_InviteCode {
   CodeAppleLive="'P04z54XCjVUm4aW5kBOUT6t\@P04z54XCjVUm4aW5uC5orRwbaXYMpUN3WFRKoquoGk7ljKxHA', 'P04z54XCjVUm4aW5m9cZ2b-2SkZxlVMdcT2Lno\@P04z54XCjVUm4aW5jcPD2X81XRPk7Ui', 'P04z54XCjVUm4aW5m9cZ2asjngclPsc9sdAw00\@P04z54XCjVUm4aW5uOanrVTc6XTCTKXc9_--5ggjQ'"
-  CodeDigitalFloor="'6496fbcf-a843-44de-956f-591da6484c44\@d8336c58-e8d7-4ba6-a92c-19a9ccedb144', 'fa959f24-06a1-4f72-9846-dcd1f266cb60\@151ab236-7e5e-465d-b1dd-ac27488f4dde', '36852029-b36f-4db7-85be-f2363f1705cc\@c040859c-6c1c-4770-9896-9d4ca0c9273c'"
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
-  CodeJxStory="'8-6uWQDhaitdIDW_Y9pNkQ==\@DkjrA3ti56wPZKzsqnCT2Afqx3r9ndXLZqv_-r-Ld-TWQtWvNh77oHBp7GW1Zz5B', 'HJ4US487sFZRE9Iwwu2myKaStSy8lNthGaQtwNMWHiY=\@Bm1WplBHuH-Q_cbe-lwJAWCN3JS67lbO9ciHxwnI0cI=', '6K3P3a0xUkppwPO-p6xivXQKHlEpStisIlV8Tcs0XQg=\@cOicVSdFoHzVNqjNOrqCaQJOfu1cAuaFqpQ_wpejTOw='"
-  CodeSplit="'P04z54XCjVUnIaW5kBOUT6t', 'P04z54XCjVUnIaW5uC5orRwbaXYMvjcO15IK-NtHcwA6QoVDg', 'P04z54XCjVUnIaW5m9cZ2b-2SkZxjEm1c0FVfo', 'P04z54XCjVUnIaW5jcPD2X81XRPk6L4', 'P04z54XCjVUnIaW5m9cZ2asjngclDeNytcT0uw', 'P04z54XCjVUnIaW5uOanrVTc6XTCZnEpi44OjNSww'"
-  CodePubg="'aed4e5af-9aab-4bf0-a4d1-188d8b3bf9e4\@bec40c2b-f297-47b6-9c3d-39484a6e6522\@b57b2728-348d-40dd-b0a8-4a2967e79b7f\@caf7108f-2561-4a1e-b5b2-17d267c5716a', 'a3fa56cb-06a7-4ef9-a0c9-6b072a0697dd\@c2b33eff-7f7a-439a-be8a-bfc7fec45d8c'"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeAppleLive}\2|" jd_apple_live.js
-  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeDigitalFloor}\2|" jd_digital_floor.js
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" jd_health.js
-  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeJxStory}\2|" jd_jxstory.js
-  perl -i -pe "s|(\$\.newShareCodes = \[).*(\];?)|\1${CodeSplit}\2|" jd_split.js
-  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodePubg}\2|" jd_pubg.js
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
