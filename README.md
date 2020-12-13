@@ -2,7 +2,7 @@
 
 ## 如有二次使用，希望注明来源
 
-本脚本是[[https://github.com/lxk0301/jd_scripts]]的shell套壳工具，适用于以下系统：
+本脚本是[https://github.com/lxk0301/jd_scripts](https://github.com/lxk0301/jd_scripts)的shell套壳工具，适用于以下系统：
 
 - ArmBian/Debian/Ubuntu/OpenMediaVault/CentOS/Fedora/RHEL等Linux系统
 
