@@ -228,21 +228,23 @@ function Change_JdFactoryShareCodes {
 
 ## 修改东东超市蓝币兑换数量或实物
 function Change_coinToBeans {
-  expr ${coinToBeans} "+" 10 &>/dev/null
-  if [ $? -eq 0 ]
-  then
-    case ${coinToBeans} in
-      [1-9] | 1[0-9] | 20 | 1000)
-        echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换 ${coinToBeans} 个京豆...\n"
-        ;;
-      0)
-        echo -e "${FileBlueCoin}: 设置东东超市不自动兑换蓝币...\n"
-        ;;
-    esac
-    perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
-  else
-    echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换实物奖品 \"${coinToBeans}\"，该奖品是否可兑换以js运行日志为准...\n"
-    perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
+  if [ -n "coinToBeans" ]; then
+    expr ${coinToBeans} "+" 10 &>/dev/null
+    if [ $? -eq 0 ]
+    then
+      case ${coinToBeans} in
+        [1-9] | 1[0-9] | 20 | 1000)
+          echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换 ${coinToBeans} 个京豆...\n"
+          ;;
+        0)
+          echo -e "${FileBlueCoin}: 设置东东超市不自动兑换蓝币...\n"
+          ;;
+      esac
+      perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
+    else
+      echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换实物奖品 \"${coinToBeans}\"，该奖品是否可兑换以js运行日志为准...\n"
+      perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
+    fi
   fi
 }
 
