@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-13
-## Version： v2.3.10
+## Modified： 2020-12-14
+## Version： v2.3.11
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -351,6 +351,14 @@ function Change_joyRunFlag {
   fi
 }
 
+## 修改宠汪汪参加比赛类型
+function Change_teamLevel {
+  if [ -n "${teamLevel}" ]; then
+    echo -e "${FileJoy}：设置宠汪汪参加比赛类型为 ${teamLevel}...\n"
+    perl -i -pe "s|let teamLevel = .+;|let teamLevel = \'${teamLevel}\';|" ${FileJoy}
+  fi
+}
+
 ## 修改宠汪汪是否自动给好友的汪汪喂食
 function Change_jdJoyHelpFeed {
   if [ "${jdJoyHelpFeed}" = "true" ] || [ "${jdJoyHelpFeed}" = "false" ]; then
@@ -474,6 +482,7 @@ function Change_ALL {
   Change_NotifyJoySteal
   Change_NotifyJoy
   Change_joyRunFlag
+  Change_teamLevel
   Change_jdJoyHelpFeed
   Change_jdJoyStealCoin
   Change_NotifyMoneyTree

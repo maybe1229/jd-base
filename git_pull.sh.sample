@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-03
-## Version： v2.3.8
+## Modified： 2020-12-14
+## Version： v2.3.11
 
 ################################## 定义用户数量（必填） ##################################
 ## 请填入总共有多少个京东用户的账号，这里定义了多少个，在下面定义的Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory、ForOtherJdFactory数量就应当有多少个。
@@ -12,7 +12,7 @@ UserSum=
 
 
 ################################## 定义Cookie（必填） ##################################
-## 请依次填入每个用户的Cookie，Cookie的具体形式：pt_key=xxxxxxxxxx;pt_pin=xxxx;
+## 请依次填入每个用户的Cookie，Cookie的具体形式（只有pt_key字段和pt_pin字段，没有其他字段）：pt_key=xxxxxxxxxx;pt_pin=xxxx;
 ## 获取Cookie的具体教程：https://github.com/lxk0301/jd_scripts/wiki/GetCookies
 ## UserSum定义了多少个，Cookie就必须输入多少个，按数字顺序1、2、3、4...依次编号下去
 ## 不允许有汉字，如果ID有汉字，请在PC浏览器上获取Cookie，会自动将汉字转换为URL编码
@@ -320,6 +320,14 @@ jdJoyStealCoin=""
 ################################## 定义宠汪汪是否自动报名宠物赛跑（选填） ##################################
 ## 默认参加宠物赛跑，如需关闭，请改成 false
 joyRunFlag=""
+
+
+################################## 定义宠汪汪参加比赛类型（选填） ##################################
+## 当joyRunFlag不设置或设置为true时生效，
+## 可选值：2,10,50，其他值不可以。其中2代表参加双人PK赛，10代表参加10人突围赛，50代表参加50人挑战赛，不填时默认为2
+## 如果希望所有账号参加同样类型的比赛，直接输入比赛类型即可，如：teamLevel="10"
+## 如果希望不同账号参加不同类型的比赛，请使用 & 分隔，比如：teamLevel="2&2&50&10"
+teamLevel=""
 
 
 ################################## 定义摇钱树是否静默运行（选填） ##################################
