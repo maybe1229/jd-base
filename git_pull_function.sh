@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-15
-## Version： v2.3.12
+## Version： v2.3.13
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -235,12 +235,13 @@ function Change_coinToBeans {
       case ${coinToBeans} in
         [1-9] | 1[0-9] | 20 | 1000)
           echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换 ${coinToBeans} 个京豆...\n"
+          perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
           ;;
         0)
           echo -e "${FileBlueCoin}: 设置东东超市不自动兑换蓝币...\n"
+          perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
           ;;
       esac
-      perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = ${coinToBeans};|" ${FileBlueCoin}
     else
       echo -e "${FileBlueCoin}: 设置东东超市蓝币兑换实物奖品 \"${coinToBeans}\"，该奖品是否可兑换以js运行日志为准...\n"
       perl -i -pe "s|let coinToBeans = .+;|let coinToBeans = \'${coinToBeans}\';|" ${FileBlueCoin}
