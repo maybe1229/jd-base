@@ -12,7 +12,10 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com
 # 删除旧的运行京东js脚本的日志，未复制一份rm_log.sh时不生效，不记录日志，错误记录在crond日志中
 58 13 * * 6 /root/shell/rm_log.sh
 
-# 运行lxk0301大佬的js脚本，错误记录在crond日志中
+# 为EvineDeng助力宠汪汪赛跑，助力完你可得30g狗粮，如不想助力，删除下一行即可
+13 13 * * * /root/shell/jd_joy_run.ash
+
+# 运行lxk0301大佬的js脚本，仅作初始化用，AutoAddCron=true时，将自动添加短期任务，错误记录在crond日志中
 0 9 * * * /root/shell/jd_bean_change.sh
 28 4 * * * /root/shell/jd_bean_home.sh
 3 0,8,14 * * * /root/shell/jd_bean_sign.sh

@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-14
-## Version： v2.3.11
+## Modified： 2020-12-15
+## Version： v2.3.12
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -455,10 +455,13 @@ function Change_Notify818 {
 
 ## 修改部分临时活动的invitecode为我的
 function Change_InviteCode {
-  CodeAppleLive="'P04z54XCjVUm4aW5kBOUT6t\@P04z54XCjVUm4aW5uC5orRwbaXYMpUN3WFRKoquoGk7ljKxHA', 'P04z54XCjVUm4aW5m9cZ2b-2SkZxlVMdcT2Lno\@P04z54XCjVUm4aW5jcPD2X81XRPk7Ui', 'P04z54XCjVUm4aW5m9cZ2asjngclPsc9sdAw00\@P04z54XCjVUm4aW5uOanrVTc6XTCTKXc9_--5ggjQ'"
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
-  perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeAppleLive}\2|" jd_apple_live.js
+  Pins="Evine,做一颗潇洒的蛋蛋,jd_664ecc3b78945,277548856_m,jd_6dc4f1ed66423,梦回马拉多纳"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" jd_health.js
+  perl -i -pe "s|(let invite_pins = \[\").+(\"\];?)|\1${Pins}\2|" jd_joy_run.js
+  perl -i -pe "s|(let run_pins = \[\").+(\"\];?)|\1${Pins}\2|" jd_joy_run.js
+  [ ! -f ${ShellDir}/jd_joy_run.ash ] && cp -f ${FileJdSample} ${ShellDir}/jd_joy_run.ash
+  [ ! -x ${ShellDir}/jd_joy_run.ash ] && chmod +x ${ShellDir}/jd_joy_run.ash
 }
 
 ## 修改lxk0301大佬js文件的函数汇总

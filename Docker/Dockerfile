@@ -3,6 +3,7 @@ LABEL maintainer="Evine Deng <evinedeng@foxmail.com>"
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.bfsu.edu.cn/g' /etc/apk/repositories \
     && apk update -f \
+    && apk upgrade \
     && apk --no-cache add -f bash \
                              coreutils \
                              git \
