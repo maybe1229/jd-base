@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-16
-## Version： v2.4.0
+## Version： v2.4.1
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -17,7 +17,7 @@ ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 ListCron=${RootDir}/crontab.list
-ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_.+\.sh")
+ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_.+\.a?sh")
 
 ## js脚本名称
 FileBeanSign=jd_bean_sign.js
@@ -690,7 +690,7 @@ fi
 ## 设置临时环境变量，要在检测并增删定时任务以后运行
 ## 仅在运行${ShellDir}下的jd_xxx.sh时生效，运行${ScriptsDir}下的jd_xxx.js无效
 if [ ${GitPullExitStatus} -eq 0 ]; then
-  ListShellDir=$(ls ${ShellDir}/jd_*.sh)
+  ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_.+\.a?sh")
   Set_NotifyBeanSign
   Set_UserAgent
 fi
