@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-15
-## Version： v2.3.13
+## Modified： 2020-12-16
+## Version： v2.4.0
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -32,6 +32,7 @@ FileDreamFactoryShareCodes=jdDreamFactoryShareCodes.js
 FileJoy=jd_joy.js
 FileJoyFeed=jd_joy_feedPets.js
 FileJoyReward=jd_joy_reward.js
+FileJoyRun=jd_joy_run.js
 FileJoySteal=jd_joy_steal.js
 FileBlueCoin=jd_blueCoin.js
 FileSuperMarket=jd_superMarket.js
@@ -111,15 +112,13 @@ function Change_Token {
   ## BARK
   if [ ${BARK_PUSH} ] && [ ${BARK_SOUND} ]; then
     echo -e "${FileNotify}: 替换BARK推送通知BARK_PUSH、BARK_SOUND...\n"
-    perl -i -pe "s|let BARK_PUSH = '';|let BARK_PUSH = '${BARK_PUSH}';|" ${FileNotify}
-    perl -i -pe "s|let BARK_SOUND = '';|let BARK_SOUND = '${BARK_SOUND}';|" ${FileNotify}
+    perl -i -pe "{s|(let BARK_PUSH = )'';|\1'${BARK_PUSH}';|; s|(let BARK_SOUND = )'';|\1'${BARK_SOUND}';|}" ${FileNotify}
   fi
 
   ## Telegram
   if [ ${TG_BOT_TOKEN} ] && [ ${TG_USER_ID} ]; then
     echo -e "${FileNotify}: 替换Telegram推送通知TG_BOT_TOKEN、TG_USER_ID...\n"
-    perl -i -pe "s|let TG_BOT_TOKEN = '';|let TG_BOT_TOKEN = '${TG_BOT_TOKEN}';|" ${FileNotify}
-    perl -i -pe "s|let TG_USER_ID = '';|let TG_USER_ID = '${TG_USER_ID}';|" ${FileNotify}
+    perl -i -pe "{s|(let TG_BOT_TOKEN = )'';|\1'${TG_BOT_TOKEN}';|; s|(let TG_USER_ID = )'';|\1'${TG_USER_ID}';|}" ${FileNotify}
   fi
 
   ## 钉钉
@@ -454,13 +453,29 @@ function Change_Notify818 {
   fi
 }
 
+## 把git_pull.sh中提供的所有账户的PIN附加在jd_joy_run中，让各账户相互进行宠汪汪赛跑助力
+## 你的账号将按Cookie顺序被优先助力，助力完成再助力我的账号和lxk0301大佬的账号
+function Change_JoyRunPins {
+  j=${UserSum}
+  PinALL=""
+  while [ ${j} -ge 1 ]
+  do
+    TmpCK=Cookie${j}
+    eval CookieTemp=$(echo \$${TmpCK})
+    PinTemp=$(echo ${CookieTemp} | perl -pe "{s|.*pt_pin=(.+);|\1|;s|%|\\\x|g}")
+    PinTempFormat=$(printf ${PinTemp})
+    PinALL="${PinTempFormat},${PinALL}"
+    let j--
+  done
+  PinEvine="Evine,做一颗潇洒的蛋蛋,jd_664ecc3b78945,277548856_m,jd_6dc4f1ed66423,梦回马拉多纳,米大眼老鼠,jd_7bb2be8dbd65c,"
+  PinALL="${PinALL}${PinEvine}"
+  perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${FileJoyRun}
+}
+
 ## 修改部分临时活动的invitecode为我的
 function Change_InviteCode {
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
-  Pins="Evine,做一颗潇洒的蛋蛋,jd_664ecc3b78945,277548856_m,jd_6dc4f1ed66423,梦回马拉多纳,米大眼老鼠,jd_7bb2be8dbd65c,"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" jd_health.js
-  perl -i -pe "s|(let invite_pins = \[\")(.+\"\];?)|\1${Pins}\2|" jd_joy_run.js
-  perl -i -pe "s|(let run_pins = \[\")(.+\"\];?)|\1${Pins}\2|" jd_joy_run.js
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
@@ -497,6 +512,7 @@ function Change_ALL {
   Change_WantProduct
   Change_Unsubscribe
   # Change_Notify818
+  Change_JoyRunPins
   Change_InviteCode
 }
 
