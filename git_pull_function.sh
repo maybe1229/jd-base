@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-16
-## Version： v2.4.1
+## Version： v2.4.2
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -17,7 +17,7 @@ ListJs=${LogDir}/js.list
 ListJsAdd=${LogDir}/js-add.list
 ListJsDrop=${LogDir}/js-drop.list
 ListCron=${RootDir}/crontab.list
-ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_.+\.a?sh")
+ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_\w+\.a?sh")
 
 ## js脚本名称
 FileBeanSign=jd_bean_sign.js
@@ -523,8 +523,8 @@ function Change_ALL {
 ## js-add.list  如果 scripts/docker/crontab_list.sh 增加了定时任务，这个文件内容将不为空
 ## js-drop.list 如果 scripts/docker/crontab_list.sh 删除了定时任务，这个文件内容将不为空
 function Diff_Cron {
-  ls ${ShellDir} | grep -E "^j[dr]_.+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
-  cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "j[dr]_.+\.js" | perl -pe "s|.+(j[dr]_.+)\.js.+|\1|" | sort > ${ListJs}
+  ls ${ShellDir} | grep -E "^j[dr]_\w+\.sh" | perl -pe "s|\.sh||" > ${ListShell}
+  cat ${ScriptsDir}/docker/crontab_list.sh | grep -E "j[dr]_\w+\.js" | perl -pe "s|.+(j[dr]_\w+)\.js.+|\1|" | sort > ${ListJs}
   grep -vwf ${ListShell} ${ListJs} > ${ListJsAdd}
   grep -vwf ${ListJs} ${ListShell} > ${ListJsDrop}
 }
@@ -665,7 +665,7 @@ if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${Lis
   then
     for Cron in ${JsAdd}
     do
-      grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node /scripts(/j[dr]_.+)\.js.+|\1${ShellDir}\2\.sh|"  >> ${ListCron}
+      grep -E "\/${Cron}\." "${ScriptsDir}/docker/crontab_list.sh" | perl -pe "s|(^.+)node /scripts(/j[dr]_\w+)\.js.+|\1${ShellDir}\2\.sh|"  >> ${ListCron}
     done
     if [ $? -eq 0 ]
     then
@@ -690,7 +690,7 @@ fi
 ## 设置临时环境变量，要在检测并增删定时任务以后运行
 ## 仅在运行${ShellDir}下的jd_xxx.sh时生效，运行${ScriptsDir}下的jd_xxx.js无效
 if [ ${GitPullExitStatus} -eq 0 ]; then
-  ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_.+\.a?sh")
+  ListShellDir=$(ls ${ShellDir}/*.* | grep -E "/j[dr]_\w+\.a?sh")
   Set_NotifyBeanSign
   Set_UserAgent
 fi
