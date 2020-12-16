@@ -457,12 +457,10 @@ function Change_Notify818 {
 ## 修改部分临时活动的invitecode为我的
 function Change_InviteCode {
   CodeHealth="'P04z54XCjVUnoaW5kBOUT6t\@P04z54XCjVUnoaW5uC5orRwbaXYMmbp8xnMhfqynp9iHqsxyg', 'P04z54XCjVUnoaW5m9cZ2b-2SkZxn-5OEbVdwM\@P04z54XCjVUnoaW5jcPD2X81XRPkzNn', 'P04z54XCjVUnoaW5m9cZ2asjngclP6bwGQx-n4\@P04z54XCjVUnoaW5uOanrVTc6XTCbVCmoLyWhx9og'"
-  Pins="Evine,做一颗潇洒的蛋蛋,jd_664ecc3b78945,277548856_m,jd_6dc4f1ed66423,梦回马拉多纳"
+  Pins="Evine,做一颗潇洒的蛋蛋,jd_664ecc3b78945,277548856_m,jd_6dc4f1ed66423,梦回马拉多纳,米大眼老鼠,jd_7bb2be8dbd65c,"
   perl -i -pe "s|(const inviteCodes = \[).*(\];?)|\1${CodeHealth}\2|" jd_health.js
-  perl -i -pe "s|(let invite_pins = \[\").+(\"\];?)|\1${Pins}\2|" jd_joy_run.js
-  perl -i -pe "s|(let run_pins = \[\").+(\"\];?)|\1${Pins}\2|" jd_joy_run.js
-  [ ! -f ${ShellDir}/jd_joy_run.ash ] && cp -f ${FileJdSample} ${ShellDir}/jd_joy_run.ash
-  [ ! -x ${ShellDir}/jd_joy_run.ash ] && chmod +x ${ShellDir}/jd_joy_run.ash
+  perl -i -pe "s|(let invite_pins = \[\")(.+\"\];?)|\1${Pins}\2|" jd_joy_run.js
+  perl -i -pe "s|(let run_pins = \[\")(.+\"\];?)|\1${Pins}\2|" jd_joy_run.js
 }
 
 ## 修改lxk0301大佬js文件的函数汇总
