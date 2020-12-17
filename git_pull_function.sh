@@ -2,8 +2,8 @@
 
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
-## Modified： 2020-12-16
-## Version： v2.4.2
+## Modified： 2020-12-17
+## Version： v2.4.3
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -159,7 +159,7 @@ function Change_FruitShareCodes {
   do
     TmpFR=ForOtherFruit${i}
     eval ForOtherFruitTemp=$(echo \$${TmpFR})
-    ForOtherFruitALL="${ForOtherFruitALL}\\n  '${ForOtherFruitTemp}',"
+    ForOtherFruitALL="${ForOtherFruitALL}\\n  '${ForOtherFruitTemp}\@e6e04602d5e343258873af1651b603ec\@52801b06ce2a462f95e1d59d7e856ef4\@e2fd1311229146cc9507528d0b054da8\@6dc9461f662d490991a31b798f624128',"
     let i++
   done
   perl -0777 -i -pe "s|(let FruitShareCodes = )\[\n(.+\n?){2}\]|\1\[${ForOtherFruitALL}\n\]|" ${FileFruitShareCodes}
@@ -468,8 +468,9 @@ function Change_JoyRunPins {
     let j--
   done
   PinEvine="Evine,做一颗潇洒的蛋蛋,jd_664ecc3b78945,277548856_m,jd_6dc4f1ed66423,梦回马拉多纳,米大眼老鼠,jd_7bb2be8dbd65c,"
+  FriendsArrEvine='"Evine", "做一颗潇洒的蛋蛋", "jd_664ecc3b78945", "277548856_m", "jd_6dc4f1ed66423", "梦回马拉多纳", "米大眼老鼠", "jd_7bb2be8dbd65c", '
   PinALL="${PinALL}${PinEvine}"
-  perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|}" ${FileJoyRun}
+  perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(const friendsArr = \[)|\1${FriendsArrEvine}|}" ${FileJoyRun}
 }
 
 ## 修改部分临时活动的invitecode为我的
