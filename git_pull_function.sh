@@ -189,7 +189,7 @@ function Change_PlantBeanShareCodes {
   do
     TmpPB=ForOtherPlantBean${i}
     eval ForOtherPlantBeanTemp=$(echo \$${TmpPB})
-    ForOtherPlantBeanALL="${ForOtherPlantBeanALL}\\n  '${ForOtherPlantBeanTemp}',"
+    ForOtherPlantBeanALL="${ForOtherPlantBeanALL}\\n  '${ForOtherPlantBeanTemp}\@mze7pstbax4l7u5ggn5y2olhfy\@3nwlq2wyvmz7sn4d5akh4rnrczsih2dehcx7as4ym6fgb3q7y5tq\@olmijoxgmjutybihibx67mwivxbag4rjviz3cji\@rsuben7ys7sfbu5eub7knbibke',"
     let i++
   done
   perl -0777 -i -pe "s|(let PlantBeanShareCodes = )\[\n(.+\n?){2}\]|\1\[${ForOtherPlantBeanALL}\n\]|" ${FilePlantBeanShareCodes}
