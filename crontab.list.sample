@@ -45,4 +45,5 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com
 35 */3 * * * /root/shell/jd_speed.sh
 10 1-23/5 * * * /root/shell/jd_superMarket.sh
 25 9 * * * /root/shell/jd_syj.sh
+17 11,14 * * * /root/shell/jd_watch.sh
 45 23 * * * /root/shell/jd_unsubscribe.sh
