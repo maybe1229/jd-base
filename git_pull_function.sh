@@ -3,7 +3,7 @@
 ## Author: Evine Deng
 ## Source: https://github.com/EvineDeng/jd-base
 ## Modified： 2020-12-17
-## Version： v2.4.3
+## Version： v2.4.4
 
 ## 文件路径
 RootDir=$(cd $(dirname $0); cd ..; pwd)
@@ -467,8 +467,8 @@ function Change_JoyRunPins {
     PinALL="${PinTempFormat},${PinALL}"
     let j--
   done
-  PinEvine="Evine,做一颗潇洒的蛋蛋,jd_664ecc3b78945,277548856_m,jd_6dc4f1ed66423,梦回马拉多纳,米大眼老鼠,jd_7bb2be8dbd65c,"
-  FriendsArrEvine='"Evine", "做一颗潇洒的蛋蛋", "jd_664ecc3b78945", "277548856_m", "jd_6dc4f1ed66423", "梦回马拉多纳", "米大眼老鼠", "jd_7bb2be8dbd65c", '
+  PinEvine="Evine,做一颗潇洒的蛋蛋,jd_7bb2be8dbd65c,jd_664ecc3b78945,277548856_m,米大眼老鼠,jd_6dc4f1ed66423,梦回马拉多纳,"
+  FriendsArrEvine='"Evine", "做一颗潇洒的蛋蛋", "jd_7bb2be8dbd65c", "jd_664ecc3b78945", "277548856_m", "米大眼老鼠", "jd_6dc4f1ed66423", "梦回马拉多纳", '
   PinALL="${PinALL}${PinEvine}"
   perl -i -pe "{s|(let invite_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(let run_pins = \[\")(.+\"\];?)|\1${PinALL}\2|; s|(const friendsArr = \[)|\1${FriendsArrEvine}|}" ${FileJoyRun}
 }
