@@ -387,9 +387,9 @@ function Change_NotifyMoneyTree {
 
 ## 修改摇钱树是否自动将金果卖出变成金币
 function Change_MoneyTreeAutoSell {
-  if [ "${MoneyTreeAutoSell}" = "false" ]; then
+  if [ "${MoneyTreeAutoSell}" = "true" ] || [ "${MoneyTreeAutoSell}" = "false" ]; then
     echo -e "${FileMoneyTree}：设置摇钱树是否自动将金果卖出变成金币为 ${MoneyTreeAutoSell}...\n"
-    perl -0777 -i -pe "s|([ \t]+)if \(process\.env\.MONEY_TREE_SELL_FRUIT.+\{\s+(\S.+\n)\s+(\S.+\n)\s+\}\n|\1\2\1\3|" ${FileMoneyTree}
+    perl -i -pe "s|(let sellFruit = )\w+;?|\1${MoneyTreeAutoSell};|" ${FileMoneyTree}
   fi
 }
 
