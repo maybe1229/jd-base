@@ -110,6 +110,7 @@ MyFruitB=""
 ## 5.UserSum定义了多少个，ForOtherFruit就只能且必须多少个（从1开始计），超出的无效
 ## 6.可以不赋值，如：ForOtherFruit2=""，这种情况下，在运行js脚本时将自动随机给他人助力
 ## 7.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
+## 8.本脚本作者的码会附在你提供的码之后，如果助力完你提供的用户后还有剩余次数，就给本脚本作者助力
 ForOtherFruit1=
 ForOtherFruit2=
 ForOtherFruit3=
@@ -170,6 +171,7 @@ MyPlantBeanB=""
 ## 5.UserSum定义了多少个，ForOtherPlantBean就只能且必须有多少个（从1开始计），超出的无效
 ## 6.可以不赋值，如：ForOtherPlantBean5=""，这种情况下，在运行js脚本时将自动随机给他人助力
 ## 7.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
+## 8.本脚本作者的码会附在你提供的码之后，如果助力完你提供的用户后还有剩余次数，就给本脚本作者助力
 ForOtherPlantBean1=
 ForOtherPlantBean2=
 ForOtherPlantBean3=
