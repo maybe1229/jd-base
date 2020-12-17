@@ -30,6 +30,11 @@
 
 - 2020-12-16：1. 增加jd_jdzz（京东赚赚）和jd_joy_run（宠汪汪赛跑）的长期定时任务，当`AutoAddCron=true`时，短期任务会自动添加的。2. 将用户提供的所有Cookie中的PIN附加在`jd_joy_run.js`文件中，这样你的各个账号之间将相互助力宠汪汪赛跑，在助力完成你的账号以后，再给我和lxk0301大佬的账号助力，每个Cookie助力可得30g狗粮。
 
+- 2020-12-17：增加jd_watch（京东发现-看一看）的初始任务，该脚本内置了80个body，不过建议有能力者自行抓包，以防止有可能的黑号，抓包教程及使用方法详见该脚本内的注释说明，引用如下：
+
+> 使用 Charles 抓包，使用正则表达式：functionId=disc(AcceptTask|DoTask) 过滤请求
+> 选中所有请求，将所有请求保存为 JSON Session File 名称为 watch.chlsj，将该文件与jd_watch.js放在相同目录中
+
 ## Star趋势
 
 [![Stargazers over time](https://starchart.cc/EvineDeng/jd-base.svg)](https://starchart.cc/EvineDeng/jd-base)
