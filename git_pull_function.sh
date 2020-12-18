@@ -732,3 +732,6 @@ if [ $? -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   Git_PullShell
 fi
+
+## 发送版本升级通知
+[ -f update.js ] && node update.js
