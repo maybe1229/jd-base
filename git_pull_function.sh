@@ -731,7 +731,6 @@ if [ $? -eq 0 ]; then
   cd ${ShellDir}
   echo -e "--------------------------------------------------------------\n"
   Git_PullShell
+  ## 发送版本升级通知
+  [ -f update.js ] && node update.js
 fi
-
-## 发送版本升级通知
-[ -f update.js ] && node update.js
