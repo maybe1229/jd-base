@@ -1,3 +1,8 @@
 git_pull.sh
 rm_log.sh
+create_share_codes.sh
+git_pull_function2.sh
 jd_*.sh
+add_*.sh
+*.bak
+*.ash

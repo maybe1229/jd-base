@@ -1,25 +1,20 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-## 修改日期：2020-10-17
-## 作者：Evine Deng <evinedeng@foxmail.com>
+## Author: Evine Deng
+## Source: https://github.com/EvineDeng/jd-base
+## Modified： 2020-12-03
+## Version： v2.3.8
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export LC_ALL=C
+# export JD_BEAN_SIGN_STOP_NOTIFY=
+# export JD_BEAN_SIGN_NOTIFY_SIMPLE=
+# export JD_USER_AGENT=
 
-ShellDir=$(cd $(dirname $0); pwd)
 RootDir=$(cd $(dirname $0); cd ..; pwd)
 ScriptsDir=${RootDir}/scripts
 LogDir=${RootDir}/log
-FileCurrentBashName=$(basename $0)
-FileRun=$(echo $FileCurrentBashName | sed "s/\.sh//" )
+FileName=$(echo $(basename $0) | perl -pe "s|\..*sh||")
 LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
-LogFile="${LogDir}/${FileRun}/${LogTime}.log"
+LogFile="${LogDir}/${FileName}/${LogTime}.log"
 
-if [ ! -d ${LogDir}/${FileRun} ]; then
-  mkdir -p ${LogDir}/${FileRun}
-fi
-
-touch $LogFile
-
-cd ${ScriptsDir}
-node ${FileRun}.js > ${LogFile}
+[ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
+cd ${ScriptsDir} && node ${FileName}.js > ${LogFile}

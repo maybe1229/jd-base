@@ -1,37 +1,22 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-## 修改日期：2020-10-19
-## 作者：Evine Deng <evinedeng@foxmail.com>
+## Author: Evine Deng
+## Source: https://github.com/EvineDeng/jd-base
+## Modified： 2020-12-15
+## Version： v2.3.12
 
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
-export LC_ALL=C
-
-
-################################## 定义是否自动删除失效的脚本与定时任务 ##################################
-## 有的时候，某些JS脚本只在特定的时间有效，过了时间就失效了，lxk0301 大佬会在Github Action中删除，但如果是本地任务，则不会自动删除
-## 需要自动删除失效的本地定时任务，则设置为 true ，否则请设置为 false
-AutoDelCron="true"
+################################## 定义用户数量（必填） ##################################
+## 请填入总共有多少个京东用户的账号，这里定义了多少个，在下面定义的Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory、ForOtherJdFactory数量就应当有多少个。
+## 比如UserSum为4，那么Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherDreamFactory、ForOtherJdFactory都只有编号1-4的变量生效
+UserSum=
 
 
-################################## 定义是否自动增加新的本地定时任务 ##################################
-## lxk0301 大佬会在有需要的时候，增加Github Action定时任务，但如果是本地的定时任务，则不会自动增加
-## 如需要自动增加新的本地定时任务，则设置为 true ，否则请设置为 false
-## 请注意：如果你设置为 true，本脚本将会自动从 scripts/.github/workflows 文件夹新增加的 .yml 文件中读取 cron 这一行的任务时间
-## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
-## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
-AutoAddCron="false"
-
-
-################################## 定义用户数量 ##################################
-## 请填入总共有多少个京东用户的账号，这里定义了多少个，在下面定义的Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherSuperMarket数量就应当有多少个。
-## 比如UserSum为4，那么Cookie、ForOtherFruit、ForOtherPet、ForOtherPlantBean、ForOtherSuperMarket都只有编号1-4的变量生效
-UserSum=6
-
-
-################################## 定义Cookie ##################################
-## 请依次填入每个用户的Cookie，Cookie的具体形式：pt_key=xxxxxxxxxx;pt_pin=xxxx;
-## 获取Cookie的具体教程：https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie.md 或 https://github.com/lxk0301/scripts/blob/master/backUp/GetJdCookie2.md
-## UserSum定义了多少个，Cookie就必须输入多少个，按数字顺序1、2、3、4...依次编号下去。
+################################## 定义Cookie（必填） ##################################
+## 请依次填入每个用户的Cookie，Cookie的具体形式（只有pt_key字段和pt_pin字段，没有其他字段）：pt_key=xxxxxxxxxx;pt_pin=xxxx;
+## 获取Cookie的具体教程：https://github.com/lxk0301/jd_scripts/wiki/GetCookies
+## UserSum定义了多少个，Cookie就必须输入多少个，按数字顺序1、2、3、4...依次编号下去
+## 不允许有汉字，如果ID有汉字，请在PC浏览器上获取Cookie，会自动将汉字转换为URL编码
+## 要运行一次本脚本，才会替换为你自己提供的Cookie
 Cookie1=""
 Cookie2=""
 Cookie3=""
@@ -40,25 +25,70 @@ Cookie5=""
 Cookie6=""
 
 
-################################## 定义通知TOKEN ##################################
+################################## 定义是否自动删除失效的脚本与定时任务（选填） ##################################
+## 有的时候，某些JS脚本只在特定的时间有效，过了时间就失效了
+## 需要自动删除失效的本地定时任务，则设置为 true ，否则请设置为 false
+AutoDelCron="true"
+
+
+################################## 定义是否自动增加新的本地定时任务（选填） ##################################
+## lxk0301 大佬会在有需要的时候，增加定时任务，如需要本地自动增加新的定时任务，则设置为 true ，否则请设置为 false
+## 当设置为 true 时，如果检测到 scripts/docker/crontab_list.sh 中有增加新的定时任务，那么在本地也增加
+## 本功能生效时，会自动从 scripts/docker/crontab_list.sh 文件新增加的任务中读取时间，该时间为北京时间
+AutoAddCron="true"
+
+
+################################## 定义User-Agent（选填） ##################################
+## 自定义lxk0301大佬仓库里京东系列js脚本的UserAgent，不懂不知不会UserAgent的请不要随意填写内容，随意填写了出错概不负责
+## 相关讨论详见https://github.com/lxk0301/jd_scripts/issues/127
+## 因为这个参数涉及到几乎所有的js文件共计大约30多处地方，如果直接修改js文件那工作量也太大了，所以采用临时环境变量的方式
+## 使用临时变量的结果就是只有运行 shell 脚本，这个参数才会生效，如果直接在 scripts 文件夹下运行 node jd_xxx.js 就无效
+## 修改以下参数后，要运行一次git_pull.sh，才会生效
+## 针对Docker用户：如果在创建容器时添加了 JD_USER_AGENT 的环境变量，这里可以无需定义，如果重复定义，那么在运行shell脚本时下面的内容会覆盖容器的环境变量
+UserAgent=""
+
+
+################################## 定义通知TOKEN（选填） ##################################
 ## 想通过什么渠道收取通知，就填入对应渠道的值
 ## ServerChan，教程：http://sc.ftqq.com/3.version
 SCKEY=""
 
-## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程：https://github.com/lxk0301/scripts/blob/master/githubAction.md
+## BARK，如需使用，BARK_PUSH和BARK_SOUND必须同时赋值，教程（看BARK_PUSH和BARK_SOUND的说明）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
 BARK_PUSH=""
 BARK_SOUND=""
 
-## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/scripts/pull/37#issuecomment-692415594
+## Telegram，如需使用，TG_BOT_TOKEN和TG_USER_ID必须同时赋值，教程：https://github.com/lxk0301/jd_scripts/blob/master/backUp/TG_PUSH.md
 TG_BOT_TOKEN=""
 TG_USER_ID=""
 
-## 钉钉，如需使用，DD_BOT_TOKEN和DD_BOT_SECRET必须同时赋值，教程：https://ding-doc.dingtalk.com/doc#/serverapi2/qf2nxq
+## 钉钉，教程（看DD_BOT_TOKEN和DD_BOT_SECRET部分）：https://github.com/lxk0301/jd_scripts/blob/master/githubAction.md#%E4%B8%8B%E6%96%B9%E6%8F%90%E4%BE%9B%E4%BD%BF%E7%94%A8%E5%88%B0%E7%9A%84-secrets%E5%85%A8%E9%9B%86%E5%90%88
 DD_BOT_TOKEN=""
 DD_BOT_SECRET=""
 
+## iGot聚合推送，支持多方式推送，确保消息可达。教程：https://wahao.github.io/Bark-MP-helper/#/
+## 此处填写iGot的推送key
+IGOT_PUSH_KEY=""
 
-################################## 定义东东农场每个人自己的互助码 ##################################
+
+################################## 定义每日签到的通知形式（选填） ##################################
+## js脚本每日签到提供3种通知方式，分别为：
+## 1.关闭通知，那么请在下方填入0
+## 2.简洁通知，那么请在下方填入1，其效果见：https://github.com/lxk0301/jd_scripts/blob/master/icon/bean_sign_simple.jpg
+## 3.原始通知，那么请在下方填入2，如果不填也默认为2，内容比较长，这也是默认通知方式
+## 说明：因为此参数要修改js脚本的话工作量有点大，我就不改js文件了，而是使用临时环境变量
+## 如果为Docker用户，直接在容器创建时按lxk0301仓库中的环境变量添加了对应变量时，这里填不填无所谓，直接按你设置的环境变量起作用，这里填了就覆盖你创建容器时对应的环境变量
+## 如果是物理机或手机，使用临时环境变量的结果就是，此参数只有在运行 shell 脚本 jd_bean_sign.sh 时才有效
+## 如果是物理机或手机，如果使用 node 直接在 scripts 文件夹下运行 node jd_bean_sign.js ，这个参数是无效的
+NotifyBeanSign=
+
+
+################################## 定义每日签到的延迟时间（选填） ##################################
+## 默认每个签到接口并发无延迟，如需要依次进行每个接口，请自定义延迟时间，单位为毫秒，延迟作用于每个签到接口, 如填入延迟则切换顺序签到(耗时较长)
+## 修改以下参数后，要运行一次本脚本后才会生效
+BeanSignStop=
+
+
+################################## 定义东东农场每个人自己的互助码（选填） ##################################
 ## 东东农场每个人自己的互助码，可以在运行一次东东农场脚本（jd_fruit）后从日志中查看
 ## 约定：MyFruit后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyFruit1、MyFruit2
 ## 约定：MyFruit后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MyFruitA、MyFruitB
@@ -72,13 +102,15 @@ MyFruitA=""
 MyFruitB=""
 
 
-################################## 定义东东农场要为哪些人助力 ##################################
-## 1.每账号一天可助力4次，超出的无法被助力，想要为谁助力，添加上面定义的MyFruit变量就可以
+################################## 定义东东农场要为哪些人助力（选填） ##################################
+## 1.每账号一天可助力4次，超出的无法被助力，想要为谁助力，添加上面定义的MyFruit系列变量名就可以
 ## 2.js脚本要求每个互助码间需要使用@隔开，为保证shell脚本能将@正确传递，需要写作"\@"，包括双引号
-## 3.MyFruit系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MyFruitA；另外，也不能为自己助力
-## 4.举例：ForOtherFruit1=${MyFruit2}"\@"${MyFruit3}"\@"${MyFruit4}"\@"${MyFruit6} ，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie4、Cookie6的账户提供助力
+## 3.MyFruit系列变量中没有赋值的不能填写在下方，另外，也不能为自己助力
+## 4.举例：ForOtherFruit1=${MyFruit2}"\@"${MyFruit3}"\@"${MyFruit4}"\@"${MyFruitA} ，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie4的账户以及另外只提供了助力码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherFruit就只能且必须多少个（从1开始计），超出的无效
-## 6.可以不赋值，如：ForOtherFruit2=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力
+## 6.可以不赋值，如：ForOtherFruit2=""，这种情况下，在运行js脚本时将自动随机给他人助力
+## 7.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
+## 8.本脚本作者的码会附在你提供的码之后，如果助力完你提供的用户后还有剩余次数，就给本脚本作者助力
 ForOtherFruit1=
 ForOtherFruit2=
 ForOtherFruit3=
@@ -87,7 +119,7 @@ ForOtherFruit5=
 ForOtherFruit6=
 
 
-################################## 定义东东萌宠每个人自己的互助码 ##################################
+################################## 定义东东萌宠每个人自己的互助码（选填） ##################################
 ## 东东萌宠每个人自己的互助码，可以在运行一次东东萌宠脚本（jd_pet）后从日志中查看
 ## 约定：MyPet后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyPet1、MyPet2
 ## 约定：MyPet后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MyPetA、MyPetB
@@ -101,13 +133,14 @@ MyPetA=""
 MyPetB=""
 
 
-################################## 定义东东萌宠要为哪些人助力 ##################################
-## 1.每账号一天可助力5次，超出的无法被助力，想要为谁助力，添加上面定义的MyPet变量就可以
+################################## 定义东东萌宠要为哪些人助力（选填） ##################################
+## 1.每账号一天可助力5次，超出的无法被助力，想要为谁助力，添加上面定义的MyPet系列变量名就可以
 ## 2.js脚本要求每个互助码间需要使用@隔开，为保证shell脚本能将@正确传递，需要写作"\@"，包括双引号
-## 3.MyPet系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MyPetA；另外，也不能为自己助力
+## 3.MyPet系列变量中没有赋值的不能填写在下方，另外，也不能为自己助力
 ## 4.举例：ForOtherPet1=${MyPet2}"\@"${MyPet3}"\@"${MyPet4}"\@"${MyPet5}"\@"${MyPetA} ，含义是Cookie1的账户将为Cookie2、Cookie3、Cookie4、Cookie5的账户以及单独只提供了互助码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherPet就只能且必须多少个（从1开始计），超出的无效
-## 6.可以不赋值，如：ForOtherPet1=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力
+## 6.可以不赋值，如：ForOtherPet1=""，这种情况下，这种情况下，在运行js脚本时将自动随机给他人助力
+## 7.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
 ForOtherPet1=
 ForOtherPet2=
 ForOtherPet3=
@@ -116,7 +149,7 @@ ForOtherPet5=
 ForOtherPet6=
 
 
-################################## 定义种豆得豆每个人自己的互助码 ##################################
+################################## 定义种豆得豆每个人自己的互助码（选填） ##################################
 ## 种豆得豆每个人自己的互助码，可以在运行一次种豆得豆脚本（jd_plantBean）后从日志中查看
 ## 约定：MyPlantBean后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyPlantBean1、MyPlantBean2
 ## 约定：MyPlantBean后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MyPlantBeanA、MyPlantBeanB
@@ -130,13 +163,15 @@ MyPlantBeanA=""
 MyPlantBeanB=""
 
 
-################################## 定义种豆得豆要为哪些人助力 ##################################
-## 1.每账号一天可助力3次，超出的无法被助力，想要为谁助力，添加上面定义的MyPlantBean变量就可以
+################################## 定义种豆得豆要为哪些人助力（选填） ##################################
+## 1.每账号一天可助力3次，超出的无法被助力，想要为谁助力，添加上面定义的MyPlantBean系列变量名就可以
 ## 2.js脚本要求每个互助码间需要使用 @ 隔开，为保证 shell 脚本能将 @ 正确传递给 js ，需要写作"\@"，包括双引号
-## 3.MyPlantBean系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MyPlantBeanB；另外，也不能为自己助力
+## 3.MyPlantBean系列变量中没有赋值的不能填写在下方，另外，也不能为自己助力
 ## 4.举例：ForOtherPlantBean1=${MyPlantBean2}"\@"${MyPlantBeanA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
 ## 5.UserSum定义了多少个，ForOtherPlantBean就只能且必须有多少个（从1开始计），超出的无效
-## 6.可以不赋值，如：ForOtherPlantBean5=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力
+## 6.可以不赋值，如：ForOtherPlantBean5=""，这种情况下，在运行js脚本时将自动随机给他人助力
+## 7.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
+## 8.本脚本作者的码会附在你提供的码之后，如果助力完你提供的用户后还有剩余次数，就给本脚本作者助力
 ForOtherPlantBean1=
 ForOtherPlantBean2=
 ForOtherPlantBean3=
@@ -145,614 +180,228 @@ ForOtherPlantBean5=
 ForOtherPlantBean6=
 
 
-################################## 定义京小超商圈每个人自己的互助码 ##################################
-## 京小超商圈每个人自己的互助码，可以在运行一次京小超脚本（jd_superMarket）后从日志中查看
-## 约定：MySuperMarket后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MySuperMarket1、MySuperMarket2
-## 约定：MySuperMarket后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MySuperMarketA、MySuperMarketB
-MySuperMarket1=""
-MySuperMarket2=""
-MySuperMarket3=""
-MySuperMarket4=""
-MySuperMarket5=""
-MySuperMarket6=""
-MySuperMarketA=""
-MySuperMarketB=""
+################################## 定义京喜工厂每个人自己的互助码（选填） ##################################
+## 京喜工厂每个人自己的互助码，可以在运行一次京喜工厂脚本（jd_dreamFactory）后从日志中查看
+## 约定：MyDreamFactory后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyDreamFactory1、MyDreamFactory2
+## 约定：MyDreamFactory后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MyDreamFactoryA、MyDreamFactoryB
+MyDreamFactory1=""
+MyDreamFactory2=""
+MyDreamFactory3=""
+MyDreamFactory4=""
+MyDreamFactory5=""
+MyDreamFactory6=""
+MyDreamFactoryA=""
+MyDreamFactoryB=""
 
 
-################################## 定义京小超商圈要为哪些人助力 ##################################
-## 1.想要为谁助力，添加上面定义的MySuperMarket变量就可以
+################################## 定义京喜工厂要为哪些人助力（选填） ##################################
+## 1.每账号一天可助力3次，每次助力后要在被助力者家工厂上班31分钟后，才可以给第2个人助力，想要为谁助力，添加上面定义的MyDreamFactory系列变量名就可以
 ## 2.js脚本要求每个互助码间需要使用 @ 隔开，为保证 shell 脚本能将 @ 正确传递给 js ，需要写作"\@"，包括双引号
-## 3.MySuperMarket系列变量中没有赋值的不能填写在下方，比如：上面未赋值的 MySuperMarketB；另外，也不能为自己助力
-## 4.举例：ForOtherSuperMarket1=${MySuperMarket2}"\@"${MySuperMarketA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
-## 5.UserSum定义了多少个，ForOtherSuperMarket就只能且必须有多少个（从1开始计），超出的无效
-## 6.可以不赋值，如：ForOtherSuperMarket2=""，这种情况下，在运行js脚本时将给js脚本作者lxk0301大佬助力
-ForOtherSuperMarket1=
-ForOtherSuperMarket2=
-ForOtherSuperMarket3=
-ForOtherSuperMarket4=
-ForOtherSuperMarket5=
-ForOtherSuperMarket6=
+## 3.MyDreamFactory系列变量中没有赋值的不能填写在下方，另外，也不能为自己助力
+## 4.举例：ForOtherDreamFactory1=${MyDreamFactory2}"\@"${MyDreamFactoryA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
+## 5.UserSum定义了多少个，ForOtherDreamFactory就只能且必须有多少个（从1开始计），超出的无效
+## 6.可以不赋值，如：ForOtherDreamFactory5=""，这种情况下，在运行js脚本时将自动随机给他人助力
+## 7.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
+ForOtherDreamFactory1=
+ForOtherDreamFactory2=
+ForOtherDreamFactory3=
+ForOtherDreamFactory4=
+ForOtherDreamFactory5=
+ForOtherDreamFactory6=
 
 
-################################## 定义京小超蓝币兑换数量 ##################################
-## 京小超蓝币兑换，可用值包括：
-## 一、1至20中的一个整数：表示兑换1-20个京豆
-## 二、1000：表示兑换1000个京豆
-## 三、2801390972：兑换倒数第三种商品
-## 四、2801390982：兑换倒数第二种商品
-## 五、2801390984：兑换最后一种商品
-## js脚本默认为0，即为不自动兑换，具体可以兑换什么请自行在京小超游戏中去查阅
-coinToBeans=0
+################################## 定义东东工厂每个人自己的互助码（选填） ##################################
+## 东东工厂每个人自己的互助码，可以在运行一次东东工厂脚本（jd_jdFactory）后从日志中查看
+## 约定：MyJdFactory后面的编号为数字的是提供了Cookie的账号所对应的互助码，编号与Cookie编号一一对应，如MyJdFactory1、MyJdFactory2
+## 约定：MyJdFactory后面的编号为大写字母的是未提供Cookie的账号所对应的互助码（即想为其他人助力），如MyJdFactoryA、MyJdFactoryB
+MyJdFactory1=""
+MyJdFactory2=""
+MyJdFactory3=""
+MyJdFactory4=""
+MyJdFactory5=""
+MyJdFactory6=""
+MyJdFactoryA=""
+MyJdFactoryB=""
 
 
-################################## 定义京小超蓝币成功兑换奖品是否静默运行 ##################################
+################################## 定义东东工厂要为哪些人助力（选填） ##################################
+## 1.想要为谁助力，添加上面定义的MyJdFactory系列变量名就可以
+## 2.js脚本要求每个互助码间需要使用 @ 隔开，为保证 shell 脚本能将 @ 正确传递给 js ，需要写作"\@"，包括双引号
+## 3.MyJdFactory系列变量中没有赋值的不能填写在下方，另外，也不能为自己助力
+## 4.举例：ForOtherJdFactory1=${MyJdFactory2}"\@"${MyJdFactoryA} ，含义是Cookie1的账户将为Cookie2的账户以及单独只提供了互助码的A用户提供助力
+## 5.UserSum定义了多少个，ForOtherJdFactory就只能且必须有多少个（从1开始计），超出的无效
+## 6.可以不赋值，如：ForOtherJdFactory5=""，这种情况下，在运行js脚本时将自动随机给他人助力
+## 7.要运行一次本脚本后，才会替换为你自己提供的互助码（当然前提是你填入了有效的互助码）
+ForOtherJdFactory1=
+ForOtherJdFactory2=
+ForOtherJdFactory3=
+ForOtherJdFactory4=
+ForOtherJdFactory5=
+ForOtherJdFactory6=
+
+
+################################## 定义东东超市蓝币兑换数量（选填） ##################################
+## 东东超市蓝币兑换，可用值包括：
+## 一、1至20中的一个整数：表示兑换1-20个京豆，如：coinToBeans=10
+## 二、1000：表示兑换1000个京豆，如：coinToBeans=1000
+## 三、可兑换清单的商品名称，输入关键词即可，比如：coinToBeans="抽纸"
+## js脚本默认为0，即为不自动兑换，另外，具体可以兑换哪些商品请自行在东东超市游戏中去查阅
+## 注意：有些比较贵的实物商品京东只是展示出来忽悠人的，即使你零点用脚本去抢，也会提示没有或提示已下架
+coinToBeans=
+
+
+################################## 定义东东超市蓝币成功兑换奖品是否静默运行（选填） ##################################
 ## 默认关闭（即:奖品兑换成功后会发出通知提示），如需要静默运行不发出通知，请改为 true
 NotifyBlueCoin=""
 
 
-################################## 定义京小超是否自动升级商品和货架 ##################################
+################################## 定义东东超市是否自动升级商品和货架（选填） ##################################
 ## 升级顺序：解锁升级商品、升级货架，默认自动升级，如需关闭自动升级，请改为 false
-superMarketUpgrade="false"
+superMarketUpgrade=""
 
 
-################################## 定义京小超是否自动更换商圈 ##################################
+################################## 定义东东超市是否自动更换商圈（选填） ##################################
 ## 小于对方300热力值自动更换商圈队伍，默认允许自动更换，如不想更换商圈，请改为 false
 businessCircleJump=""
 
 
-################################## 定义京小超是否自动使用金币去抽奖 ##################################
-## 是否用金币去抽奖，默认开启，如不需要使用脚本自动使用金币去抽奖，请修改为 false
+################################## 定义东东超市是否自动使用金币去抽奖（选填） ##################################
+## 是否用金币去抽奖，默认关闭，如需开启，请修改为 true
 drawLotteryFlag=""
 
 
-################################## 定义东东农场是否静默运行 ##################################
+################################## 定义东东农场是否静默运行（选填） ##################################
 ## 默认为 false，不静默，发送推送通知消息，如不想收到通知，请修改为 true
 NotifyFruit=""
 
 
-################################## 定义东东农场是否使用水滴换豆卡 ##################################
+################################## 定义东东农场是否使用水滴换豆卡（选填） ##################################
 ## 如果出现限时活动时100g水换20豆，此时比浇水划算，true表示换豆（不浇水），false表示不换豆（继续浇水）,js脚本默认是false（继续浇水）
 ## 如需切换为换豆（不浇水），请修改为 true
 jdFruitBeanCard=""
 
 
-################################## 定义宠汪汪喂食克数 ##################################
+################################## 定义宠汪汪喂食克数（选填） ##################################
 ## 你期望的宠汪汪每次喂食克数，只能填入10、20、40、80，默认为10
 ## 如实际持有食物量小于所设置的克数，js脚本会自动降一档，直到降无可降
 ## 具体情况请自行在宠汪汪游戏中去查阅攻略
-joyFeedCount=20
+joyFeedCount=
 
 
-################################## 定义宠汪汪兑换京豆是否静默运行 ##################################
+################################## 定义宠汪汪兑换京豆数量（选填） ##################################
+## 目前的可用值包括：0、20、500、1000，其中0表示为不自动兑换京豆，详情请见宠汪汪游戏中兑换京豆选项，高等级可以兑换更高的京豆。
+## 如不设置，将默认为20。设置了并且你也有足够积分时，也并不代表就一定能抢到。
+joyRewardName=
+
+
+################################## 定义宠汪汪兑换京豆是否静默运行（选填） ##################################
+## 默认为false，在成功兑换京豆时将发送推送通知消息（失败不发送），如想要静默不发送通知，请修改为 true
+NotifyJoyReward=""
+
+
+################################## 定义宠汪汪偷取好友积分与狗粮是否静默运行（选填） ##################################
+## 默认为false，将发送推送通知消息，如想要静默不发送通知，请修改为 true
+NotifyJoySteal=""
+
+
+################################## 定义宠汪汪是否静默运行（选填） ##################################
 ## 默认为true，静默，不发送推送通知消息，如想要收到通知，请修改为 false
 NotifyJoy=""
 
 
-################################## 定义宠汪汪是否自动给好友的汪汪喂食 ##################################
+################################## 定义宠汪汪是否自动给好友的汪汪喂食（选填） ##################################
 ## 默认为不会自动给好友的汪汪喂食，如想自动喂食，请改成 true
 jdJoyHelpFeed=""
 
 
-################################## 定义宠汪汪是否自动偷好友积分与狗粮 ##################################
+################################## 定义宠汪汪是否自动偷好友积分与狗粮（选填） ##################################
 ## 默认自动偷取，如不想自动偷取，请改成 false
 jdJoyStealCoin=""
 
 
-################################## 定义宠汪汪是否自动报名宠物赛跑 ##################################
+################################## 定义宠汪汪是否自动报名宠物赛跑（选填） ##################################
 ## 默认参加宠物赛跑，如需关闭，请改成 false
 joyRunFlag=""
 
 
-################################## 定义文件路径 ##################################
-ShellDir=$(cd $(dirname $0); pwd)
-RootDir=$(cd $(dirname $0); cd ..; pwd)
-LogDir=${RootDir}/log
-ScriptsDir=${RootDir}/scripts
-ScriptsURL=https://github.com/lxk0301/scripts
-ShellURL=https://github.com/EvineDeng/jd-base
-ListShell=${LogDir}/shell.list
-ListJs=${LogDir}/js.list
-ListJsAdd=${LogDir}/js-add.list
-ListJsDrop=${LogDir}/js-drop.list
-ListCron=${RootDir}/crontab.list
+################################## 定义宠汪汪参加比赛类型（选填） ##################################
+## 当joyRunFlag不设置或设置为true时生效，
+## 可选值：2,10,50，其他值不可以。其中2代表参加双人PK赛，10代表参加10人突围赛，50代表参加50人挑战赛，不填时默认为2
+## 各个账号间请使用 & 分隔，比如：teamLevel="2&2&50&10"
+## 如果你有5个账号但只写了四个数字，那么第5个账号将默认参加2人赛，账号如果更多，与此类似
+teamLevel=""
 
 
-################################## 定义js脚本名称 ##################################
-FileCookie=jdCookie.js
-FileNotify=sendNotify.js
-FileFruitShareCodes=jdFruitShareCodes.js
-FilePetShareCodes=jdPetShareCodes.js
-FilePlantBeanShareCodes=jdPlantBeanShareCodes.js
-FileSuperMarketShareCodes=jdSuperMarketShareCodes.js
-FileJoy=jd_joy.js
-FileJoyFeed=jd_joy_feedPets.js
-FIleJoySteal=joy_steal.js
-FileBlueCoin=jd_blueCoin.js
-FileSuperMarket=jd_superMarket.js
-FileFruit=jd_fruit.js
+################################## 定义摇钱树是否静默运行（选填） ##################################
+## 默认为true，静默，不发送推送通知消息，如想要收到通知，请修改为 false
+NotifyMoneyTree=""
 
 
-################################## 在日志中记录时间与路径 ##################################
-echo
-echo "-------------------------------------------------------------------"
-echo
-echo -n "当前时间："
-echo $(date "+%Y-%m-%d %H:%M:%S")
-echo
-echo "SHELL脚本目录：${ShellDir}"
-echo 
-echo "JS脚本目录：${ScriptsDir}"
-echo
-echo "-------------------------------------------------------------------"
-echo
+################################## 定义摇钱树是否自动将金果卖出变成金币（选填） ##################################
+## 金币有时效，默认为false，不卖出金果为金币，如想希望自动卖出，请修改为 true
+MoneyTreeAutoSell=""
 
 
-################################## 更新JS脚本 ##################################
-function Git_PullScripts {
-  echo "更新JS脚本，原地址：${ScriptsURL}"
-  echo
-  git fetch --all
-  git reset --hard origin/master
-  git pull
-}
-
-
-################################## 修改JS脚本中的Cookie ##################################
-function Change_Cookie {
-  CookieALL=""
-  echo "${FileCookie}: 替换Cookies..."
-  sed -i "/\/\/账号/d" ${FileCookie}
-  ii=1
-  while [ ${ii} -le ${UserSum} ]
-  do
-    Temp1=Cookie${ii}
-    eval CookieTemp=$(echo \$${Temp1})
-    CookieALL="${CookieALL}\\n'${CookieTemp}',"
-    let ii++
-  done
-  perl -0777 -i -pe "s|let CookieJDs = \[\n\]|let CookieJDs = \[${CookieALL}\n\]|" ${FileCookie}
-}
-
-
-################################## 修改通知TOKEN ##################################
-function Change_Token {
-  ## ServerChan
-  if [ ${SCKEY} ]; then 
-    echo "${FileNotify}: 替换ServerChan推送通知SCKEY..."
-    sed -i "s|let SCKEY = '';|let SCKEY = '${SCKEY}';|" ${FileNotify}
-  fi
-
-  ## BARK
-  if [ ${BARK_PUSH} ] && [ ${BARK_SOUND} ]; then 
-    echo "${FileNotify}: 替换BARK推送通知BARK_PUSH、BARK_SOUND..."
-    sed -i "s|let BARK_PUSH = '';|let BARK_PUSH = '${BARK_PUSH}';|" ${FileNotify}
-    sed -i "s|let BARK_SOUND = '';|let BARK_SOUND = '${BARK_SOUND}';|" ${FileNotify}
-  fi
-
-  ## Telegram
-  if [ ${TG_BOT_TOKEN} ] && [ ${TG_USER_ID} ]; then 
-    echo "${FileNotify}: 替换Telegram推送通知TG_BOT_TOKEN、TG_USER_ID..."
-    sed -i "s|let TG_BOT_TOKEN = '';|let TG_BOT_TOKEN = '${TG_BOT_TOKEN}';|" ${FileNotify}
-    sed -i "s|let TG_USER_ID = '';|let TG_USER_ID = '${TG_USER_ID}';|" ${FileNotify}
-  fi
-
-  ## 钉钉
-  if [ ${DD_BOT_TOKEN} ] && [ ${DD_BOT_SECRET} ]; then 
-    echo "${FileNotify}: 替换钉钉推送通知DD_BOT_TOKEN、DD_BOT_SECRET..."
-    sed -i "s|let DD_BOT_TOKEN = '';|let DD_BOT_TOKEN = '${DD_BOT_TOKEN}';|" ${FileNotify}
-    sed -i "s|let DD_BOT_SECRET = '';|let DD_BOT_SECRET = '${DD_BOT_SECRET}';|" ${FileNotify}
-  fi
-  
-  ## 未输入任何通知渠道
-  if [ -z "${SCKEY}" ] && [ -z "${BARK_PUSH}" ] && [ -z "${BARK_SOUND}" ] && [ -z "${TG_BOT_TOKEN}" ] && [ -z "${TG_USER_ID}" ] && [ -z "${DD_BOT_TOKEN}" ] && [ -z "${DD_BOT_SECRET}" ]; then
-    echo "没有有效的通知渠道，将不发送任何通知，请直接在本地查看日志..."
-  fi
-}
-
-
-################################## 替换东东农场互助码 ##################################
-function Change_FruitShareCodes {
-  ForOtherFruitALL=""
-  echo "${FileFruitShareCodes}: 替换东东农场互助码..."
-  sed -i "/\/\/账号/d" ${FileFruitShareCodes}
-  ij=1
-  while [ ${ij} -le ${UserSum} ]
-  do
-    Temp2=ForOtherFruit${ij}
-    eval ForOtherFruitTemp=$(echo \$${Temp2})
-    ForOtherFruitALL="${ForOtherFruitALL}\\n'${ForOtherFruitTemp}',"
-    let ij++
-  done
-  perl -0777 -i -pe "s|let FruitShareCodes = \[\n\]|let FruitShareCodes = \[${ForOtherFruitALL}\n\]|" ${FileFruitShareCodes}
-}
-
-
-################################## 替换东东萌宠互助码 ##################################
-function Change_PetShareCodes {
-  ForOtherPetALL=""
-  echo "${FilePetShareCodes}: 替换东东萌宠互助码..."
-  sed -i "/\/\/账号/d" ${FilePetShareCodes}
-  ik=1
-  while [ ${ik} -le ${UserSum} ]
-  do
-    Temp3=ForOtherPet${ik}
-    eval ForOtherPetTemp=$(echo \$${Temp3})
-    ForOtherPetALL="${ForOtherPetALL}\\n'${ForOtherPetTemp}',"
-    let ik++
-  done
-  perl -0777 -i -pe "s|let PetShareCodes = \[\n\]|let PetShareCodes = \[${ForOtherPetALL}\n\]|" ${FilePetShareCodes}
-}
-
-
-################################## 替换种豆得豆互助码 ##################################
-function Change_PlantBeanShareCodes {
-  ForOtherPlantBeanALL=""
-  echo "${FilePlantBeanShareCodes}: 替换种豆得豆互助码..."
-  sed -i "/\/\/账号/d" ${FilePlantBeanShareCodes}
-  il=1
-  while [ ${il} -le ${UserSum} ]
-  do
-    Temp4=ForOtherPlantBean${il}
-    eval ForOtherPlantBeanTemp=$(echo \$${Temp4})
-    ForOtherPlantBeanALL="${ForOtherPlantBeanALL}\\n'${ForOtherPlantBeanTemp}',"
-    let il++
-  done
-  perl -0777 -i -pe "s|let PlantBeanShareCodes = \[\n\]|let PlantBeanShareCodes = \[${ForOtherPlantBeanALL}\n\]|" ${FilePlantBeanShareCodes}
-}
-
-
-################################## 替换京小超商圈互助码 ##################################
-function Change_SuperMarketShareCodes {
-  ForOtherSuperMarketALL=""
-  echo "${FileSuperMarketShareCodes}: 替换京小超商圈互助码..."
-  sed -i "/\/\/账号/d" ${FileSuperMarketShareCodes}
-  im=1
-  while [ ${im} -le ${UserSum} ]
-  do
-    Temp5=ForOtherSuperMarket${im}
-    eval ForOtherSuperMarketTemp=$(echo \$${Temp5})
-    ForOtherSuperMarketALL="${ForOtherSuperMarketALL}\\n'${ForOtherSuperMarketTemp}',"
-    let im++
-  done
-  perl -0777 -i -pe "s|let SuperMarketShareCodes = \[\n\]|let SuperMarketShareCodes = \[${ForOtherSuperMarketALL}\n\]|" ${FileSuperMarketShareCodes}
-}
-
-
-################################## 修改京小超蓝币兑换数量 ##################################
-function Change_coinToBeans {
-  if [ ${coinToBeans} -gt 1 ] && [ ${coinToBeans} -le 20 ]
-  then
-    echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
-    perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin}
-  else
-    case ${coinToBeans} in
-    0)
-      echo "${FileBlueCoin}: 京小超蓝币兑换数量保持默认值0，不自动兑换...";;
-    1000 | 2801390972 | 2801390982 | 2801390984)
-      echo "${FileBlueCoin}: 修改京小超蓝币兑换数量为：${coinToBeans}..."
-      perl -i -pe "s|0;.+或者1000即可|${coinToBeans};|" ${FileBlueCoin};;
-    *)
-      echo "${FileBlueCoin}: coinToBeans 输入了错误值，将保持默认值0，不自动兑换...";;
-    esac
-  fi
-}
-
-
-################################## 修改京小超蓝币成功兑换奖品是否静默运行 ##################################
-function Change_NotifyBlueCoin {
-  if [ "${NotifyBlueCoin}" = "true" ]
-  then
-    echo "${FileBlueCoin}：修改京小超成功兑换蓝币是否静默运行：${NotifyBlueCoin}，成功兑换后静默运行不发通知..."
-    sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyBlueCoin};|" ${FileBlueCoin}
-  else
-    echo "${FileBlueCoin}：NotifyBlueCoin保持默认，京小超成功兑换蓝币后将发通知..."
-  fi
-}
-
-
-################################## 修改京小超是否自动升级商品和货架 ##################################
-function Change_superMarketUpgrade {
-  if [ "${superMarketUpgrade}" = "false" ]
-  then
-    echo "${FileSuperMarket}：修改京小超是否自动升级商品和货架为：${superMarketUpgrade}，不自动升级..."
-    sed -i "s|let superMarketUpgrade = true;|let superMarketUpgrade = ${superMarketUpgrade};|" ${FileSuperMarket}
-  else
-    echo "${FileSuperMarket}：superMarketUpgrade保持默认，京小超将默认自动升级商品和货架..."
-  fi
-}
-
-
-################################## 修改京小超是否自动更换商圈 ##################################
-function Change_businessCircleJump {
-  if [ "${businessCircleJump}" = "false" ]
-  then
-    echo "${FileSuperMarket}：修改京小超在小于对方300热力值时是否自动更换商圈为：${businessCircleJump}"
-    sed -i "s|let businessCircleJump = true;|let businessCircleJump = ${businessCircleJump};|" ${FileSuperMarket}
-  else
-    echo "${FileSuperMarket}：businessCircleJump保持默认，京小超将在小于对方300热力值时自动更换商圈..."
-  fi
-}
-
-
-################################## 修改京小超是否自动使用金币去抽奖 ##################################
-function Change_drawLotteryFlag {
-  if [ "${drawLotteryFlag}" = "false" ]
-  then
-    echo "${FileSuperMarket}：修改京小超是否自动使用金币去抽奖为：${drawLotteryFlag}，将不再自动使用金币去抽奖..."
-    sed -i "s|let drawLotteryFlag = true;|let drawLotteryFlag = ${drawLotteryFlag};|" ${FileSuperMarket}
-  else
-    echo "${FileSuperMarket}：drawLotteryFlag保持默认，京小超将自动使用金币去抽奖..."
-  fi
-}
-
-
-################################## 修改东东农场是否静默运行 ##################################
-function Change_NotifyFruit {
-  if [ "${NotifyFruit}" = "true" ]
-  then
-    echo "${FileFruit}：修改东东农场是否静默运行为：${NotifyFruit}，静默运行"
-    sed -i "s|let jdNotify = false;|let jdNotify = ${NotifyFruit};|" ${FileFruit}
-  else
-    echo "${FileFruit}：NotifyFruit保持默认，东东农场将不静默运行，将发通知..."
-  fi
-}
-
-
-################################## 修改东东农场是否使用水滴换豆卡 ##################################
-function Change_jdFruitBeanCard {
-  if [ "${jdFruitBeanCard}" = "true" ]
-  then
-    echo "${FileFruit}：修改东东农场是否使用水滴换豆卡为：${jdFruitBeanCard}，将在出现限时活动时使用100g水换20金豆，不浇水..."
-    sed -i "s|let jdFruitBeanCard = false;|let jdFruitBeanCard = ${jdFruitBeanCard};|" ${FileFruit}
-  else
-    echo "${FileFruit}：jdFruitBeanCard保持默认，东东农场将在出现100g水换20金豆限时活动时继续浇水..."
-  fi
-}
-
-
-################################## 修改宠汪汪喂食克数 ##################################
-function Change_joyFeedCount {
-  case ${joyFeedCount} in
-    20 | 40 | 80)
-      echo "${FileJoy}: 修改宠汪汪喂食克数为：${joyFeedCount}g..."
-      echo
-      echo "${FileJoyFeed}: 修改宠汪汪喂食克数为：${joyFeedCount}g..."
-      perl -i -pe "s|10;.+\[10,20,40,80\]|${joyFeedCount};|" ${FileJoy}
-      perl -i -pe "s|10;.+其他数字不可\.|${joyFeedCount};|" ${FileJoyFeed};;
-    10)
-      echo "${FileJoy}: 宠汪汪喂食克数保持默认值：10g..."
-      echo
-      echo "${FileJoyFeed}: 宠汪汪喂食克数保持默认值：10g...";;
-    *)
-      echo "joyFeedCount输入了错误值，不修改宠汪汪喂食克数，保持默认值...";;
-  esac
-}
-
-
-################################## 修改宠汪汪兑换京豆是否静默运行 ##################################
-function Change_NotifyJoy {
-  if [ "${NotifyJoy}" = "false" ]
-  then
-    echo "${FileJoy}：修改宠汪汪兑换京豆是否静默运行为：${NotifyJoy}，不静默运行，将发通知..."
-    sed -i "s|let jdNotify = true;|let jdNotify = ${NotifyJoy};|" ${FileJoy}
-  else
-    echo "${FileJoy}：NotifyJoy保持默认，宠汪汪兑换京豆将静默运行..."
-  fi
-}
-
-
-################################## 修改宠汪汪是否自动报名宠物赛跑 ##################################
-function Change_joyRunFlag {
-  if [ "${joyRunFlag}" = "false" ]
-  then
-    echo "${FileJoy}：修改宠汪汪是否自动报名宠物赛跑为：${joyRunFlag}..."
-    sed -i "s|let joyRunFlag = true;|let joyRunFlag = ${joyRunFlag};|" ${FileJoy}
-  else
-    echo "${FileJoy}：joyRunFlag保持默认，宠汪汪将自动报名宠物赛跑..."
-  fi
-}
-
-
-################################## 修改宠汪汪是否自动给好友的汪汪喂食 ##################################
-function Change_jdJoyHelpFeed {
-  if [ "${jdJoyHelpFeed}" = "true" ]
-  then
-    echo "${FIleJoySteal}：修改宠汪汪自动给好友的汪汪喂食为：${jdJoyHelpFeed}..."
-    sed -i "s|let jdJoyHelpFeed = false;|let jdJoyHelpFeed = ${jdJoyHelpFeed};|" ${FIleJoySteal}
-  else
-    echo "${FIleJoySteal}：jdJoyHelpFeed保持默认，宠汪汪将不会给好友的汪汪喂食..."
-  fi
-}
-
-
-################################## 修改宠汪汪是否自动偷好友积分与狗粮 ##################################
-function Change_jdJoyStealCoin {
-  if [ "${jdJoyStealCoin}" = "false" ]
-  then
-    echo "${FIleJoySteal}：修改宠汪汪是否自动偷好友积分与狗粮为：${jdJoyStealCoin}..."
-    sed -i "s|let jdJoyStealCoin = false;|let jdJoyStealCoin = ${jdJoyStealCoin};|" ${FIleJoySteal}
-  else
-    echo "${FIleJoySteal}：jdJoyStealCoin保持默认，宠汪汪将会自动偷取好友积分与狗粮..."
-  fi
-}
-
-
-################################## 获取git修改状态 ##################################
-function Git_Status {
-  echo "获取git修改状态如下："
-  echo
-  git status | grep "modified:" | sed "s/\s//g"
-}
-
-
-################################## 检测Github Action定时任务是否有变化 ##################################
-## 此函数会在Log文件夹下生成四个文件，分别为：
-## shell.list   shell文件夹下用来跑js文件的以“jd_”开头的所有 .sh 文件清单（去掉后缀.sh）
-## js.list      scripts/.github/workflows下所有以“jd_”开头的所有 .yml 文件清单（去掉后缀.yml），这是 lxk0301@github 大佬定义的所有GitHub Action定时任务
-## js-add.list  如果 scripts/.github/workflows 增加了定时任务，这个文件内容将不为空
-## js-drop.list 如果 scripts/.github/workflows 删除了定时任务，这个文件内容将不为空
-function Cron_Different {
-  ls ${ShellDir} | grep -E "jd_.+\.sh" | sed "s/\.sh//" > ${ListShell}
-  ls ${ScriptsDir}/.github/workflows | grep -E "jd_.+\.yml" | sed "s/\.yml//" > ${ListJs}
-  grep -v -f ${ListShell} ${ListJs} > ${ListJsAdd}
-  grep -v -f ${ListJs} ${ListShell} > ${ListJsDrop}
-}
-
-
-################################## 依次修改上述设定的值 ##################################
-cd ${ScriptsDir}
-Git_PullScripts
-GitPullExitStatus=$?
-if [ ${GitPullExitStatus} -eq 0 ]
-then
-  echo
-  echo "更新JS脚本完成..."
-  echo
-  Change_Cookie
-  echo
-  Change_Token
-  echo
-  Change_FruitShareCodes
-  echo
-  Change_PetShareCodes
-  echo
-  Change_PlantBeanShareCodes
-  echo
-  Change_SuperMarketShareCodes
-  echo
-  Change_coinToBeans
-  echo
-  Change_NotifyBlueCoin
-  echo
-  Change_superMarketUpgrade
-  echo
-  Change_businessCircleJump
-  echo
-  Change_drawLotteryFlag
-  echo
-  Change_NotifyFruit
-  echo
-  Change_jdFruitBeanCard
-  echo
-  Change_joyFeedCount
-  echo
-  Change_NotifyJoy
-  echo
-  Change_joyRunFlag
-  echo
-  Change_jdJoyHelpFeed
-  echo
-  Change_jdJoyStealCoin
-  echo
-  Git_Status
-  echo
-  Cron_Different
-  
-  ## 检测是否有新的定时任务
-  if [ -s ${ListJsAdd} ]  
-  then
-    echo "检测到有新的定时任务："
-	cat ${ListJsAdd}
-  else
-    echo "没有检测到新的定时任务..."
-  fi
-  echo
-  
-  ## 检测失效的定时任务  
-  if [ -s ${ListJsDrop} ]
-  then
-    echo "检测到失效的定时任务："
-	cat ${ListJsDrop}
-  else
-    echo "没有检测到失效的定时任务..."
-  fi
-  echo
-  
+################################## 定义东东萌宠是否静默运行（选填） ##################################
+## 默认 false（不静默，发送推送通知消息），如想静默请修改为 true
+## 每次执行脚本通知太频繁了，改成只在周三和周六中午那一次运行时发送通知提醒
+## 特别说明：针对北京时间有效。并且定时任务要注意：在git_pull.sh于9：00-14：00间将NotifyPet改为false以后再执行jd_pet.sh才有效。
+## 除掉上述提及时间之外，均设置为 true，静默不发通知
+if [ $(date "+%w") -eq 6 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
+  NotifyPet="false"
+elif [ $(date "+%w") -eq 3 ] && [ $(date "+%H") -ge 9 ] && [ $(date "+%H") -lt 14 ]; then
+  NotifyPet="false"
 else
-  echo "JS脚本拉取不正常，所有JS文件将保持上一次的状态..."
-  echo
-
+  NotifyPet="true"
 fi
 
 
-################################## 自动删除失效的脚本与定时任务 ##################################
-## 如果检测到某个定时任务在https://github.com/lxk0301/scripts中已删除，那么在本地也删除对应的shell脚本与定时任务
-## 此功能仅在 AutoDelCron 设置为 true 时生效
-if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoDelCron}" = "true" ] && [ -s ${ListJsDrop} ]; then
-  echo "开始尝试自动删除定时任务如下："
-  echo
-  cat ${ListJsDrop}
-  echo
-  JsDrop=$(cat ${ListJsDrop})
-  for i in ${JsDrop}
-  do
-    sed -i "/\/$i\.sh/d" ${ListCron}
-    rm -f "${ShellDir}/$i.sh"
-  done
-  crontab ${ListCron}
-  echo "成功删除失效的脚本与定时任务，当前的定时任务清单如下："
-  echo
-  crontab -l
-  echo
-fi
+################################## 定义手机狂欢城是否发送上车提醒（选填） ##################################
+## 情况请见jd_818的日志，默认为false，不发送上车提醒，如想要收到提醒，请修改为 true
+## 暂时没有手机狂欢城活动
+Notify818=""
 
 
-################################## 自动增加新的定时任务 ##################################
-## 如果检测到https://github.com/lxk0301/scripts中增加新的Guthub Action定时任务，那么在本地也增加
-## 此功能仅在 AutoAddCron 设置为 true 时生效
-## 本功能生效时，会自动从 scripts/.github/workflows 文件夹新增加的 .yml 文件中读取 cron 这一行的任务时间，
-## 但因为Github Action定时任务采用的是UTC时间，比北京时间晚8小时，所以会导致本地任务无法真正地在准确设定的时间运行，需要手动修改crontab
-## 两种时区时间对应关系见 https://datetime360.com/cn/utc-beijing-time/ 或 http://www.timebie.com/cn/universalbeijing.php
-if [ ${GitPullExitStatus} -eq 0 ] && [ "${AutoAddCron}" = "true" ] && [ -s ${ListJsAdd} ]; then
-  echo "开始尝试自动添加定时任务如下："
-  echo
-  cat ${ListJsAdd}
-  echo
-  JsAdd=$(cat ${ListJsAdd})
-  if [ -f ${ShellDir}/jd.sh.sample ]
-  then
-	for i in ${JsAdd}
-	do
-	  grep "cron:" "${ScriptsDir}/.github/workflows/$i.yml" | awk -F "'" '{print $2}' | sed "s|$|& $ShellDir/$i\.sh|" >> ${ListCron}
-	done
-	if [ $? -eq 0 ]
-	then
-	  for j in ${JsAdd}
-	  do
-	    cp -fv "${ShellDir}/jd.sh.sample" "${ShellDir}/$j.sh"
-	    chmod +x "${ShellDir}/$j.sh"
-	  done
-	  crontab ${ListCron}
-	  echo "成功添加新的定时任务，当前的定时任务清单如下："
-	  echo
-	  crontab -l
-	else
-      echo "未能添加新的定时任务，请自行添加..."
-      echo
-	fi
-	echo
-  else
-	echo "${ShellDir}/jd.sh.sample 文件不存在，请先克隆${ShellURL}..."
-    echo
-	echo "未能成功添加新的定时任务，请自行添加..."
-    echo
-  fi
-fi
+################################## 定义京喜工厂是否静默运行（选填） ##################################
+## true 为静默不发送推送通知消息，false 为不静默发出通知，默认为true
+## jd_dreamFactory.js这个脚本每小时都要运行，次次发通知就过于频繁了，改成一天只通知一次
+## 如果按照我提供的最新的crontab.list，也就是每小时的第20分运行jd_dreamFactory.sh，白天每小时的第55分运行git_pull.sh
+## 那么下面命令的含义就是，在13:55将 jd_dreamFactory.js 是否静默运行置为 false，即不静默、发通知，然后在14:20运行jd_dreamFactory.sh时，那么就将发出通知
+## 除此之外，其他时间，jd_dreamFactory.js中这个参数均保持默认值为 true，即静默不发通知
+## 如果你不需要一天只发一次，而是全部静默，那么将下面第一行注释掉，将下面第二行解除注释即可
+## 如果你需要每次运行都发通知，那么将下面第一行注释掉，将下面第二行解除注释并赋值为 false
+## 特别说明：针对北京时间
+[ $(date "+%H") -eq 13 ] && NotifyDreamFactory=false
+# NotifyDreamFactory=
 
 
-################################## npm install ##################################
-echo "运行npm install"
-echo
-npm install
-echo
+################################## 定义东东工厂是否静默运行（选填） ##################################
+## true 为静默不发送推送通知消息，false 为不静默发出通知，默认为 true
+NotifyJdFactory=
 
 
-################################## 更新shell脚本 ##################################
-cd ${ShellDir}
-echo "更新shell脚本，原地址：${ShellURL}"
-echo
-git fetch --all
-git reset --hard origin/main
-git pull
+################################## 定义东东工厂心仪的商品（选填） ##################################
+## 如果当前你所生产的商品不是你心仪的商品时，不投入电力
+## 只有在满足以下条件时，才投入电力：一是存储的电力满足生产商品所需的电力，二是心仪的商品有库存，如果没有输入心仪的商品，那么当前你正在生产的商品视作心仪的商品
+## 如果你看不懂上面的话，请去东东工厂游戏中查阅攻略
+## 心仪的商品请输入商品的全称或能唯一识别出该商品的关键字，目前该参数默认值请看jd_jdfactory.js文件中 "let wantProduct" 这一行
+WantProduct=""
 
 
+################################## 定义取关参数（选填） ##################################
+## jd_unsubscribe这个任务是用来取关每天做任务关注的商品和店铺，默认在每次运行时取关20个商品和20个店铺
+## 如果取关数量不够，可以根据情况增加，还可以设置 jdUnsubscribeStopGoods 和 jdUnsubscribeStopShop 
+## 商品取关数量
+goodPageSize=
+## 店铺取关数量
+shopPageSize=
+## 遇到此商品不再取关此商品以及它后面的商品，需去商品详情页长按拷贝商品信息，需要用一对双引号括起来
+jdUnsubscribeStopGoods=""
+## 遇到此店铺不再取关此店铺以及它后面的店铺，请从头开始输入店铺名称，需要用一对双引号括起来
+jdUnsubscribeStopShop=""
+
+
+################################## 调用 git_pull_function.sh（勿动） ##################################
+ShellDir=$(cd $(dirname $0); pwd)
+chmod +x ${ShellDir}/git_pull_function.sh
+. ${ShellDir}/git_pull_function.sh

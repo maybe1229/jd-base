@@ -1,23 +1,49 @@
-## 物理机安装请自行修改一下脚本路径
+## 重要：针对物理机（Docker和安卓Termux不受影响，下同），请先在命令行中使用 echo $PATH 命令查看你的系统PATH是不是和下面一样，如果不一样，请使用你的PATH代替下一行中PATH的值
+## ①使用nvm安装nodejs的、②安装了多个nodejs版本的、③想使用的nodejs所在位置不在系统PATH中的，请注意将你拟使用的nodejs所在路径添加在PATH最前面
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/data/data/com.termux/files/usr/bin
 
-55 6-23/3 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
-50 3 1,15 * * /root/shell/rm_log.sh
-3 0 * * * /root/shell/jd_bean_sign.sh
+## 物理机请务必将你原本的定时任务加在本行之下（命令行中输入crontab -l可查看你原来的定时任务）：
+
+
+## 物理机安装请自行修改一下脚本路径，以下时间均为北京时间，建议根据所需调整
+# 更新lxk0301大佬的js脚本和EvineDeng的shell脚本，并替换相关参数，错误记录在crond日志中
+55 5-23 * * * /root/shell/git_pull.sh >> /root/log/git_pull.log
+
+# 删除旧的运行京东js脚本的日志，未复制一份rm_log.sh时不生效，不记录日志，错误记录在crond日志中
+58 13 * * 6 /root/shell/rm_log.sh
+
+# 运行lxk0301大佬的js脚本，仅作初始化用，AutoAddCron=true时，将自动添加短期任务，错误记录在crond日志中
+0 9 * * * /root/shell/jd_bean_change.sh
+28 4 * * * /root/shell/jd_bean_home.sh
+3 0,8,14 * * * /root/shell/jd_bean_sign.sh
 0 0 * * * /root/shell/jd_blueCoin.sh
+23 2 * * * /root/shell/jd_car.sh
 2 0 * * * /root/shell/jd_club_lottery.sh
-25 7,12,18 * * * /root/shell/jd_fruit.sh
+#36 9 * * * /root/shell/jd_ds.sh  #限学生认证用户，如果你是，请自己解除注释
+54 2-23/3 * * * /root/shell/jd_daily_egg.sh
+20 * * * * /root/shell/jd_dreamFactory.sh
+30 7,12,18 * * * /root/shell/jd_fruit.sh
+36 * * * * /root/shell/jd_jdfactory.sh
+10 11 * * * /root/shell/jd_jdzz.sh
 1 0,8,9,13,18,23 * * * /root/shell/jd_joy.sh
-*/20 0-21 * * * /root/shell/jd_joy_feedPets.sh
+*/20 0-22 * * * /root/shell/jd_joy_feedPets.sh
 0 0,8,12,16 * * * /root/shell/jd_joy_reward.sh
-30 0,6 * * * /root/shell/jd_joy_steal.sh
-40 */3 * * * /root/shell/jd_moneyTree.sh
-15 7,12,18 * * * /root/shell/jd_pet.sh
-0 7-21 * * * /root/shell/jd_plantBean.sh
+18 10,13 * * * /root/shell/jd_joy_run.sh
+0 0,6 * * * /root/shell/jd_joy_steal.sh
+28 7 * * * /root/shell/jd_kd.sh
+10-20/5 13 * * * /root/shell/jd_live.sh
+15 1 * * * /root/shell/jd_lotteryMachine.sh
+40 */4 * * * /root/shell/jd_moneyTree.sh
+20 0,20 * * * /root/shell/jd_necklace.sh
+10 7,12,18 * * * /root/shell/jd_pet.sh
+12 13 * * * /root/shell/jd_pigPet.sh
+35 7-22 * * * /root/shell/jd_plantBean.sh
+11 0 * * * /root/shell/jd_rankingList.sh
 1 1 * * * /root/shell/jd_redPacket.sh
 0 0 * * * /root/shell/jd_shop.sh
+16 0 * * * /root/shell/jd_small_home.sh
 35 */3 * * * /root/shell/jd_speed.sh
 10 1-23/5 * * * /root/shell/jd_superMarket.sh
-1 */6 * * * /root/shell/jd_818.sh
-4 0 * * * /root/shell/jd_xtg.sh
+25 9 * * * /root/shell/jd_syj.sh
+17 11,14 * * * /root/shell/jd_watch.sh
 45 23 * * * /root/shell/jd_unsubscribe.sh
-
