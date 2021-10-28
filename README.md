@@ -194,3 +194,21 @@ mv git_pull_2.sh git_pull.sh
 chmod +x git_pull.sh
 ```
 - 如有帮助到你，请点亮 star 。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
